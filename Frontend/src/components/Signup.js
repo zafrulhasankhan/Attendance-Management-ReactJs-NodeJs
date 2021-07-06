@@ -38,7 +38,7 @@ export default function Signup() {
   //const [data,setData] = useState([]);
   const handleOnclick = async (provider) => {
     const res = await socialMediaAuth(provider);
-    setData(res?.providerData[0]);
+    //  setData(res?.providerData[0]);
    // console.log(res?.providerData[0].displayName);
     axios.post('/register',{
       name: res?.providerData[0].displayName,
@@ -53,7 +53,7 @@ export default function Signup() {
 
   return (
     <>
-      <Card>
+      <Card style={{ maxWidth: "400px" }}>
         <Card.Body>
           <h2 className="text-center mb-4">Sign Up</h2>
           {error && <Alert variant="danger">{error}</Alert>}

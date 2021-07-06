@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
-// const app  = express();
-// //app.use(cors());
-// app.use(express.json());
+
 var mysql = require('mysql');
 
 var DbConnectConfig = {
@@ -27,10 +25,9 @@ con.connect(function (error) {
 router.post("/register",function(req,res){
     console.log(req.body.name);
     const name = req.body.name;
-    console.log(name);
     const email = req.body.email;
     const profile_photo = req.body.profile_photo;
-    const sql = "INSERT INTO `student_list`(`name`,`email`,`profile_photo`) VALUES (?,?,?)";
+    const sql = "INSERT INTO `user`(`name`,`email`,`profile_photo`) VALUES (?,?,?)";
 
     con.query(sql, [name, email, profile_photo], (error) => {
         if (error) {
@@ -42,5 +39,21 @@ router.post("/register",function(req,res){
         }
 })
 })
+
+router.get("/student-details/:id",function(req,res){
+    console.log(req.params.id);
+    const student_id = req.params.id;
+    const sql = "select * from `user` where student_id = ? ";
+    con.query(sql, [student_id], (error,result) => {
+     if(error){
+         console.log(error);
+     }
+     else{
+         console.log(result);
+         res.send(result);
+     }
+    })
+})
+
 
 module.exports = router;

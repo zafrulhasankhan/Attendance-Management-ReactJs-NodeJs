@@ -7,9 +7,10 @@ app.use(express.json());
 
 //Routes
 app.use("/",require("./routes/users"));
+app.use("/attend",require("./routes/attendance"));
 
 
 
-console.log("hello");
+
 const port = process.env.port || 4001;
 app.listen(port,console.log(`Server is running on port ${port}`));
