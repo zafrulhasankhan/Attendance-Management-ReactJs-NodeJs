@@ -8,6 +8,7 @@ app.use(express.json());
 //Routes
 app.use("/",require("./routes/users"));
 app.use("/attend",require("./routes/attendance"));
+app.use("/course",require("./routes/course"));
 
 
 

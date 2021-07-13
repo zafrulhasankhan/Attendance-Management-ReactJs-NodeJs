@@ -29,14 +29,28 @@ export default function Signup() {
       setError("")
       setLoading(true)
       await signup(emailRef.current.value, passwordRef.current.value)
-      history.push("/")
+      history.push("/joinedCourses")
     } catch {
       setError("Failed to create Account")
     }
 
     setLoading(false)
   }
+  
+  const handleOnclick = async (provider) => {
+    const res = await socialMediaAuth(provider);
+    //  setData(res?.providerData[0]);
+   // console.log(res?.providerData[0].displayName);
+    axios.post('/register',{
+      name: res?.providerData[0].displayName,
+      email:res?.providerData[0].email,
+      profile_photo: res?.providerData[0].photoURL
+  }).then((result)=>{
 
+  }).catch((err)=>console.log(err))
+  history.push("/joinedCourses")
+
+  }
   
 
   return (

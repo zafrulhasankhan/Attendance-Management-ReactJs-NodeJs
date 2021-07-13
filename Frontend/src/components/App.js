@@ -14,6 +14,7 @@ import Attendance_report_by_date from "./Attendance_report/Attendance_report_by_
 import Attendance_report_by_course from "./Attendance_report/Attendance_report_by_course"
 import JoinedCourses from "./joinedCourses/JoinedCourses"
 import add_course from "./add_course/Add_course"
+import JoinCourse from "./joinCourse/JoinCourse"
 
 function App() {
   return (
@@ -28,17 +29,18 @@ function App() {
           <AuthProvider>
             <Switch>
 
-              <PrivateRoute exact path="/" component={Dashboard} />
+              <PrivateRoute exact path="/" component={JoinedCourses} />
               <PrivateRoute path="/update-profile" component={UpdateProfile} />
               <Route path="/signup" component={Signup} />
               <Route path="/login" component={Login} />
               <Route path="/forgot-password" component={ForgotPassword} />
+              <Route path="/join-course" component={JoinCourse} />
               {/* Attendance routes */}
-              <Route exact path="/attendance-sheet" component={Attendance_sheet} />
-              <Route exact path="/attendance-report-by-id" component={Attendance_report_by_id} />
-              <Route exact path="/attendance-report-by-date" component={Attendance_report_by_date} />
-              <Route exact path="/attendance-report-by-course" component={Attendance_report_by_course} />
-              <Route exact path="/joinedClasses" component={JoinedCourses} />
+              <Route exact path="/attendance-sheet/:course_code" component={Attendance_sheet} />
+              <Route exact path="/attendance-report-by-id/:course_code" component={Attendance_report_by_id} />
+              <Route exact path="/attendance-report-by-date/:course_code" component={Attendance_report_by_date} />
+              <Route exact path="/attendance-report-by-course/:course_code" component={Attendance_report_by_course} />
+              {/* <Route exact path="/joinedCourses" component={JoinedCourses} /> */}
               <Route exact path="/add-course" component={add_course} />
 
             </Switch>

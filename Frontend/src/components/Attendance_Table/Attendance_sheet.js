@@ -3,12 +3,13 @@ import Header from './Header';
 import Table from './Attendance_sheet_Table';
 import './css/App.scss';
 import axios from '../../config/axios';
+import { Link } from 'react-router-dom';
 
 
 
-const Attendance_sheet = () => {
+const Attendance_sheet = ({match}) => {
     const [data, setData] = useState([]);
-    const course_code = "ICT-2213"
+    const course_code = match.params?.course_code;
     useEffect(() => {
         //console.log(driversData);
         axios.post('/attend/sheet', {
@@ -25,6 +26,12 @@ const Attendance_sheet = () => {
 
     return (
         <Fragment>
+            <br/>
+            <Link to={`/attendance-report-by-id/${course_code}`}><button className="btn btn-success">attendance report by id</button></Link>&ensp;
+            <Link to={`/attendance-report-by-date/${course_code}`}><button className="btn btn-primary">attendance report by date</button></Link>&ensp;
+            <Link to={`/attendance-report-by-course/${course_code}`}><button className="btn btn-danger">attendance report by course</button></Link>&ensp;
+            
+            <br/><br/>
             <Header title={course_code} />
             <Table
                 tableData={data}

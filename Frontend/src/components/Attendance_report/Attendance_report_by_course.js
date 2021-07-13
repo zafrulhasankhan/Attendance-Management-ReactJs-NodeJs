@@ -4,8 +4,9 @@ import $ from 'jquery';
 import axios from '../../config/axios';
 import '../Attendance_Table/css/App.scss';
 
-function Attendance_report_by_course(props) {
-    const course_code = "ICT-2213";
+function Attendance_report_by_course({match}) {
+    const course_code = match.params.course_code;
+    
     var breakOn = 'medium'
     let tableClass = 'table-container__table';
     if (breakOn === 'small') {
