@@ -11,6 +11,5 @@ app.use("/attend",require("./routes/attendance"));
 
 
 
-
 const port = process.env.port || 4001;
 app.listen(port,console.log(`Server is running on port ${port}`));

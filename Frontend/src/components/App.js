@@ -9,7 +9,11 @@ import PrivateRoute from "./PrivateRoute"
 import ForgotPassword from "./ForgotPassword"
 import UpdateProfile from "./UpdateProfile"
 import Attendance_sheet from "./Attendance_Table/Attendance_sheet";
-import Attendance_report_by_id from "./Attendance_Table/Attendance_report_by_id"
+import Attendance_report_by_id from "./Attendance_report/Attendance_report_by_id"
+import Attendance_report_by_date from "./Attendance_report/Attendance_report_by_date"
+import Attendance_report_by_course from "./Attendance_report/Attendance_report_by_course"
+import JoinedCourses from "./joinedCourses/JoinedCourses"
+import add_course from "./add_course/Add_course"
 
 function App() {
   return (
@@ -19,9 +23,11 @@ function App() {
       style={{ minHeight: "100vh" }}
     >
       <div className="w-100" >
+      
         <Router>
           <AuthProvider>
             <Switch>
+
               <PrivateRoute exact path="/" component={Dashboard} />
               <PrivateRoute path="/update-profile" component={UpdateProfile} />
               <Route path="/signup" component={Signup} />
@@ -30,6 +36,10 @@ function App() {
               {/* Attendance routes */}
               <Route exact path="/attendance-sheet" component={Attendance_sheet} />
               <Route exact path="/attendance-report-by-id" component={Attendance_report_by_id} />
+              <Route exact path="/attendance-report-by-date" component={Attendance_report_by_date} />
+              <Route exact path="/attendance-report-by-course" component={Attendance_report_by_course} />
+              <Route exact path="/joinedClasses" component={JoinedCourses} />
+              <Route exact path="/add-course" component={add_course} />
 
             </Switch>
           </AuthProvider>

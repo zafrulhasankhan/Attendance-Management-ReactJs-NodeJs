@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import $ from 'jquery';
 import axios from '../../config/axios';
-import './css/App.scss';
+import '../Attendance_Table/css/App.scss';
 
 function Attendance_report_by_id(props) {
+    const course_code = "ICT-2213";
     var breakOn = 'medium'
     let tableClass = 'table-container__table';
     if (breakOn === 'small') {
@@ -37,7 +38,7 @@ function Attendance_report_by_id(props) {
 
         
 
-            axios.get('attend/all-attendance-data').then((response) => {
+            axios.get(`attend/attendance-report/${course_code}`).then((response) => {
 
                 console.log(response.data);
                 setTotalClass(response.data.length);
@@ -82,7 +83,7 @@ function Attendance_report_by_id(props) {
                             <td data-heading="Student Email">{StudentData?.email} </td>
                             <td data-heading="Presented Class ">{present}</td>
                             <td data-heading="Total Class"> {totalClass}</td>
-                            <td data-heading="Percentage"> {( present * 100)/totalClass} %</td>
+                            <td data-heading="Percentage"> {(( present * 100)/totalClass).toFixed(2)} %</td>
                         </tr>
                     </tbody>
                 </table>

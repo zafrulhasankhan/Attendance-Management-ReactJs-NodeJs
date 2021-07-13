@@ -1,25 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
-var mysql = require('mysql');
-
-var DbConnectConfig = {
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: 'Attendance-Management-ReactJs-NodeJs'
-}
-
-var con = mysql.createConnection(DbConnectConfig);
-con.connect(function (error) {
-    if (error) {
-        console.log("connection failed")
-    }
-    else {
-        console.log("connection successfully")
-
-    }
-});
+var con = require('../config/dbconfig');
 
 
 router.post("/register",function(req,res){

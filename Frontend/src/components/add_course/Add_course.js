@@ -1,22 +1,13 @@
 import React, { useRef, useState } from "react"
 import { Form, Button, Card, Alert } from "react-bootstrap"
-import { useAuth } from "../contexts/AuthContext"
+import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
-import { facebookProvider, githubProvider, googleProvider } from '../config/authMethods';
-import socialMediaAuth from '../service/auth';
-import axios from '../config/axios';
+import axios from '../../config/axios';
 
 
-export default function Signup() {
+export default function Add_course() {
   
-  const emailRef = useRef()
-  const passwordRef = useRef()
-  const passwordConfirmRef = useRef()
-  const { signup } = useAuth()
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
-  const history = useHistory()
-  
+
   async function handleSubmit(e) {
     e.preventDefault()
 
@@ -64,13 +55,6 @@ export default function Signup() {
           </Form>
         </Card.Body>
       </Card>
-      <h2>Or</h2>
-      <Button className="w-100" onClick={() => handleOnclick(googleProvider)}>Google</Button><br /><br />
-      <Button className="w-100" onClick={() => handleOnclick(facebookProvider)}>Facebook</Button><br /><br />
-      <Button className="w-100" onClick={() => handleOnclick(githubProvider)}>Github</Button><br /><br />
-      <div className="w-100 text-center mt-2">
-        Already have an account? <Link to="/login">Log In</Link>
-      </div>
     </>
   )
 }
