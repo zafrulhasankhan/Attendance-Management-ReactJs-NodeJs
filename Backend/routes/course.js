@@ -32,13 +32,13 @@ router.post("/add", function (req, res) {
 router.get("/joinedCourses/:email", function (req, res) {
 
   const email = req.params.email; 
-  con.query("select * from course_list where course_owner_email = ?", [email], (err, result) => {
+  con.query("(SELECT course_code FROM `course_list` WHERE email = ?) UNION (SELECT course_code FROM `course_wise_student-list` WHERE email =?)", [email,email], (err, result) => {
     if (err) {
         console.log(err)
     } else {
-        //console.log(result)
+        console.log(result);
         res.send(result);
-        //console.log(result)
+        
     }
 })
 
@@ -58,5 +58,22 @@ router.get("/:pin", function (req, res) {
   })
   
   })
+
+
+  router.get("/info/:code", function (req, res) {
+
+    const code = req.params.code; 
+    con.query("select * from course_list where course_code = ?", [code], (err, result) => {
+      if (err) {
+          console.log(err)
+      } else {
+          //console.log(result)
+          res.send(result);
+          //console.log(result)
+      }
+  })
+  
+  })
+
 
 module.exports = router;
