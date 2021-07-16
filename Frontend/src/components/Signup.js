@@ -8,15 +8,15 @@ import axios from '../config/axios';
 
 
 export default function Signup() {
-  
+
   const emailRef = useRef()
   const passwordRef = useRef()
   const passwordConfirmRef = useRef()
-  const { signup } = useAuth()
+  const { signup, currentUser } = useAuth()
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const history = useHistory()
-  
+
   async function handleSubmit(e) {
     e.preventDefault()
 
@@ -36,22 +36,41 @@ export default function Signup() {
 
     setLoading(false)
   }
-  
+
   const handleOnclick = async (provider) => {
     const res = await socialMediaAuth(provider);
     //  setData(res?.providerData[0]);
-   // console.log(res?.providerData[0].displayName);
-    axios.post('/register',{
+    // console.log(res?.providerData[0].displayName);
+    axios.post('/register', {
       name: res?.providerData[0].displayName,
-      email:res?.providerData[0].email,
+      email: res?.providerData[0].email,
       profile_photo: res?.providerData[0].photoURL
-  }).then((result)=>{
+    }).then((result) => {
 
-  }).catch((err)=>console.log(err))
-  history.push("/joinedCourses")
+      if(result.data.length){
+        history.push("/");
+      }
+      else{
+        history.push("/signup")
+      }
+
+      // axios.get(`/check-id/${res?.providerData[0].email}`)
+      //   .then((res) => {
+      //     if (res.data.length) {
+      //       history.push("/")
+      //     }
+      //     else {
+      //       history.push(`/fillup-info/${res?.providerData[0].email}`)
+      //     }
+      //   })
+      
+
+    }).catch((err) => console.log(err))
+    
+
 
   }
-  
+
 
   return (
     <>

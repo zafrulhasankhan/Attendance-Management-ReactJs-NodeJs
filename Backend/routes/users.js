@@ -21,11 +21,11 @@ router.post("/register",function(req,res){
 })
 })
 
-router.get("/student-details/:id",function(req,res){
-    console.log(req.params.id);
+router.get("/student-details/:id/:course_code",function(req,res){
     const student_id = req.params.id;
-    const sql = "select * from `user` where student_id = ? ";
-    con.query(sql, [student_id], (error,result) => {
+    const course_code = req.params.course_code;
+    const sql = "select * from `course_wise_student-list` where student_id = ? and course_code =? ";
+    con.query(sql, [student_id,course_code], (error,result) => {
      if(error){
          console.log(error);
      }
@@ -36,5 +36,32 @@ router.get("/student-details/:id",function(req,res){
     })
 })
 
+router.get("/check-id/:email",function(req,res){
+  const email = req.params.email;
+  con.query("select student_id from user where email = ?", [email], (error,result) => {
+    if(error){
+        console.log(error);
+    }
+    else{
+        console.log(result);
+        res.send(result);
+    }
+   })
+})
+
+
+router.post("/update-info",function(req,res){
+    const student_id = req.body.student_id;
+    const student_email = req.body.student_email;
+    con.query("update user set student_id = ? where email = ?", [student_id,student_email], (error,result) => {
+      if(error){
+          console.log(error);
+      }
+      else{
+          console.log(result);
+          res.send(result);
+      }
+     })
+  })
 
 module.exports = router;

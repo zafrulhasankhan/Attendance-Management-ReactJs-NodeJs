@@ -15,6 +15,9 @@ import Attendance_report_by_course from "./Attendance_report/Attendance_report_b
 import JoinedCourses from "./joinedCourses/JoinedCourses"
 import add_course from "./add_course/Add_course"
 import JoinCourse from "./joinCourse/JoinCourse"
+import Home from "./studentPart/Home"
+import Fillup_info from "./studentPart/Fillup_info";
+
 
 function App() {
   return (
@@ -31,7 +34,9 @@ function App() {
 
               <PrivateRoute exact path="/" component={JoinedCourses} />
               <PrivateRoute path="/update-profile" component={UpdateProfile} />
+              <PrivateRoute path="/home/:course_code" component={Home} />
               <Route path="/signup" component={Signup} />
+              {/* <Route path="/fillup-info/:email" component={Fillup_info} /> */}
               <Route path="/login" component={Login} />
               <Route path="/forgot-password" component={ForgotPassword} />
               <Route path="/join-course" component={JoinCourse} />
@@ -40,7 +45,7 @@ function App() {
               <Route exact path="/attendance-report-by-id/:course_code" component={Attendance_report_by_id} />
               <Route exact path="/attendance-report-by-date/:course_code" component={Attendance_report_by_date} />
               <Route exact path="/attendance-report-by-course/:course_code" component={Attendance_report_by_course} />
-              {/* <Route exact path="/joinedCourses" component={JoinedCourses} /> */}
+              <Route exact path="/dash" component={Dashboard} />
               <Route exact path="/add-course" component={add_course} />
 
             </Switch>

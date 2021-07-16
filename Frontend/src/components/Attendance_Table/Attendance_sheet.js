@@ -3,15 +3,22 @@ import Header from './Header';
 import Table from './Attendance_sheet_Table';
 import './css/App.scss';
 import axios from '../../config/axios';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { useAuth } from "../../contexts/AuthContext";
 
 
-
-const Attendance_sheet = ({match}) => {
+const Attendance_sheet = ({ match }) => {
+    const { currentUser } = useAuth();
+    const history = useHistory();
     const [data, setData] = useState([]);
     const course_code = match.params?.course_code;
     useEffect(() => {
         //console.log(driversData);
+        axios.get(`/course/info/${course_code}`).then((result) => {
+            if (!(result.data[0].email === currentUser.email)) {
+                history.push(`/home/${course_code}`)
+            }
+        })
         axios.post('/attend/sheet', {
 
             course_code: course_code
@@ -26,12 +33,12 @@ const Attendance_sheet = ({match}) => {
 
     return (
         <Fragment>
-            <br/>
+            <br />
             <Link to={`/attendance-report-by-id/${course_code}`}><button className="btn btn-success">attendance report by id</button></Link>&ensp;
             <Link to={`/attendance-report-by-date/${course_code}`}><button className="btn btn-primary">attendance report by date</button></Link>&ensp;
             <Link to={`/attendance-report-by-course/${course_code}`}><button className="btn btn-danger">attendance report by course</button></Link>&ensp;
-            
-            <br/><br/>
+
+            <br /><br />
             <Header title={course_code} />
             <Table
                 tableData={data}

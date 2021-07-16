@@ -60,7 +60,7 @@ export default function Add_course() {
             </Form.Group>
             <Form.Group id="password">
               <Form.Label>Course code </Form.Label>
-              <Form.Control type="text" ref={course_code_ref} required />
+              <Form.Control style={{ textTransform: 'uppercase' }} type="text" ref={course_code_ref} required />
             </Form.Group><br/>
             {/* <Form.Group id="password-confirm">
               <Form.Label>Course photo</Form.Label>

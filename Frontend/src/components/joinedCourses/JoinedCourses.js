@@ -11,37 +11,42 @@ const JoinedCourses = () => {
   const { currentUser } = useAuth();
   const [coursesData, setCoursesData] = useState([]);
   const [cname, setCname] = useState([])
+  const [code, setcode] = useState([])
   const [course_owner_email, setCourse_owner_email] = useState([])
 
   useEffect(() => {
     if (currentUser) {
       axios.get(`/course/joinedCourses/${currentUser.email}`)
         .then((res) => {
-          console.log(res);
+        
           setCoursesData(res.data);
           let course_name = [];
+          let codes = [];
           let course_owner = [];
           let promises = [];
           for (let i = 0; i < res.data.length; i++) {
-            console.log(i);
+            console.log(coursesData.length);
             promises.push(
-              axios.get(`/course/info/${res.data[i].course_code}`).then((res) => {
-                console.log(res.data);
-                course_name.push(res.data[0]?.course_name);
-                course_owner.push(res.data[0]?.email)
+              axios.get(`/course/info/${res.data[i].course_code}`).then((result) => {
+                course_name.push(result.data[0]?.course_name);
+                course_owner.push(result.data[0]?.email)
+                codes.push(result.data[0]?.course_code)
+                console.log(result);
               })
             )
 
           }
-          Promise.all(promises).then(() => {
+          Promise.all(promises).then((r) => {
+            console.log(r);
             setCname(course_name)
             setCourse_owner_email(course_owner);
+            setcode(codes);
           })
           //setCname(course_name);
         })
     }
 
-  }, [])
+  },[])
 
 
 
@@ -51,18 +56,22 @@ const JoinedCourses = () => {
       <Link to="/join-course"><button>join course</button></Link><br /><br />
       <Link to="/add-course"><button>create course</button></Link>
       <ol className="joined">
-        {coursesData.map((data, i) => (
+        {code.map((data, i) => (
           <li key={i} className="joined__list">
             <div className="joined__wrapper">
               <div className="joined__container">
                 <div className="joined__imgWrapper" />
                 <div className="joined__image" />
                 <div className="joined__content">
-                  {(currentUser.email === course_owner_email[i])?(
-                  <Link className="joined__title" to={`/attendance-sheet/${data.course_code}`}>
-                    <h2>{cname[i]} ({data.course_code})</h2>
-                  </Link>
-                  ):"null"}
+                  {(currentUser.email === course_owner_email[i]) ? (
+                    <Link className="joined__title" to={`/attendance-sheet/${data}`}>
+                      <h2>{cname[i]} ({data})</h2>
+                    </Link>
+                     ) : ( 
+                    <Link className="joined__title" to={`/home/${data}`}>
+                      <h2>{cname[i]} ({data})</h2>
+                    </Link> 
+                  )}
                   <p className="joined__owner">{course_owner_email[i]}
                   </p>
                 </div>
@@ -78,7 +87,7 @@ const JoinedCourses = () => {
             </div>
           </li>
         ))}
-        </ol>
+      </ol>
     </>
   );
 }

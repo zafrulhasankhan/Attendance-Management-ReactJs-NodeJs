@@ -19,10 +19,10 @@ function Attendance_report_by_id({match}) {
     const [present, setpresent] = useState(0);
     const [StudentData, setStudentData]  = useState("");
     const [totalClass, setTotalClass]  = useState(0);
+    const [msg, setMsg] = useState("");
 
     useEffect(() => {
         SearchHandle();
-        console.log(StudentData+present);
     }, [])
 
     let SearchHandle = (e) => {
@@ -31,9 +31,14 @@ function Attendance_report_by_id({match}) {
             var searchValue = $('#search').val();
             console.log(searchValue);
 
-            axios.get(`student-details/${searchValue}`).then((res)=>{
+            axios.get(`student-details/${searchValue}/${course_code}`).then((res)=>{
               setStudentData(res.data[0]);
-
+              if(!res.data.length){
+                  setMsg("ID not Found")
+              }
+              else{
+                setMsg("")
+              }
             })
 
         
@@ -58,6 +63,7 @@ function Attendance_report_by_id({match}) {
     }
     return (
         <div>
+            <h1>{msg}</h1>
             <form id="attend_sheet_form" onSubmit={SearchHandle}><br />
             <input type="text" required id="search" style={{ textTransform: 'uppercase' }} placeholder="Enter Student ID" /><br></br><br />
             <Button type="submit" id="submit_button">Submit</Button>
