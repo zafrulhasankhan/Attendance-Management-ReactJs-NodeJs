@@ -3,9 +3,15 @@ import { Button } from 'react-bootstrap';
 import $ from 'jquery';
 import axios from '../../config/axios';
 import '../Attendance_Table/css/App.scss';
+import { useAuth } from "../../contexts/AuthContext";
+import { Link, useHistory } from 'react-router-dom';
 
-function Attendance_report_by_id({match}) {
+function Attendance_report_by_id({ match }) {
     const course_code = match.params.course_code;
+    const { currentUser } = useAuth();
+    const history = useHistory();
+
+
     var breakOn = 'medium'
     let tableClass = 'table-container__table';
     if (breakOn === 'small') {
@@ -17,8 +23,8 @@ function Attendance_report_by_id({match}) {
     }
     const headingColumns = ['Student ID', 'Name', 'Email', 'Presented Class', 'Total Class', 'Percentage']
     const [present, setpresent] = useState(0);
-    const [StudentData, setStudentData]  = useState("");
-    const [totalClass, setTotalClass]  = useState(0);
+    const [StudentData, setStudentData] = useState("");
+    const [totalClass, setTotalClass] = useState(0);
     const [msg, setMsg] = useState("");
 
     useEffect(() => {
@@ -27,74 +33,97 @@ function Attendance_report_by_id({match}) {
 
     let SearchHandle = (e) => {
         e?.preventDefault();
-        $(document).ready(function () {
-            var searchValue = $('#search').val();
-            console.log(searchValue);
 
-            axios.get(`student-details/${searchValue}/${course_code}`).then((res)=>{
-              setStudentData(res.data[0]);
-              if(!res.data.length){
-                  setMsg("ID not Found")
-              }
-              else{
-                setMsg("")
-              }
+        // check your courses exists or not 
+        axios.get(`/course/joinedCourses/${currentUser.email}`)
+            .then((res) => {
+                let courses = [];
+                for (let i = 0; i < res.data.length; i++) {
+                    courses.push(res.data[i].course_code);
+                }
+
+
+                //check course exists as your under 
+                if (!(courses.indexOf(course_code) !== -1)) {
+                    history.push("/not-found")
+                    setMsg("")
+                }
+                else {
+
+                    $(document).ready(function () {
+                        var searchValue = $('#search').val();
+                        console.log(searchValue);
+
+                        axios.get(`student-details/${searchValue}/${course_code}`).then((res) => {
+                            setStudentData(res.data[0]);
+                            if (!res.data.length) {
+                                setMsg("ID not Found in this course")
+                            }
+                            else {
+                                setMsg("")
+                            }
+                        })
+
+
+
+                        axios.get(`attend/attendance-report/${course_code}`).then((response) => {
+
+                            console.log(response.data);
+                            setTotalClass(response.data.length);
+                            const PresentCount = (response.data).reduce(
+                                (total, current) => total + (JSON.parse(current.attendance_data)).some((el) => (
+
+                                    el.student_id === searchValue && el.present === "present"
+
+                                )),
+                                0
+                            );
+                            setpresent(PresentCount);
+
+                        })
+
+                    })
+
+                }
             })
-
-        
-
-            axios.get(`attend/attendance-report/${course_code}`).then((response) => {
-
-                console.log(response.data);
-                setTotalClass(response.data.length);
-                const PresentCount = (response.data).reduce(
-                    (total, current) => total + (JSON.parse(current.attendance_data)).some((el) => (
-
-                        el.student_id === searchValue && el.present === "present"
-
-                    )),
-                    0
-                );
-                setpresent(PresentCount);
-
-            })
-
-        })
     }
     return (
         <div>
             <h1>{msg}</h1>
+            
+                
             <form id="attend_sheet_form" onSubmit={SearchHandle}><br />
-            <input type="text" required id="search" style={{ textTransform: 'uppercase' }} placeholder="Enter Student ID" /><br></br><br />
-            <Button type="submit" id="submit_button">Submit</Button>
+                <input type="text" required id="search" style={{ textTransform: 'uppercase' }} placeholder="Enter Student ID" /><br></br><br />
+                <Button type="submit" id="submit_button">Submit</Button>
             </form>
-            {(StudentData)?(
-            <div className="table-container">
+            {(StudentData) ? (
+                <div className="table-container">
 
-                <table className={tableClass}>
-                    <thead>
-                        <tr>
-                            {headingColumns.map((col, index) => (
-                                <th data-heading={index} key={index}>{col}</th>
+                    <table className={tableClass}>
+                        <thead>
+                            <tr>
+                                {headingColumns.map((col, index) => (
+                                    <th data-heading={index} key={index}>{col}</th>
 
-                            ))}
+                                ))}
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
 
-                            <td data-heading="Student ID">{StudentData?.student_id}</td>
-                            <td data-heading="Student Name">{StudentData?.name} </td>
-                            <td data-heading="Student Email">{StudentData?.email} </td>
-                            <td data-heading="Presented Class ">{present}</td>
-                            <td data-heading="Total Class"> {totalClass}</td>
-                            <td data-heading="Percentage"> {(( present * 100)/totalClass).toFixed(2)} %</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            ):""}   
+                                <td data-heading="Student ID">{StudentData?.student_id}</td>
+                                <td data-heading="Student Name">{StudentData?.student_name} </td>
+                                <td data-heading="Student Email">{StudentData?.email} </td>
+                                <td data-heading="Presented Class ">{present}</td>
+                                <td data-heading="Total Class"> {totalClass}</td>
+                                <td data-heading="Percentage"> {((present * 100) / totalClass).toFixed(2)} %</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+            ) : ""}
         </div>
 
     );

@@ -23,23 +23,23 @@ const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_co
   //attendance data make to array of objects
   useEffect(() => {
     document.getElementById('submit_button').click();
-
     axios.post("/attend/check_classNum", {
       course_code: course_code
     }).then((res) => {
       setClassNo(res.data.length);
-      console.log(res.data.length)
     }).catch((err) => {
       console.log(err);
     })
+
+
 
   }, [])
 
 
 
   let handleSubmit = (e) => {
-    e.preventDefault();
 
+    e.preventDefault();
     $.fn.serializeObject = function (data) {
       var els = $(this).find(':input').get();
       if (typeof data != 'object') {
@@ -60,7 +60,7 @@ const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_co
       $("#attend_sheet_form").on("submit", function (event) {
         document.getElementById('date').valueAsDate = new Date();
         var date = $('#date').val();
-       
+
 
         var data = [];
         $(this).find(".inputContainer tr").each(function () {
@@ -72,7 +72,7 @@ const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_co
         axios.post("/attend/check_classNum", {
           course_code: course_code
         }).then((res) => {
-          
+
           axios.post('/attend/submit', {
             course_code: course_code,
             class_num: res.data.length + 1,
@@ -124,8 +124,8 @@ const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_co
           <tbody className="inputContainer">
 
             {tableData.map((data, index) => (
-
-              <tr>
+             
+              <tr key={data}>
 
                 <td data-heading="Student ID">
                   {data.student_id}
@@ -136,14 +136,14 @@ const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_co
                   <input type="text" hidden name="student_name" placeholder="student_name" value={data.student_name} />
                 </td>
                 <td data-heading="Student Email" >
-                  {data.student_email}
-                  <input type="text" hidden name="student_email" placeholder="student_email" value={data.student_email} />
+                  {data.email}
+                  <input type="text" hidden name="student_email" placeholder="student_email" value={data.email} />
                 </td>
                 <td data-heading="Present"  >
-                  <input type="radio" name={index} placeholder="present" value="present" required />
+                  <input type="radio" name={index}  placeholder="present" value="present" required readOnly/>
                 </td>
                 <td data-heading="Absent" >
-                  <input type="radio" name={index} placeholder="absent" value="absent" required />
+                  <input type="radio" name={index}  placeholder="absent" value="absent" required readOnly />
                 </td>
               </tr>
 
@@ -152,6 +152,7 @@ const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_co
           </tbody>
         </table>
         <Button type="submit" id="submit_button">Submit</Button>
+
       </form>
     </div>
   );
@@ -165,3 +166,4 @@ Table.propTypes = {
 }
 
 export default Table;
+

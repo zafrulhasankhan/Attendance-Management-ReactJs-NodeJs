@@ -17,6 +17,7 @@ import add_course from "./add_course/Add_course"
 import JoinCourse from "./joinCourse/JoinCourse"
 import Home from "./studentPart/Home"
 import Fillup_info from "./studentPart/Fillup_info";
+import NotFound from "../NotFound"
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
               <Route exact path="/attendance-report-by-course/:course_code" component={Attendance_report_by_course} />
               <Route exact path="/dash" component={Dashboard} />
               <Route exact path="/add-course" component={add_course} />
+              <Route exact path="/not-found" component={NotFound} />
 
             </Switch>
           </AuthProvider>

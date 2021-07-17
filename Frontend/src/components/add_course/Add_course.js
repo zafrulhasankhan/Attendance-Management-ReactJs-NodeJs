@@ -9,12 +9,11 @@ export default function Add_course() {
 
   const course_name_ref = useRef()
   const course_code_ref = useRef()
-  // const passwordConfirmRef = useRef()
   const { signup,currentUser } = useAuth()
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const history = useHistory()
-
+  const [msg,setMsg] = useState("");
   async function handleSubmit(e) {
     e.preventDefault()
 
@@ -33,8 +32,11 @@ export default function Add_course() {
         course_owner_email : currentUser.email
       }).then((res)=>{
         console.log(res.status);
-        if(res.status){
+        if(!res.data.msg){
           history.push("/")
+        }
+        else{
+          setMsg(res.data.msg)
         }
       })
       
@@ -49,6 +51,7 @@ export default function Add_course() {
 
   return (
     <>
+    <h3>{msg}</h3>
       <Card style={{ maxWidth: "400px" }}>
         <Card.Body>
           <h2 className="text-center mb-4">Add Course</h2>

@@ -84,8 +84,7 @@ router.post("/submit", function (req, res) {
 //get all student attendance report by course wise 
 router.get('/attendance-report/:course_code', (req, res) => {
     const course_code = req.params.course_code;
-    console.log("code re" + course_code);
-    con.query("select * from attendance_sheet where course_code = ?",[course_code], (err, result) => {
+    con.query("select * from attendance_sheet where course_code = ?", [course_code], (err, result) => {
         if (err) {
             console.log(err)
         } else {
@@ -101,12 +100,15 @@ router.get('/datewise-attendance-report/:course_code/:date', (req, res) => {
     const course_code = req.params.course_code;
     const date = req.params.date;
     console.log("code re" + course_code + date);
-    con.query("select * from attendance_sheet where course_code = ? and date= ?",[course_code,date], (err, result) => {
+    con.query("select * from attendance_sheet where course_code = ? and date= ?", [course_code, date], (err, result) => {
         if (err) {
             console.log(err)
         } else {
-            //console.log(result)
-            res.send(result);
+            if (result.length) {
+                res.send(result);
+            }else{
+                res.send({msg:"Attendance Not found "})
+            }
             //console.log(result)
         }
     })
