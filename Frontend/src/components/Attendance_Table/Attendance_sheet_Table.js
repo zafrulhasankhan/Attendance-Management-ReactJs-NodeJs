@@ -140,10 +140,10 @@ const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_co
                   <input type="text" hidden name="student_email" placeholder="student_email" value={data.email} />
                 </td>
                 <td data-heading="Present"  >
-                  <input type="radio" name={index}  placeholder="present" value="present" required readOnly/>
+                  <input type="radio" name={index}  placeholder="present" value="present" required   required/>
                 </td>
                 <td data-heading="Absent" >
-                  <input type="radio" name={index}  placeholder="absent" value="absent" required readOnly />
+                  <input type="radio" name={index}  placeholder="absent" value="absent" required   required />
                 </td>
               </tr>
 

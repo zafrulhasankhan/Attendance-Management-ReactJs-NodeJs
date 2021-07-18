@@ -28,7 +28,7 @@ const Attendance_sheet = ({ match }) => {
                 }
 
                 else {
-                    
+
                     //course owner check
                     axios.get(`/course/info/${course_code}`).then((result) => {
 
@@ -53,7 +53,7 @@ const Attendance_sheet = ({ match }) => {
 
     return (
         <Fragment>
-            {data ? (
+            {data  && data ? (
                 <div>
                     <br />
                     <Link to={`/attendance-report-by-id/${course_code}`}><button className="btn btn-success">attendance report by id</button></Link>&ensp;
