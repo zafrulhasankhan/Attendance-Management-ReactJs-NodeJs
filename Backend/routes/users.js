@@ -16,6 +16,7 @@ router.post("/register",function(req,res){
         }
         else {
             console.log("Data inserted successfully")
+            // res.send(result);
 
         }
 })

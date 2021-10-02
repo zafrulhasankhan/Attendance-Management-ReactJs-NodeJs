@@ -1,4 +1,4 @@
-import React from "react"
+import React,{useState} from "react"
 import Signup from "./Signup"
 import { Container } from "react-bootstrap"
 import { AuthProvider } from "../contexts/AuthContext"
@@ -17,22 +17,31 @@ import add_course from "./add_course/Add_course"
 import JoinCourse from "./joinCourse/JoinCourse"
 import Home from "./studentPart/Home"
 import Fillup_info from "./studentPart/Fillup_info";
-import NotFound from "../NotFound"
-
-
+import NotFound from "../NotFound";
+import Topbar from './Topbar/Topbar';
+import { useAuth } from "../contexts/AuthContext"
 function App() {
+
   return (
-    // <Attendance_sheet />
+    <>
+    <AuthProvider>
+     <Topbar />
+    </AuthProvider>
+    
     <Container
       className="d-flex align-items-center justify-content-center"
-      style={{ minHeight: "100vh" }}
+      style={{ minHeight: "100vh",backgroundColor:'#F3F4F6' }}
     >
       <div className="w-100" >
       
         <Router>
-          <AuthProvider>
-            <Switch>
+       
 
+          <AuthProvider>
+
+            <Switch>
+               
+              
               <PrivateRoute exact path="/" component={JoinedCourses} />
               <PrivateRoute path="/update-profile" component={UpdateProfile} />
               <PrivateRoute path="/home/:course_code" component={Home} />
@@ -55,6 +64,7 @@ function App() {
         </Router>
       </div>
     </Container>
+    </>
   )
 }
 

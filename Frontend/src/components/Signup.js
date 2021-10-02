@@ -1,10 +1,14 @@
 import React, { useRef, useState } from "react"
-import { Form, Button, Card, Alert } from "react-bootstrap"
+import { Form, Button, Card, Alert, Container } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 import { facebookProvider, githubProvider, googleProvider } from '../config/authMethods';
 import socialMediaAuth from '../service/auth';
 import axios from '../config/axios';
+import { FaFacebookF, FaGoogle, FaGithub } from 'react-icons/fa';
+import './social.css/style.css';
+import  Topbar from "./Topbar/Topbar";
+import { Nav,NavDropdown,Navbar } from "react-bootstrap"
 
 
 export default function Signup() {
@@ -40,17 +44,17 @@ export default function Signup() {
   const handleOnclick = async (provider) => {
     const res = await socialMediaAuth(provider);
     //  setData(res?.providerData[0]);
-    // console.log(res?.providerData[0].displayName);
+    console.log(res?.providerData[0].email);
     axios.post('/register', {
-      name: res?.providerData[0].displayName,
-      email: res?.providerData[0].email,
-      profile_photo: res?.providerData[0].photoURL
+      name: res?.providerData[0]?.displayName,
+      email: res?.providerData[0]?.email,
+      profile_photo: res?.providerData[0]?.photoURL
     }).then((result) => {
-
-      if(result.data.length){
+      console.log("result" + result);
+      if (result.data.length) {
         history.push("/");
       }
-      else{
+      else {
         history.push("/signup")
       }
 
@@ -63,10 +67,10 @@ export default function Signup() {
       //       history.push(`/fillup-info/${res?.providerData[0].email}`)
       //     }
       //   })
-      
+
 
     }).catch((err) => console.log(err))
-    
+
 
 
   }
@@ -74,36 +78,25 @@ export default function Signup() {
 
   return (
     <>
-      <Card style={{ maxWidth: "400px" }}>
-        <Card.Body>
-          <h2 className="text-center mb-4">Sign Up</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Form.Group id="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control type="email" ref={emailRef} required />
-            </Form.Group>
-            <Form.Group id="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" ref={passwordRef} required />
-            </Form.Group>
-            <Form.Group id="password-confirm">
-              <Form.Label>Password Confirmation</Form.Label>
-              <Form.Control type="password" ref={passwordConfirmRef} required />
-            </Form.Group>
-            <Button disabled={loading} className="w-100" type="submit">
-              Sign Up
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
-      <h2>Or</h2>
-      <Button className="w-100" onClick={() => handleOnclick(googleProvider)}>Google</Button><br /><br />
-      <Button className="w-100" onClick={() => handleOnclick(facebookProvider)}>Facebook</Button><br /><br />
-      <Button className="w-100" onClick={() => handleOnclick(githubProvider)}>Github</Button><br /><br />
-      <div className="w-100 text-center mt-2">
-        Already have an account? <Link to="/login">Log In</Link>
-      </div>
+     
+      <Container className="text-center p-20" style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+
+      }}>
+        <Card className=" h-600 card text-center bg-white  ">
+          <Card.Body>
+            <h2 className="text-center mb-4">Login</h2>
+            <a className="button button--social-login button--google" onClick={() => handleOnclick(facebookProvider)}><FaGoogle className="icon fa fa-google" />Login with Google</a>
+            <a className="button button--social-login button--github" onClick={() => handleOnclick(githubProvider)}><FaGithub className="icon fa fa-github" />Login with GitHub</a>
+            <a className="button button--social-login button--facebook" onClick={() => handleOnclick(googleProvider)}><FaFacebookF className="icon fa fa-facebook" />Login with Facebook</a>
+           
+
+          </Card.Body>
+        </Card>
+        <br></br>
+      </Container>
     </>
   )
 }
