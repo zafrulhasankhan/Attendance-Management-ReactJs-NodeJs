@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Card, Container, FloatingLabel, Form } from 'react-bootstrap';
 import $ from 'jquery';
 import axios from '../../config/axios';
 import '../Attendance_Table/css/App.scss';
@@ -90,12 +90,32 @@ function Attendance_report_by_id({ match }) {
     return (
         <div>
             <h1>{msg}</h1>
-            
-                
-            <form id="attend_sheet_form" onSubmit={SearchHandle}><br />
-                <input type="text" required id="search" style={{ textTransform: 'uppercase' }} placeholder="Enter Student ID" /><br></br><br />
-                <Button type="submit" id="submit_button">Submit</Button>
-            </form>
+
+            <Container className=" text-center p-20" style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+    
+
+            }}>
+                <Card className="card bg-white" style={{borderRadius:'10px'}}>
+                    <Card.Body style={{textAlign:'left'}}>
+                        <h5 className="text-center mb-2">&ensp;Attendance report by ID &ensp;</h5>
+                        <form id="attend_sheet_form" onSubmit={SearchHandle}><br />
+                            <Form.Group className="mb-3" controlId="formGroupEmail">
+                                <Form.Label style={{fontWeight:'bold' }}>Student ID:</Form.Label>
+                                <Form.Control type="text" required id="search" style={{ textTransform: 'uppercase' }} placeholder="Enter Student ID" /><br></br>
+
+                                <Button type="submit" id="submit_button" className="btn btn-secondary">Submit</Button>
+                            </Form.Group>
+                        </form>
+                    </Card.Body>
+                    <Link to={`/attendance-sheet/${course_code}`} style={{textAlign:'center',marginTop:'-10px',marginBottom:'10px'}}><span>Back to {course_code}</span></Link>
+                </Card>
+                <br/>
+            </Container>
+
+             <br/> <br/>
             {(StudentData) ? (
                 <div className="table-container">
 
@@ -114,7 +134,7 @@ function Attendance_report_by_id({ match }) {
 
                                 <td data-heading="Student ID">{StudentData?.student_id}</td>
                                 <td data-heading="Student Name">{StudentData?.student_name} </td>
-                                <td data-heading="Student Email">{StudentData?.email} </td>
+                                <td data-heading="Student Email"><span style={{fontSize:'11.5px'}}>{StudentData?.email} </span> </td>
                                 <td data-heading="Presented Class ">{present}</td>
                                 <td data-heading="Total Class"> {totalClass}</td>
                                 <td data-heading="Percentage"> {((present * 100) / totalClass).toFixed(2)} %</td>
@@ -122,8 +142,9 @@ function Attendance_report_by_id({ match }) {
                         </tbody>
                     </table>
                 </div>
-                
+
             ) : ""}
+            
         </div>
 
     );

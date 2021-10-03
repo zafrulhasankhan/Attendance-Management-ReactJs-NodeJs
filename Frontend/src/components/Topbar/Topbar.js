@@ -1,45 +1,49 @@
-import React from 'react';
-
-import { Nav, NavDropdown, Container, Navbar,  } from "react-bootstrap"
+import React, { useState } from 'react';
+import { Nav, NavDropdown, Container, Navbar, Dropdown, DropdownButton, NavLink } from "react-bootstrap"
 import { MenuItem } from '@material-ui/core';
 import { useAuth } from "../../contexts/AuthContext"
+import { Link, useHistory } from "react-router-dom"
 
 function Topbar() {
-    const { currentUser } = useAuth();
-    console.log(currentUser);
+    const { currentUser, logout } = useAuth();
+    const [error, setError] = useState("")
+    const history = useHistory()
+    async function handleLogout() {
+        setError("")
+
+        try {
+            await logout()
+            history.push("/login")
+        } catch {
+            setError("Failed to log out")
+        }
+    }
     return (
         <div>
 
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-
-
-                <Navbar.Brand href="#home">&ensp;&ensp;&ensp;Attendance Management</Navbar.Brand>
+                <Navbar.Brand href="#home">&ensp;&ensp;Attendance Management</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
+                        <Nav.Link href="/">Home</Nav.Link>
+                        <Nav.Link href="#pricing" onClick={handleLogout}>Logout</Nav.Link>
+                    </Nav>
+                    {currentUser?(
+                    <Nav style={{ marginRight: '15px' }}>
 
+                        <Nav.Link href="#pricing"> <img style={{ borderRadius: '150px', height: '40px', width: '40px' }}
+                            src={currentUser?.photoURL} /></Nav.Link>
 
-                        <Nav.Link href="#features">{currentUser?.email}</Nav.Link>
-                        <Nav.Link href="#pricing">Pricing</Nav.Link>
+                        <Nav.Link href="#pricing" style={{ padding: '2px' }}>
+                            <span style={{ fontSize: "13px", padding: '0px' }}>{currentUser?.displayName}</span>
+                            <br /><span style={{ fontSize: "12px", padding: '0px' }}>{currentUser?.email}</span>
+                        </Nav.Link>
 
                     </Nav>
-                    {/* <Nav className="justify-content-end" alignRight pullRight className="no" >
-                        <NavDropdown
-                            title={
-                                <img style={{ borderRadius: '150px', height: '40px', width: '40px' }}
-                                    src={currentUser.photoURL} />
-                            } >
+                    ):("")}
 
-                            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-
-                        </NavDropdown>
-
-                    </Nav> */}
-                                   </Navbar.Collapse>
+                </Navbar.Collapse>
 
             </Navbar>
 

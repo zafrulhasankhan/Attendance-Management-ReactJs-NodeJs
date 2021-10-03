@@ -40,23 +40,22 @@ function App() {
           <AuthProvider>
 
             <Switch>
-               
               
               <PrivateRoute exact path="/" component={JoinedCourses} />
               <PrivateRoute path="/update-profile" component={UpdateProfile} />
               <PrivateRoute path="/home/:course_code" component={Home} />
-              <Route path="/signup" component={Signup} />
+              <Route path="/login" component={Signup} />
               {/* <Route path="/fillup-info/:email" component={Fillup_info} /> */}
-              <Route path="/login" component={Login} />
-              <Route path="/forgot-password" component={ForgotPassword} />
-              <Route path="/join-course" component={JoinCourse} />
+              <PrivateRoute path="/login2" component={Login} />
+              <PrivateRoute path="/forgot-password" component={ForgotPassword} />
+              <PrivateRoute path="/join-course" component={JoinCourse} />
               {/* Attendance routes */}
-              <Route exact path="/attendance-sheet/:course_code" component={Attendance_sheet} />
-              <Route exact path="/attendance-report-by-id/:course_code" component={Attendance_report_by_id} />
-              <Route exact path="/attendance-report-by-date/:course_code" component={Attendance_report_by_date} />
-              <Route exact path="/attendance-report-by-course/:course_code" component={Attendance_report_by_course} />
-              <Route exact path="/dash" component={Dashboard} />
-              <Route exact path="/add-course" component={add_course} />
+              <PrivateRoute exact path="/attendance-sheet/:course_code" component={Attendance_sheet} />
+              <PrivateRoute exact path="/attendance-report-by-id/:course_code" component={Attendance_report_by_id} />
+              <PrivateRoute exact path="/attendance-report-by-date/:course_code" component={Attendance_report_by_date} />
+              <PrivateRoute exact path="/attendance-report-by-course/:course_code" component={Attendance_report_by_course} />
+              <PrivateRoute exact path="/dash" component={Dashboard} />
+              <PrivateRoute exact path="/add-course" component={add_course} />
               <Route exact path="/not-found" component={NotFound} />
 
             </Switch>

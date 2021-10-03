@@ -134,7 +134,7 @@ function Attendance_report_by_course({ match }) {
 
                                             <td data-heading="Student ID">{studentID[index]}</td>
                                             <td data-heading="Student Name">{studentName[index]} </td>
-                                            <td data-heading="Student Email">{studentEmail[index]} </td>
+                                            <td data-heading="Student Email"><span style={{fontSize:'11.5px'}}>{studentEmail[index]}</span> </td>
                                             <td data-heading="Presented Class ">
                                                 {present = data.reduce(
                                                     (total, current) => total + (JSON.parse(current.attendance_data))

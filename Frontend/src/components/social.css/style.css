@@ -114,3 +114,41 @@ body{
   color: black;
 }
 
+.button--id {
+  background-color: gray;
+  border: 1px solid dimgray;
+  cursor: pointer;
+}
+
+.button--id:hover {
+  
+  background-color: white;
+  color: black;
+}
+
+
+.button--date {
+  background-color: #988558;
+  border: 1px solid #7B7D7D;
+  cursor: pointer;
+}
+
+.button--date:hover {
+  
+  background-color: white;
+  color: black;
+}
+
+
+.button--course {
+  background-color: #6F4E37;
+  border: 1px solid dimgray;
+  cursor: pointer;
+}
+
+.button--course:hover {
+  
+  background-color: white;
+  color: black;
+}
+

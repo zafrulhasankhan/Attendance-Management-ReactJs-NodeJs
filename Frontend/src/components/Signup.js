@@ -7,8 +7,8 @@ import socialMediaAuth from '../service/auth';
 import axios from '../config/axios';
 import { FaFacebookF, FaGoogle, FaGithub } from 'react-icons/fa';
 import './social.css/style.css';
-import  Topbar from "./Topbar/Topbar";
-import { Nav,NavDropdown,Navbar } from "react-bootstrap"
+import Topbar from "./Topbar/Topbar";
+import { Nav, NavDropdown, Navbar } from "react-bootstrap"
 
 
 export default function Signup() {
@@ -78,20 +78,19 @@ export default function Signup() {
 
   return (
     <>
-     
+
       <Container className="text-center p-20" style={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
 
       }}>
-        <Card className=" h-600 card text-center bg-white  ">
+        <Card className=" h-600 card text-center bg-white">
           <Card.Body>
             <h2 className="text-center mb-4">Login</h2>
             <a className="button button--social-login button--google" onClick={() => handleOnclick(facebookProvider)}><FaGoogle className="icon fa fa-google" />Login with Google</a>
             <a className="button button--social-login button--github" onClick={() => handleOnclick(githubProvider)}><FaGithub className="icon fa fa-github" />Login with GitHub</a>
             <a className="button button--social-login button--facebook" onClick={() => handleOnclick(googleProvider)}><FaFacebookF className="icon fa fa-facebook" />Login with Facebook</a>
-           
 
           </Card.Body>
         </Card>
