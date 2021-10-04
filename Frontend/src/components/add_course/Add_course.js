@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react"
-import { Form, Button, Card, Alert } from "react-bootstrap"
+import { Form, Button, Card, Alert,Container } from "react-bootstrap"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
 import axios from '../../config/axios';
@@ -9,11 +9,11 @@ export default function Add_course() {
 
   const course_name_ref = useRef()
   const course_code_ref = useRef()
-  const { signup,currentUser } = useAuth()
+  const { signup, currentUser } = useAuth()
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const history = useHistory()
-  const [msg,setMsg] = useState("");
+  const [msg, setMsg] = useState("");
   async function handleSubmit(e) {
     e.preventDefault()
 
@@ -22,24 +22,24 @@ export default function Add_course() {
     // }
 
     try {
-      
+
       setError("")
       setLoading(true)
-      axios.post("/course/add",{
-        course_name : course_name_ref.current.value,
-        course_code : course_code_ref.current.value,
-        course_pin  :  Math.random().toString(36).substring(7),
-        course_owner_email : currentUser.email
-      }).then((res)=>{
+      axios.post("/course/add", {
+        course_name: course_name_ref.current.value,
+        course_code: course_code_ref.current.value,
+        course_pin: Math.random().toString(36).substring(7),
+        course_owner_email: currentUser.email
+      }).then((res) => {
         console.log(res.status);
-        if(!res.data.msg){
+        if (!res.data.msg) {
           history.push("/")
         }
-        else{
+        else {
           setMsg(res.data.msg)
         }
       })
-      
+
     } catch {
       setError("Failed to create Account")
     }
@@ -51,32 +51,39 @@ export default function Add_course() {
 
   return (
     <>
-    <h3>{msg}</h3>
-      <Card style={{ maxWidth: "400px" }}>
-        <Card.Body>
-          <h2 className="text-center mb-4">Add Course</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Form.Group id="course_name">
-              <Form.Label>Course Name</Form.Label>
-              <Form.Control type="text" ref={course_name_ref} required />
-            </Form.Group>
-            <Form.Group id="password">
-              <Form.Label>Course code </Form.Label>
-              <Form.Control style={{ textTransform: 'uppercase' }} type="text" ref={course_code_ref} required />
-            </Form.Group><br/>
-            {/* <Form.Group id="password-confirm">
+      <h3>{msg}</h3>
+      <Container className=" text-center p-20" style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+
+      }}>
+        <Card className="card bg-white" style={{ borderRadius: '10px' }}>
+          <Card.Body style={{ borderRadius: '10px', textAlign: 'left' }}>
+            <h4 className="text-center mb-4">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; Add Course&ensp;&ensp;&ensp; &ensp;&ensp;&ensp;&ensp;</h4>
+            {error && <Alert variant="danger">{error}</Alert>}
+            <Form onSubmit={handleSubmit}>
+              <Form.Group id="course_name">
+                <Form.Label style={{ fontWeight: 'bold' }}>Course name</Form.Label>
+                <Form.Control type="text" ref={course_name_ref} placeholder="Enter Course Name" required />
+              </Form.Group><br/>
+              <Form.Group id="password">
+                <Form.Label style={{ fontWeight: 'bold' }}>Course code </Form.Label>
+                <Form.Control style={{ textTransform: 'uppercase' }} type="text" ref={course_code_ref} placeholder="Enter Course Code" required />
+              </Form.Group><br />
+              {/* <Form.Group id="password-confirm">
               <Form.Label>Course photo</Form.Label>
               <Form.Control type="password" ref={passwordConfirmRef} required />
             </Form.Group> */}
-            <Form.Group id="button">
-              <Button disabled={loading} className="w-100" type="submit">
-                Sign Up
-              </Button>
+              <Form.Group id="button">
+                <Button disabled={loading} type="submit">
+                &ensp;Add&ensp;
+                </Button>
               </Form.Group>
-          </Form>
-        </Card.Body>
-    </Card>
+            </Form>
+          </Card.Body>
+        </Card>
+      </Container>
     </>
   )
 }

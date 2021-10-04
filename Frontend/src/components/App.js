@@ -46,7 +46,7 @@ function App() {
               <PrivateRoute path="/home/:course_code" component={Home} />
               <Route path="/login" component={Signup} />
               {/* <Route path="/fillup-info/:email" component={Fillup_info} /> */}
-              <PrivateRoute path="/login2" component={Login} />
+              {/* <PrivateRoute path="/" component={Login} /> */}
               <PrivateRoute path="/forgot-password" component={ForgotPassword} />
               <PrivateRoute path="/join-course" component={JoinCourse} />
               {/* Attendance routes */}

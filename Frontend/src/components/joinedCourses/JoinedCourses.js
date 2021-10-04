@@ -89,8 +89,6 @@ const JoinedCourses = () => {
   return (
     <>
       <h3>{msg}</h3>
-      <Link to="/join-course"><button>join course</button></Link><br /><br />
-      <Link to="/add-course"><button>create course</button></Link>
       <ol className="joined">
         {code.map((data, i) => (
           <li key={i} className="joined__list">
@@ -102,30 +100,30 @@ const JoinedCourses = () => {
 
                   {(currentUser.email === course_owner_email[i]) ? (
                     <Link className="joined__title" to={`/attendance-sheet/${data}`}>
-                      <h2>{cname[i]} ({data})</h2>
+                      <h5>{cname[i]} ({data})</h5>
                     </Link>
                   ) : (
                     <Link className="joined__title" to={`/home/${data}`}>
-                      <h2>{cname[i]} ({data})</h2>
+                      <h5>{cname[i]} ({data})</h5>
                     </Link>
 
                   )}
-                  <p style={{ color: 'black' }} className="joined__owner">{course_owner_email[i]}
+                  <p style={{ color: 'white',marginTop:'-12px' }} className="joined__owner">{course_owner_email[i]}
                   </p>
 
                 </div>
               </div>
-              <Avatar
+              {/* <Avatar
                 className="joined__avatar"
                 src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/s75-c-fbw=1/photo.jpg"
-              />
+              /> */}
             </div>
             <div className="joined__bottom">
-              <PermContactCalendar />
-              <FolderOpen />
-
+              {/* <PermContactCalendar />
+              <FolderOpen /> */}
+              <h5>&ensp;Total students: {counter[i]}</h5>
             </div>
-            <h5>&ensp;Total students: {counter[i]}</h5>
+
           </li>
 
         ))}

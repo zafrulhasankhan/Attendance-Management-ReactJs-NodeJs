@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button,Card,Form,Container } from 'react-bootstrap';
+import { Button, Card, Form, Container } from 'react-bootstrap';
 import $ from 'jquery';
 import axios from '../../config/axios';
 import '../Attendance_Table/css/App.scss';
@@ -81,23 +81,22 @@ function Attendance_report_by_date({ match }) {
 
 
                     }}>
-                        <Card className="card bg-white" style={{borderRadius:'10px'}}>
-                            <Card.Body style={{borderRadius:'10px',textAlign:'left'}}>
+                        <Card className="card bg-white" style={{ borderRadius: '10px' }}>
+                            <Card.Body style={{ borderRadius: '10px', textAlign: 'left' }}>
                                 <h5 className="text-center mb-2">&ensp;Attendance report by Date&ensp;</h5>
                                 <form id="attend_sheet_form" onSubmit={SearchHandle}><br />
                                     <Form.Group className="mb-3" controlId="formGroupEmail">
                                         <Form.Label style={{ fontWeight: 'bold' }}>Enter Date:</Form.Label>
                                         <Form.Control type="date" required id="search" style={{ textTransform: 'uppercase' }} placeholder="Enter Student ID" /><br></br>
-
                                         <Button type="submit" id="submit_button" className="btn btn-secondary">Submit</Button>
                                     </Form.Group>
                                 </form>
-                            
+
                             </Card.Body>
-                            <Link to={`/attendance-sheet/${course_code}`} style={{textAlign:'center',marginTop:'-10px',marginBottom:'10px'}}><span>Back to {course_code}</span></Link>
+                            <Link to={`/attendance-sheet/${course_code}`} style={{ textAlign: 'center', marginTop: '-10px', marginBottom: '10px' }}><span>Back to {course_code}</span></Link>
                         </Card>
                         <br />
-                        
+
                     </Container>
 
                     {/* <form id="attend_sheet_form" onSubmit={SearchHandle}><br />
@@ -127,7 +126,7 @@ function Attendance_report_by_date({ match }) {
 
                                             <td data-heading="Student ID">{val2?.student_id}</td>
                                             <td data-heading="Student Name">{val2?.student_name} </td>
-                                            <td data-heading="Student Email"><span style={{fontSize:'11.5px'}}>{val2?.student_email} </span> </td>
+                                            <td data-heading="Student Email"><span style={{ fontSize: '11.5px' }}>{val2?.student_email} </span> </td>
                                             <td data-heading="Attendance Status ">
                                                 {(val2?.present) ? val2.present : ""}
                                                 {(val2?.absent) ? val2.absent : ""}
@@ -145,9 +144,9 @@ function Attendance_report_by_date({ match }) {
 
                 </div>
             ) : ""}
-           
+
         </div>
-      
+
     );
 }
 
