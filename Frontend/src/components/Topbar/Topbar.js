@@ -6,7 +6,7 @@ import { Link, useHistory } from "react-router-dom"
 import './Navbar.css';
 
 function Topbar() {
-    const { currentUser, logout } = useAuth();
+    const { currentUser, logout,checkOwner } = useAuth();
     const [error, setError] = useState("")
     const history = useHistory()
     async function handleLogout() {
@@ -27,18 +27,18 @@ function Topbar() {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="/">Home</Nav.Link>
+                     <Nav.Link ><Link to="/">Home</Link></Nav.Link>
                         {currentUser ? (
                         <NavDropdown title="Join or create" caret={false} id="collasible-nav-dropdown">
-                            <NavDropdown.Item href="/join-course">Join Course</NavDropdown.Item>
+                            <NavDropdown.Item ><Link to="/join-course">Join Course</Link></NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="/add-course">Add Course</NavDropdown.Item>
+                            <NavDropdown.Item><Link to="/add-course">Add Course</Link></NavDropdown.Item>
                         </NavDropdown>
                             
                         ):""}
                         {currentUser ? (
                         
-                            <Nav.Link  href="/login" onClick={handleLogout}>Logout</Nav.Link>
+                            <Nav.Link  onClick={handleLogout}><Link to="/login">Logout</Link></Nav.Link>
                        
                     ) : ""}
                     </Nav>
@@ -74,6 +74,7 @@ function Topbar() {
                     )}
                 </Navbar.Collapse>
             </Navbar>
+            <h1>{checkOwner}</h1>
         </div>
     );
 }

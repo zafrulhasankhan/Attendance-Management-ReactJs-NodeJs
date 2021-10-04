@@ -1,8 +1,13 @@
 .joined {
     display: flex;
     flex-wrap: wrap;
-    padding-left: 1.5rem;
-    padding-top: 1.5rem;
+    /* padding-left: 5.5rem; */
+    padding-top: -1rem;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+  
   }
   ul,
   ol {
@@ -13,26 +18,31 @@
   .joined__list {
     display: flex;
     flex-direction: column;
-    height: 18.375rem;
+    height: auto;
     margin-bottom: 1.5rem;
     margin-right: 1.5rem;
     overflow: hidden;
     position: relative;
     text-align: left;
-    width: 19.75rem;
+    width: 18.75rem;
     background-color: #fff;
     border: 0.0625rem solid #dadce0;
     -webkit-border-radius: 0.5rem;
     border-radius: 0.5rem;
   }
+  .joined__list:hover{
+    transition: 0s all ease;
+  }
   .joined__imgWrapper {
-    height: 100%;
+    height: 113%;
     left: 0;
     position: absolute;
     top: 0;
     width: 100%;
     background-color: #174ea6;
   }
+  
+
   .joined__image {
     background-image: url(https://gstatic.com/classroom/themes/Physics.jpg);
     height: 100%;
@@ -56,17 +66,21 @@
     height: 4.5rem;
     padding: 1rem 1rem 0.75rem;
     position: relative;
+   
   }
+  
   .joined__title {
     color: white;
     font-family: "Roboto";
     text-decoration: none;
   }
-  .joined__title h2 {
+  .joined__title {
     font-weight: 400;
   }
-  .joined__title h2:hover {
+  .joined__title:hover {
     text-decoration: underline;
+    color: white;
+    background-color: #174ea6;
   }
   .joined__owner {
     color: white;
@@ -75,11 +89,12 @@
   }
   .joined__avatar {
     float: right;
-    height: 4.6875rem !important;
+    height: 3.6875rem !important;
     position: relative !important;
-    margin-top: -3.09375rem !important;
-    width: 4.6875rem !important;
+    margin-top: -1.09375rem !important;
+    width: 3.6875rem !important;
     text-align: left;
+   margin-right: 10px;
   }
   .joined__bottom {
     margin-top: 40%;
@@ -88,6 +103,8 @@
     justify-content: flex-end;
     border-top: 0.2px solid #e0e0e0;
     padding: 10px;
+    font-size: 15px;
+
   }
   .joined__bottom > * {
     margin-right: 20px;

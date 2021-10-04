@@ -44,6 +44,7 @@ function Home({ match }) {
     }, [])
     return (
         <div>
+
             {msg ? (
 
                 <Container className="text-center p-20" style={{

@@ -79,10 +79,11 @@ body {
   margin: 0 auto 40px;
 
   &__title {
-    background-color: $highlight-color;
+    background-color: #174ea6;
     color: $light-color;
     text-align: center;
-    padding: 10px;
+    padding: 0.1px;
+    border-radius: 5px;
 
     h2 {
       font-size: 24px;

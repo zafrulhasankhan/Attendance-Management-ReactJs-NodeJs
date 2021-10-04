@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory,Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import $ from "jquery";
-import { Button } from 'react-bootstrap';
+import { Button, Form, Row, Container, Col, Dropdown, DropdownButton, MenuItem, ButtonToolbar } from 'react-bootstrap';
 import axios from '../../config/axios';
+import DropdownItem from 'react-bootstrap/esm/DropdownItem';
+import { Height } from '@material-ui/icons';
 
-const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_code }) => {
+const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_code, course_name }) => {
 
   const [classNo, setClassNo] = useState(0);
   const history = useHistory()
@@ -100,18 +102,43 @@ const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_co
   }
 
   return (
-    <div className="table-container">
+    <div className="table-container" style={{ backgroundColor: 'white' }}>
       <div className="table-container__title">
-        <h2>{title}</h2>
+        <h5>{course_name}({title})</h5>
       </div>
-      <h1>course code : {course_code}</h1>
-      <h1>Today's class Number : {classNo + 1}</h1>
 
       <br />
-      <input type="date" id="date" required placeholder="enter the today date" />
+
+
+      <Container>
+        <Row>
+          <Col>Today's class No. : <span style={{ fontWeight: 'bold' }}>{classNo + 1}</span></Col>
+          <Col style={{ textAlign: 'center',padding:'10px' }}>
+            <Dropdown>
+              <Dropdown.Toggle  variant="default" style={{backgroundColor:'#FAEBD7'}} bsPrefix="p-0">
+                <span style={{padding:'17px',fontWeight:'bold'}}>Show Attendance report</span>
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item href="#/action-1"><Link style={{textDecoration:'none',color:'black'}} to={`/attendance-report-by-id/${course_code}`}>Report by ID</Link></Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item href="#/action-2"> <Link to={`/attendance-report-by-date/${course_code}`}>Report by date</Link></Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item href="#/action-3"><Link to={`/attendance-report-by-course/${course_code}`}>Report by All </Link></Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Col>
+          <Col>
+            <Form.Group className="offset-md-4" controlId="exampleForm.ControlInput1">
+              {/* <Form.Label ><b>Enter Date:</b></Form.Label> */}
+              <Form.Control type="date" required id="date" />
+            </Form.Group>
+          </Col>
+        </Row>
+      </Container>
+
       <form id="attend_sheet_form" onSubmit={handleSubmit}><br />
 
-        <table className={tableClass}>
+        <table striped bordered hover className={tableClass} >
           <thead>
             <tr>
               {headingColumns.map((col, index) => (
@@ -124,7 +151,7 @@ const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_co
           <tbody className="inputContainer">
 
             {tableData.map((data, index) => (
-             
+
               <tr key={data}>
 
                 <td data-heading="Student ID">
@@ -136,23 +163,24 @@ const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_co
                   <input type="text" hidden name="student_name" placeholder="student_name" value={data.student_name} />
                 </td>
                 <td data-heading="Student Email" >
-                  {data.email}
+                  <span style={{ fontSize: '11.5px' }}>{data.email}</span>
                   <input type="text" hidden name="student_email" placeholder="student_email" value={data.email} />
                 </td>
                 <td data-heading="Present"  >
-                  <input type="radio" name={index}  placeholder="present" value="present" required   required/>
+                  <input type="radio" name={index} placeholder="present" value="present" required required />
                 </td>
                 <td data-heading="Absent" >
-                  <input type="radio" name={index}  placeholder="absent" value="absent" required   required />
+                  <input type="radio" name={index} placeholder="absent" value="absent" required required />
                 </td>
               </tr>
 
 
             ))}
           </tbody>
-        </table>
-        <Button type="submit" id="submit_button">Submit</Button>
-
+        </table><br />
+        <div style={{ textAlign: 'center', paddingBottom: '5px' }}>
+          <Button type="submit" id="submit_button">&ensp;Submit&ensp;</Button><br />
+        </div>
       </form>
     </div>
   );

@@ -1,4 +1,4 @@
-import React,{useState} from "react"
+import React, { useState } from "react"
 import Signup from "./Signup"
 import { Container } from "react-bootstrap"
 import { AuthProvider } from "../contexts/AuthContext"
@@ -24,45 +24,44 @@ function App() {
 
   return (
     <>
-    <AuthProvider>
-     <Topbar />
-    </AuthProvider>
-    
-    <Container
-      className="d-flex align-items-center justify-content-center"
-      style={{ minHeight: "100vh",backgroundColor:'#F3F4F6' }}
-    >
-      <div className="w-100" >
       
-        <Router>
-       
+      <Router>
+      <AuthProvider>
+        <Topbar  />
+      </AuthProvider>
+        <Container
+          className="d-flex align-items-center justify-content-center"
+          style={{ minHeight: "100vh", backgroundColor: '#F3F4F6' }}
+        >
+          <div className="w-100" >
 
-          <AuthProvider>
 
-            <Switch>
-              
-              <PrivateRoute exact path="/" component={JoinedCourses} />
-              <PrivateRoute path="/update-profile" component={UpdateProfile} />
-              <PrivateRoute path="/home/:course_code" component={Home} />
-              <Route path="/login" component={Signup} />
-              {/* <Route path="/fillup-info/:email" component={Fillup_info} /> */}
-              {/* <PrivateRoute path="/" component={Login} /> */}
-              <PrivateRoute path="/forgot-password" component={ForgotPassword} />
-              <PrivateRoute path="/join-course" component={JoinCourse} />
-              {/* Attendance routes */}
-              <PrivateRoute exact path="/attendance-sheet/:course_code" component={Attendance_sheet} />
-              <PrivateRoute exact path="/attendance-report-by-id/:course_code" component={Attendance_report_by_id} />
-              <PrivateRoute exact path="/attendance-report-by-date/:course_code" component={Attendance_report_by_date} />
-              <PrivateRoute exact path="/attendance-report-by-course/:course_code" component={Attendance_report_by_course} />
-              <PrivateRoute exact path="/dash" component={Dashboard} />
-              <PrivateRoute exact path="/add-course" component={add_course} />
-              <Route exact path="/not-found" component={NotFound} />
+            <AuthProvider>
 
-            </Switch>
-          </AuthProvider>
-        </Router>
-      </div>
-    </Container>
+              <Switch>
+
+                <PrivateRoute exact path="/" component={JoinedCourses} />
+                <PrivateRoute path="/update-profile" component={UpdateProfile} />
+                <PrivateRoute path="/home/:course_code" component={Home} />
+                <Route path="/login" component={Signup} />
+                {/* <Route path="/fillup-info/:email" component={Fillup_info} /> */}
+                <PrivateRoute path="/forgot-password" component={ForgotPassword} />
+                <PrivateRoute path="/join-course" component={JoinCourse} />
+                {/* Attendance routes */}
+                <PrivateRoute exact path="/attendance-sheet/:course_code" component={Attendance_sheet} />
+                <PrivateRoute exact path="/attendance-report-by-id/:course_code" component={Attendance_report_by_id} />
+                <PrivateRoute exact path="/attendance-report-by-date/:course_code" component={Attendance_report_by_date} />
+                <PrivateRoute exact path="/attendance-report-by-course/:course_code" component={Attendance_report_by_course} />
+                <PrivateRoute exact path="/dash" component={Dashboard} />
+                <PrivateRoute exact path="/add-course" component={add_course} />
+                <Route exact path="/not-found" component={NotFound} />
+
+              </Switch>
+            </AuthProvider>
+
+          </div>
+        </Container>
+      </Router>
     </>
   )
 }

@@ -5,12 +5,14 @@ import './css/App.scss';
 import axios from '../../config/axios';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from "../../contexts/AuthContext";
+import { Card, Container } from 'react-bootstrap';
 
 
 const Attendance_sheet = ({ match }) => {
     const { currentUser } = useAuth();
     const history = useHistory();
     const [data, setData] = useState([]);
+    const [course_name, setcourse_name] = useState("");
     const course_code = match.params?.course_code;
 
     useEffect(() => {
@@ -35,6 +37,7 @@ const Attendance_sheet = ({ match }) => {
                         if (!(result.data[0]?.email === currentUser.email)) {
                             history.push(`/home/${course_code}`)
                         }
+                        setcourse_name(result.data[0].course_name)
                     })
 
                     //student info retrieve
@@ -52,30 +55,50 @@ const Attendance_sheet = ({ match }) => {
     }, [])
 
     return (
-        <Fragment>
-            {data  && data ? (
+        <Fragment style={{ backgroundColor: 'white' }}>
+
+            {data && data ? (
                 <div>
                     <br />
-                    <Link to={`/attendance-report-by-id/${course_code}`}><button className="btn btn-success">attendance report by id</button></Link>&ensp;
+                    {/* <Link to={`/attendance-report-by-id/${course_code}`}><button className="btn btn-success">attendance report by id</button></Link>&ensp;
                     <Link to={`/attendance-report-by-date/${course_code}`}><button className="btn btn-primary">attendance report by date</button></Link>&ensp;
-                    <Link to={`/attendance-report-by-course/${course_code}`}><button className="btn btn-danger">attendance report by course</button></Link>&ensp;
-
+                    <Link to={`/attendance-report-by-course/${course_code}`}><button className="btn btn-danger">attendance report by course</button></Link>&ensp; */}
                     <br /><br />
-                    <Header title={course_code} />
-                    <Table
-                        tableData={data}
-                        headingColumns={['Student ID', 'Name', 'Email', 'Present', 'Absent']}
-                        title="F1 Drivers 2020"
-                        course_code={course_code}
-                    />
-                </div>
-            ) : (
-                <h1>any student not found yet</h1>
+                    {/* <Container className="text-center p-20" style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+
+                    }}>
+
+                        <Card className=" h-600 card text-center bg-white">
+                            <Card.Body>
+                                <h3 className="text-center mb-4">Attendance report</h3>
+                                <Link to={`/attendance-report-by-id/${course_code}`}><button className="button button--social-login button--id" >Attendance report by id</button></Link>&ensp;
+                                <Link to={`/attendance-report-by-date/${course_code}`}><button className="button button--social-login button--date">Attendance report by date</button></Link>&ensp;
+                                <Link to={`/attendance-report-by-course/${course_code}`}><button className="button button--social-login button--course">Attendance report by course</button></Link>&ensp;
+                               
+                            </Card.Body>
+                        </Card>
+
+                    </Container> */}
+                  
+                            <Table
+                                tableData={data}
+                                headingColumns={['Student ID', 'Name', 'Email', 'Present', 'Absent']}
+                                title={course_code}
+                                course_code={course_code}
+                                course_name={course_name}
+                            />
+                            
+                        </div>
+                        ) : (
+                        <h1>any student not found yet</h1>
             )}
-        </Fragment>
-    );
+                    </Fragment>
+                    );
 }
 
 
 
-export default Attendance_sheet;
+                    export default Attendance_sheet;

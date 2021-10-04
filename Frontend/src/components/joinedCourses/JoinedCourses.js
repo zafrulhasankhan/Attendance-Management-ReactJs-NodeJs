@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import "./style.css";
 import axios from '../../config/axios';
-
+import {Form,Container,Card} from 'react-bootstrap';
 
 const JoinedCourses = () => {
   const { currentUser } = useAuth();
@@ -13,9 +13,10 @@ const JoinedCourses = () => {
   const [cname, setCname] = useState([])
   const [code, setcode] = useState([])
   const [course_owner_email, setCourse_owner_email] = useState([])
+  const [course_owner_name, setCourse_owner_name] = useState([])
   const [msg, setMsg] = useState("");
   const [counter, setCounter] = useState([]);
-
+ 
 
   useEffect(() => {
     if (currentUser) {
@@ -100,34 +101,42 @@ const JoinedCourses = () => {
 
                   {(currentUser.email === course_owner_email[i]) ? (
                     <Link className="joined__title" to={`/attendance-sheet/${data}`}>
-                      <h5>{cname[i]} ({data})</h5>
+                      <div>
+                      <h5 style={{fontSize:'18px'}}>{cname[i]} ({data})</h5>
+                      <h5 style={{ color: 'white',marginTop:'-12px',fontSize:'10px' }} className="joined__owner">{course_owner_email[i]}
+                  </h5>
+                  </div>
                     </Link>
                   ) : (
                     <Link className="joined__title" to={`/home/${data}`}>
-                      <h5>{cname[i]} ({data})</h5>
+                      <h5 style={{fontSize:'18px'}}>{cname[i]} ({data})</h5>
+                      <h5 style={{ color: 'white',marginTop:'-12px',fontSize:'10px' }} className="joined__owner">{course_owner_email[i]}
+                  </h5>
                     </Link>
 
                   )}
-                  <p style={{ color: 'white',marginTop:'-12px' }} className="joined__owner">{course_owner_email[i]}
-                  </p>
+                 
 
                 </div>
               </div>
-              {/* <Avatar
+              
+              <Avatar
                 className="joined__avatar"
                 src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/s75-c-fbw=1/photo.jpg"
-              /> */}
+              />
             </div>
             <div className="joined__bottom">
-              {/* <PermContactCalendar />
-              <FolderOpen /> */}
-              <h5>&ensp;Total students: {counter[i]}</h5>
+              <PermContactCalendar />
+              <FolderOpen />
+              {/* <p>&ensp;Total students: {counter[i]}</p> */}
             </div>
 
           </li>
 
         ))}
       </ol>
+
+      
     </>
   );
 }
