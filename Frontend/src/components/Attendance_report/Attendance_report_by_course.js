@@ -25,11 +25,9 @@ function Attendance_report_by_course({ match }) {
     }
     const headingColumns = ['Student ID', 'Name', 'Email', 'Presented Class', 'Total Class', 'Percentage']
     const [data, setData] = useState([]);
-    // const [present, setpresent] = useState(0);
     const [totalClass, setTotalClass] = useState(0);
     const [studentID, setStudentID] = useState([]);
-    const [studentName, setStudentName] = useState([]);
-    const [studentEmail, setStudentEmail] = useState([]);
+
     var present = 0;
     useEffect(() => {
         axios.get(`/course/info/${course_code}`).then((result) => {
@@ -76,33 +74,28 @@ function Attendance_report_by_course({ match }) {
                             }
                         }
 
-
-                        let student_name = [];
-                        let student_email = [];
-                        let student_ids = [];
                         var ID = Array.from(new Set(student_id));
-
-                        let promises = [];
-                        for (let i = 0; i < ID.length; i++) {
-
-                            promises.push(
-
-                                axios.get(`/student-details/${ID[i]}/${course_code}`)
-                                    .then((res) => {
-                                        student_ids.push(res.data[0]?.student_id);
-
-                                        student_name.push(res.data[0]?.student_name);
-                                        student_email.push(res?.data[0]?.email);
-                                    })
-                            )
-
-
-                        }
-                        Promise.all(promises).then(() => {
-                            setStudentID(student_ids);
-                            setStudentName(student_name)
-                            setStudentEmail(student_email)
-                        })
+                        setStudentID(ID);
+                        console.log("id"+ID.length);
+                        ID.forEach(async (item, index) => {
+                           
+                            try {
+                              const result2 = await axios.get(`/student-details/${item}/${course_code}`);
+                              const student_name = result2.data[0]?.student_name;
+                              const student_id = result2.data[0]?.student_id;
+                              const student_email = result2.data[0].email;
+                  
+                               console.log( result2);
+                              setStudentID(data => data.map(
+                                (el, i) => i === index
+                                  ? ({ ...el,student_id,student_name,student_email})
+                                  : el)
+                              )
+                            } catch (error) {
+                              // log error, etc...
+                            }
+                          });
+                  
                         setMsg("Found")
 
                     }).catch((err) => console.log(err))
@@ -116,6 +109,7 @@ function Attendance_report_by_course({ match }) {
 
     return (
         <div>
+        
             {msg ? (
                 <div>
                     {data.length ? (
@@ -142,13 +136,13 @@ function Attendance_report_by_course({ match }) {
                                     {studentID.map((val, index) => (
                                         <tr>
 
-                                            <td data-heading="Student ID">{studentID[index]}</td>
-                                            <td data-heading="Student Name">{studentName[index]} </td>
-                                            <td data-heading="Student Email"><span style={{ fontSize: '11.5px' }}>{studentEmail[index]}</span> </td>
+                                            <td data-heading="Student ID">{val.student_id}</td>
+                                            <td data-heading="Student Name">{val.student_name} </td>
+                                            <td data-heading="Student Email"><span style={{ fontSize: '11.5px' }}>{val.student_email}</span> </td>
                                             <td data-heading="Presented Class ">
                                                 {present = data.reduce(
                                                     (total, current) => total + (JSON.parse(current.attendance_data))
-                                                        .some((el) => el.student_id === val && el.present === "present"), 0)}
+                                                        .some((el) => el.student_id === val.student_id && el.present === "present"), 0)}
                                             </td>
                                             <td data-heading="Total Class"> {totalClass}</td>
                                             <td data-heading="Percentage"> {((present * 100) / totalClass).toFixed(2)} %</td>

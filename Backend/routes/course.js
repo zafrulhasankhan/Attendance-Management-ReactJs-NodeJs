@@ -30,6 +30,22 @@ router.post("/add", function (req, res) {
 
 })
 
+router.post("/update", function (req, res) {
+
+    const course_code = (req.body.course_code).toUpperCase();
+    const course_name = req.body.course_name;
+    const sql_course_update = "update `course_list` set course_code = ? ,course_name=? WHERE course_code = ?";
+    con.query(sql_course_update, [course_code,course_name,course_code], (error, result) => {
+      console.log(result);
+        if(error){
+          res.send({msg:'Something wrong,Try Again.'})
+        }
+    //   }else{
+    //       res.send({msg:"Something wrong"})
+    //   }
+    })
+})
+
 
 router.get("/joinedCourses/:email", function (req, res) {
 

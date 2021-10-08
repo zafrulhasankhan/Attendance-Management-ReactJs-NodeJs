@@ -21,6 +21,7 @@ import NotFound from "../NotFound";
 import Topbar from './Topbar/Topbar';
 import { useAuth } from "../contexts/AuthContext"
 import PeopleList from "./People/PeopleList"
+import UpdateCourse from "./UpdateCourse/UpdateCourse";
 function App() {
 
   return (
@@ -41,6 +42,7 @@ function App() {
 
               <Switch>
                 <Route path="/login" component={Signup} />
+                <PrivateRoute exact path="/update-course/:course_code" component={UpdateCourse} />
                 <PrivateRoute exact path="/people/:course_code" component={PeopleList} />
                 <PrivateRoute exact path="/" component={JoinedCourses} />
                 <PrivateRoute path="/update-profile" component={UpdateProfile} />

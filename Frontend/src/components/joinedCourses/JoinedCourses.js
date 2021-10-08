@@ -5,130 +5,104 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import "./style.css";
 import axios from '../../config/axios';
-import {Form,Container,Card} from 'react-bootstrap';
+import { Form, Container, Card } from 'react-bootstrap';
 
 const JoinedCourses = () => {
   const { currentUser } = useAuth();
-  const [coursesData, setCoursesData] = useState([]);
-  const [cname, setCname] = useState([])
-  const [code, setcode] = useState([])
-  const [course_owner_email, setCourse_owner_email] = useState([])
-  const [course_owner_name, setCourse_owner_name] = useState([])
   const [msg, setMsg] = useState("");
-  const [counter, setCounter] = useState([]);
- 
+  const [data, setData] = useState([]);
+
 
   useEffect(() => {
-    if (currentUser) {
-      axios.get(`/course/joinedCourses/${currentUser.email}`)
-        .then((res) => {
-
-          if (!res.data.msg) {
-
-            setCoursesData(res.data);
-            let course_name = [];
-            let codes = [];
-            let course_owner = [];
-            let promises = [];
-            for (let i = 0; i < res.data.length; i++) {
-              promises.push(
-                axios.get(`/course/info/${res.data[i].course_code}`).then((result) => {
-
-                  course_name.push(result.data[0]?.course_name);
-                  course_owner.push(result.data[0]?.email)
-                  codes.push(result.data[0]?.course_code)
-
-                })
-              )
-
-            }
-
-            let count = []
-            let promises2 = []
-            Promise.all(promises).then((r) => {
-              setCname(course_name)
-              setCourse_owner_email(course_owner);
-              setcode(codes);
-
-
-              for (let i = 0; i < codes.length; i++) {
-                console.log(i);
-                promises2.push(
-                  axios.get(`/course/count/${codes[i]}`)
-                    .then((result) => {
-                      console.log(result.data.length);
-                      count.push(result.data.length)
-                    })
-                )
-
-              }
-
-              Promise.all(promises2).then(() => {
-                console.log(count);
-                setCounter(count)
-                console.log(counter);
-              })
-
-            })
-
-
-          } else {
-            setMsg(res.data.msg)
-          }
-
-
-
-
-        })
-    }
-
+  
+    CourseRetrieve();
 
   }, [])
 
+  let CourseRetrieve = () => {
+
+    axios.get(`/course/joinedCourses/${currentUser.email}`).then((result) => {
+      if (!result.data.msg) {
+        setData(result.data)
+
+        result.data.forEach(async (item, index) => {
+          try {
+            const result = await axios.get(`/course/info/${item.course_code}`);
+            const course_name = result.data[0].course_name;
+            const owner_email = result.data[0].email;
+
+            const result2 = await axios.get(`/course/count/${item.course_code}`);
+            const Total_student = result2.data.length;
+
+            const result_photo = await axios.get(`/user-info/${owner_email}`);
+            const photo = result_photo.data[0].profile_photo;
+
+            setData(data => data.map(
+              (el, i) => i === index
+                ? ({ ...el, course_name, owner_email, Total_student,photo })
+                : el)
+            )
+          } catch (error) {
+            // log error, etc...
+          }
+        });
+
+      } else {
+        setMsg(result.data.msg)
+      }
+    })
+  }
 
 
   return (
     <>
       <h3>{msg}</h3>
       <ol className="joined">
-        {code.map((data, i) => (
-          <li key={i} className="joined__list">
+        {data.map((val, index) => (
+          <li key={index} className="joined__list">
             <div className="joined__wrapper">
               <div className="joined__container">
                 <div className="joined__imgWrapper" />
                 <div className="joined__image" />
                 <div className="joined__content">
 
-                  {(currentUser.email === course_owner_email[i]) ? (
-                    <Link className="joined__title" to={`/attendance-sheet/${data}`}>
+                  {(currentUser.email === val.owner_email) ? (
+                    <Link className="joined__title" to={`/attendance-sheet/${val.course_code}`}>
                       <div>
-                      <h5 style={{fontSize:'18px'}}>{cname[i]} ({data})</h5>
-                      <h5 style={{ color: 'white',marginTop:'-12px',fontSize:'10px' }} className="joined__owner">{course_owner_email[i]}
-                  </h5>
-                  </div>
+                        <h5 style={{ fontSize: '18px' }}>{val.course_name} ({val.course_code})</h5>
+                        <h5 style={{ color: 'white', marginTop: '-12px', fontSize: '10px' }} className="joined__owner">{val.owner_email}
+                        </h5>
+                      </div>
                     </Link>
                   ) : (
-                    <Link className="joined__title" to={`/home/${data}`}>
-                      <h5 style={{fontSize:'18px'}}>{cname[i]} ({data})</h5>
-                      <h5 style={{ color: 'white',marginTop:'-12px',fontSize:'10px' }} className="joined__owner">{course_owner_email[i]}
-                  </h5>
+                    <Link className="joined__title" to={`/home/${val.course_code}`}>
+                      <h5 style={{ fontSize: '18px' }}>{val.course_name} ({val.course_code})</h5>
+                      <h5 style={{ color: 'white', marginTop: '-12px', fontSize: '10px' }} className="joined__owner">{val.owner_email}
+                      </h5>
                     </Link>
 
                   )}
-                 
+
 
                 </div>
               </div>
-              
+              {val.photo ? (
+               <Avatar
+               className="joined__avatar"
+               src={val.photo}
+             />
+              ):(
               <Avatar
                 className="joined__avatar"
                 src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/s75-c-fbw=1/photo.jpg"
               />
+              )}
             </div>
             <div className="joined__bottom">
-              <Link to={`/people/${data}`} style={{textDecoration:'inherit',color:'inherit'}}><PermContactCalendar /></Link>
-              <FolderOpen />
-              {/* <p>&ensp;Total students: {counter[i]}</p> */}
+              <Link to={`/people/${val.course_code}`} style={{ textDecoration: 'inherit', color: 'inherit' }}><PermContactCalendar /></Link>
+              <Link to={`/update-course/${val.course_code}`} style={{ textDecoration: 'inherit', color: 'inherit' }}><FolderOpen /></Link>
+              
+              {/* <p>&ensp;Total students: {val.Total_student}</p>  */}
             </div>
 
           </li>
@@ -136,7 +110,7 @@ const JoinedCourses = () => {
         ))}
       </ol>
 
-      
+
     </>
   );
 }

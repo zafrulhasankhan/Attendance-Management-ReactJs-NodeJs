@@ -59,13 +59,18 @@ function PeopleList({ match }) {
                 }
             });
 
-            // teacher info retrieve 
-            axios.get(`user-info/${result.data[0].tecEmail}`)
-                .then((res) => {
-                    console.log(res.data);
-                    setTechInfo(res.data[0]);
+            // teacher info retrieve
+            axios.get(`course/info/${course_code}`)
+            .then((res)=>{
+
+             console.log(res?.data[0]?.email);
+            axios.get(`user-info/${res?.data[0]?.email}`)
+                .then((tecdata) => {
+                    console.log(tecdata.data);
+                    setTechInfo(tecdata.data[0]);
 
                 })
+            })
             //close teacher retrieve
 
             let student_photo = [];
@@ -89,19 +94,6 @@ function PeopleList({ match }) {
 
     }
 
-    // SearchHandle();
-
-
-    // function retriveStudentPhoto(email) {
-    //     var photo = "";
-    //     axios.get(`/user-info/${email}`)
-    //         .then((result) => {
-    //             var photo = result.data[0].profile_photo;
-
-    //         }).catch((error) => error)
-
-    //     return photo;
-    // }
 
     return (
         <div>
@@ -114,7 +106,7 @@ function PeopleList({ match }) {
                     <div className="table-container__title">
                         <h5>People -- {course_name}({course_code})</h5>
                     </div>
-                    <h5 style={{ padding: '10px', fontFamily: 'roboto' }}>Teacher</h5>
+                    <h5 style={{ padding: '12px',marginLeft:'5px',fontWeight:'bold' }}>Teacher</h5>
                     <table style={{ outline: 'none', border: 'none' }} className={tableClass}>
                         <thead>
                             <tr>
@@ -131,9 +123,9 @@ function PeopleList({ match }) {
 
                             <tr>
                                 <td style={{ outline: 'none' }} data-heading="Photo">
-                                    {techInfo.profile_photo ? (
+                                    {techInfo?.profile_photo ? (
                                         <img style={{ borderRadius: '150px', height: '40px', width: '40px' }}
-                                            src={techInfo.profile_photo} />
+                                            src={techInfo?.profile_photo} />
                                     ) : (
                                         <img style={{ borderRadius: '150px', height: '40px', width: '40px' }}
                                             src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/s75-c-fbw=1/photo.jpg" />
@@ -142,8 +134,8 @@ function PeopleList({ match }) {
 
                                 </td>
 
-                                <td data-heading="Student Name">{techInfo.name} </td>
-                                <td data-heading="Student Email"><span style={{ fontSize: '11.5px' }}>{techInfo.email}</span> </td>
+                                <td data-heading="Student Name">{techInfo?.name} </td>
+                                <td data-heading="Student Email"><span style={{ fontSize: '11.5px' }}>{techInfo?.email}</span> </td>
 
                             </tr>
 
@@ -155,39 +147,43 @@ function PeopleList({ match }) {
 
                     <br />
                     {data.length ? (
-                        <table style={{ outline: 'none', border: 'none' }} className={tableClass}>
-                            <thead>
-                                <tr>
-                                    {headingColumns.map((col, index) => (
-                                        <th data-heading={index} key={index}>{col}</th>
+                        <div>
+                            <h5 style={{ padding: '10px', marginLeft:'5px',fontWeight:'bold' }}>Student</h5>
 
-                                    ))}
+                            <table style={{ outline: 'none', border: 'none' }} className={tableClass}>
+                                <thead>
+                                    <tr>
+                                        {headingColumns.map((col, index) => (
+                                            <th data-heading={index} key={index}>{col}</th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
+                                        ))}
 
-                                {data.map((val, index) => (
-                                    <tr key={val.student_name}>
-                                        {console.log(data)}
-                                        <td style={{ outline: 'none' }} data-heading="Photo">
-                                            {val.photo ? (
-                                                <img style={{ borderRadius: '150px', height: '40px', width: '40px' }}
-                                                    src={val.photo} />
-                                            ) : (
-                                                <img style={{ borderRadius: '150px', height: '40px', width: '40px' }}
-                                                    src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/s75-c-fbw=1/photo.jpg" />
-                                            )}
-                                        </td>
-                                        <td style={{ outline: 'none' }} data-heading="Student ID">{val.student_id}</td>
-                                        <td data-heading="Student Name">{val.student_name} </td>
-                                        <td data-heading="Student Email">
-                                            <span style={{ fontSize: '11.5px' }}>{val.email}</span>
-                                        </td>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+
+                                    {data.map((val, index) => (
+                                        <tr key={val.student_name}>
+                                            {console.log(data)}
+                                            <td style={{ outline: 'none' }} data-heading="Photo">
+                                                {val.photo ? (
+                                                    <img style={{ borderRadius: '150px', height: '40px', width: '40px' }}
+                                                        src={val.photo} />
+                                                ) : (
+                                                    <img style={{ borderRadius: '150px', height: '40px', width: '40px' }}
+                                                        src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/s75-c-fbw=1/photo.jpg" />
+                                                )}
+                                            </td>
+                                            <td style={{ outline: 'none' }} data-heading="Student ID">{val.student_id}</td>
+                                            <td data-heading="Student Name">{val.student_name} </td>
+                                            <td data-heading="Student Email">
+                                                <span style={{ fontSize: '11.5px' }}>{val.email}</span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     ) : (
                         <div>
                             <Alert className="md-4 w-100" variant="danger">
@@ -196,9 +192,9 @@ function PeopleList({ match }) {
                         </div>
                     )}
                     <br />
-                    <div style={{ textAlign: 'center', paddingBottom: '5px' }}>
+                    {/* <div style={{ textAlign: 'center', paddingBottom: '5px' }}>
                         <Link to={`/attendance-sheet/${course_code}`}><span>Back to {course_code}</span></Link>
-                    </div>
+                    </div> */}
                 </div>
 
 
