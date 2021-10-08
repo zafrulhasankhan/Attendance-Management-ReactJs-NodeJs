@@ -6,7 +6,6 @@ var con = require('../config/dbconfig');
 //get all student data to make attendance sheet
 router.post("/sheet", function (req, res) {
     const course_code = req.body.course_code;
-    console.log(course_code);
     const sql = "select * from `course_wise_student-list` where course_code = ? order by student_id asc";
 
     con.query(sql, [course_code], (error, result) => {
@@ -15,7 +14,7 @@ router.post("/sheet", function (req, res) {
         }
         else {
             res.send(result)
-            //console.log(result)
+        
 
         }
     })
@@ -34,9 +33,7 @@ router.post("/check_classNum", function (req, res) {
             }
             else {
                 res.send(result)
-                // res.setHeader("Content-Type", "text/html");
-                console.log("class num check" + result.length);
-                //console.log(result[0].id);
+               
 
             }
         })
@@ -88,9 +85,9 @@ router.get('/attendance-report/:course_code', (req, res) => {
         if (err) {
             console.log(err)
         } else {
-            //console.log(result)
+            
             res.send(result);
-            //console.log(result)
+            
         }
     })
 })
@@ -99,7 +96,6 @@ router.get('/attendance-report/:course_code', (req, res) => {
 router.get('/datewise-attendance-report/:course_code/:date', (req, res) => {
     const course_code = req.params.course_code;
     const date = req.params.date;
-    console.log("code re" + course_code + date);
     con.query("select * from attendance_sheet where course_code = ? and date= ?", [course_code, date], (err, result) => {
         if (err) {
             console.log(err)
@@ -109,7 +105,7 @@ router.get('/datewise-attendance-report/:course_code/:date', (req, res) => {
             }else{
                 res.send({msg:"Attendance Not found "})
             }
-            //console.log(result)
+            
         }
     })
 })

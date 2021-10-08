@@ -116,14 +116,14 @@ const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_co
           <Col style={{ textAlign: 'center',padding:'10px' }}>
             <Dropdown>
               <Dropdown.Toggle  variant="default" style={{backgroundColor:'#FAEBD7'}} bsPrefix="p-0">
-                <span style={{padding:'17px',fontWeight:'bold'}}>Show Attendance report</span>
+                <span style={{padding:'17px',fontWeight:'bold'}}>Attendance report</span>
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1"><Link style={{textDecoration:'none',color:'black'}} to={`/attendance-report-by-id/${course_code}`}>Report by ID</Link></Dropdown.Item>
+                <Dropdown.Item ><Link style={{textDecoration:'inherit',color:'inherit'}} to={`/attendance-report-by-id/${course_code}`}>Report by ID</Link></Dropdown.Item>
                 <Dropdown.Divider />
-                <Dropdown.Item href="#/action-2"> <Link to={`/attendance-report-by-date/${course_code}`}>Report by date</Link></Dropdown.Item>
+                <Dropdown.Item > <Link style={{textDecoration:'inherit',color:'inherit'}} to={`/attendance-report-by-date/${course_code}`}>Report by date</Link></Dropdown.Item>
                 <Dropdown.Divider />
-                <Dropdown.Item href="#/action-3"><Link to={`/attendance-report-by-course/${course_code}`}>Report by All </Link></Dropdown.Item>
+                <Dropdown.Item ><Link style={{textDecoration:'inherit',color:'inherit'}} to={`/attendance-report-by-course/${course_code}`}>Report by All </Link></Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </Col>
@@ -163,7 +163,7 @@ const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_co
                   <input type="text" hidden name="student_name" placeholder="student_name" value={data.student_name} />
                 </td>
                 <td data-heading="Student Email" >
-                  <span style={{ fontSize: '11.5px' }}>{data.email}</span>
+                  <span style={{ fontSize: '12px' }}>{data.email}</span>
                   <input type="text" hidden name="student_email" placeholder="student_email" value={data.email} />
                 </td>
                 <td data-heading="Present"  >

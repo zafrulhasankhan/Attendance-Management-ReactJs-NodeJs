@@ -24,9 +24,12 @@ function Attendance_report_by_date({ match }) {
     }
     const headingColumns = ['Student ID', 'Name', 'Email', 'Attendance Status']
     const [attendanceData, setAttendanceData] = useState([]);
-
+    const [course_name, setcourse_name] = useState("");
 
     useEffect(() => {
+        axios.get(`/course/info/${course_code}`).then((result) => {
+            setcourse_name(result.data[0].course_name)
+        })
         SearchHandle();
     }, [])
 
@@ -81,20 +84,25 @@ function Attendance_report_by_date({ match }) {
 
 
                     }}>
-                        <Card className="card bg-white" style={{ borderRadius: '10px' }}>
-                            <Card.Body style={{ borderRadius: '10px', textAlign: 'left' }}>
-                                <h5 className="text-center mb-2">&ensp;Attendance report by Date&ensp;</h5>
-                                <form id="attend_sheet_form" onSubmit={SearchHandle}><br />
-                                    <Form.Group className="mb-3" controlId="formGroupEmail">
-                                        <Form.Label style={{ fontWeight: 'bold' }}>Enter Date:</Form.Label>
-                                        <Form.Control type="date" required id="search" style={{ textTransform: 'uppercase' }} placeholder="Enter Student ID" /><br></br>
-                                        <Button type="submit" id="submit_button" className="btn btn-secondary">Submit</Button>
-                                    </Form.Group>
-                                </form>
+                        <div className="table-container" style={{ backgroundColor: 'white', maxWidth: '350px' }}>
+                            <div className="table-container__title">
+                                <h5 style={{fontSize:'18px'}}>{course_name}({course_code})</h5>
+                            </div>
+                            <Card className="card bg-white" style={{ borderRadius: '10px' }}>
+                                <Card.Body style={{ borderRadius: '10px', textAlign: 'left' }}>
+                                    <h5 style={{fontSize:'17px'}} className="text-center mb-2">&ensp;Attendance report by Date&ensp;</h5>
+                                    <form id="attend_sheet_form" onSubmit={SearchHandle}><br />
+                                        <Form.Group className="mb-3" controlId="formGroupEmail">
+                                            <Form.Label style={{ fontWeight: 'bold' }}>Enter Date:</Form.Label>
+                                            <Form.Control type="date" required id="search" style={{ textTransform: 'uppercase' }} placeholder="Enter Student ID" /><br></br>
+                                            <Button type="submit" id="submit_button" className="btn btn-primary">Submit</Button>
+                                        </Form.Group>
+                                    </form>
 
-                            </Card.Body>
-                            <Link to={`/attendance-sheet/${course_code}`} style={{ textAlign: 'center', marginTop: '-10px', marginBottom: '10px' }}><span>Back to {course_code}</span></Link>
-                        </Card>
+                                </Card.Body>
+                                <Link to={`/attendance-sheet/${course_code}`} style={{ textAlign: 'center', marginTop: '-10px', marginBottom: '10px' }}><span>Back to {course_code}</span></Link>
+                            </Card>
+                        </div>
                         <br />
 
                     </Container>
@@ -106,8 +114,10 @@ function Attendance_report_by_date({ match }) {
 
 
                     {attendanceData?.map((val1, index1) => (
-                        <div className="table-container">
-                            <h1>Today's Class No. -{index1 + 1}</h1>
+                        <div className="table-container" style={{ backgroundColor: 'white' }}>
+                            <div className="table-container__title">
+                                <h5 style={{fontSize:'18px'}}>Class Number : {index1 + 1}</h5>
+                            </div>
                             <table className={tableClass}>
                                 <thead>
                                     <tr>

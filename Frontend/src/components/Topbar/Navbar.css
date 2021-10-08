@@ -6,3 +6,11 @@
   #dropdown-basic::after{
     display: none; 
  }
+ .nav-link{
+   color: red;
+   
+ }
+.nav-link:hover{
+ color: red;
+ /* background: white; */
+ }

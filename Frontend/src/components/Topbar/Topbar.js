@@ -27,18 +27,18 @@ function Topbar() {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                     <Nav.Link ><Link to="/">Home</Link></Nav.Link>
+                     <Nav.Link className="nav-link" ><Link style={{textDecoration:'inherit',color:'inherit'}} to="/">Home</Link></Nav.Link>
                         {currentUser ? (
                         <NavDropdown title="Join or create" caret={false} id="collasible-nav-dropdown">
-                            <NavDropdown.Item ><Link to="/join-course">Join Course</Link></NavDropdown.Item>
+                            <NavDropdown.Item ><Link style={{textDecoration:'none',color:'black'}} to="/join-course">Join Course</Link></NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item><Link to="/add-course">Add Course</Link></NavDropdown.Item>
+                            <NavDropdown.Item><Link style={{textDecoration:'none',color:'black'}} to="/add-course">Add Course</Link></NavDropdown.Item>
                         </NavDropdown>
                             
                         ):""}
                         {currentUser ? (
                         
-                            <Nav.Link  onClick={handleLogout}><Link to="/login">Logout</Link></Nav.Link>
+                            <Nav.Link className="nav-link" onClick={handleLogout}><Link style={{textDecoration:'inherit',color:'inherit'}} to="/login">Logout</Link></Nav.Link>
                        
                     ) : ""}
                     </Nav>
@@ -54,10 +54,9 @@ function Topbar() {
 
                             <Nav.Link href="#pricing"> <img style={{ borderRadius: '150px', height: '40px', width: '40px' }}
                                 src={currentUser?.photoURL} /></Nav.Link>
-
                             <Nav.Link href="#pricing" style={{ padding: '2px' }}>
-                                <span style={{ fontSize: "13px", padding: '0px' }}>{currentUser?.displayName}</span>
-                                <br /><span style={{ fontSize: "12px", padding: '0px' }}>{currentUser?.email}</span>
+                                <span style={{ fontSize: "14px", padding: '0px' }}>{currentUser?.displayName}</span>
+                                <br /><span style={{ fontSize: "13px", padding: '0px' }}>{currentUser?.email}</span>
                             </Nav.Link>
 
                         </Nav>

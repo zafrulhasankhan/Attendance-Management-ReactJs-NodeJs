@@ -11,6 +11,7 @@ function Attendance_report_by_course({ match }) {
     const { currentUser } = useAuth();
     const history = useHistory();
     const [msg, setMsg] = useState("");
+    const [course_name, setcourse_name] = useState("");
 
 
     var breakOn = 'medium'
@@ -31,16 +32,21 @@ function Attendance_report_by_course({ match }) {
     const [studentEmail, setStudentEmail] = useState([]);
     var present = 0;
     useEffect(() => {
+        axios.get(`/course/info/${course_code}`).then((result) => {
+            setcourse_name(result.data[0].course_name)
+        })
 
         SearchHandle();
 
     }, [])
+   
     let SearchHandle = () => {
 
         // check your courses exists or not 
         axios.get(`/course/joinedCourses/${currentUser.email}`)
             .then((res) => {
                 let courses = [];
+                console.log(res);
                 for (let i = 0; i < res.data.length; i++) {
                     courses.push(res.data[i].course_code);
                 }
@@ -115,8 +121,12 @@ function Attendance_report_by_course({ match }) {
                     {data.length ? (
 
 
-                        <div className="table-container">
-                            <h3>this is course wise attendance report</h3>
+                        <div className="table-container" style={{ backgroundColor: 'white',fontFamily:'roboto' }}>
+                            <div className="table-container__title">
+                                <h5>Attendance report -- {course_name}({course_code})</h5>
+                            </div>
+
+                            <br />
                             <table className={tableClass}>
                                 <thead>
                                     <tr>
@@ -134,7 +144,7 @@ function Attendance_report_by_course({ match }) {
 
                                             <td data-heading="Student ID">{studentID[index]}</td>
                                             <td data-heading="Student Name">{studentName[index]} </td>
-                                            <td data-heading="Student Email"><span style={{fontSize:'11.5px'}}>{studentEmail[index]}</span> </td>
+                                            <td data-heading="Student Email"><span style={{ fontSize: '11.5px' }}>{studentEmail[index]}</span> </td>
                                             <td data-heading="Presented Class ">
                                                 {present = data.reduce(
                                                     (total, current) => total + (JSON.parse(current.attendance_data))
@@ -142,10 +152,14 @@ function Attendance_report_by_course({ match }) {
                                             </td>
                                             <td data-heading="Total Class"> {totalClass}</td>
                                             <td data-heading="Percentage"> {((present * 100) / totalClass).toFixed(2)} %</td>
+                                        
                                         </tr>
                                     ))}
                                 </tbody>
-                            </table>
+                            </table><br/>
+                            <div style={{ textAlign: 'center', paddingBottom: '5px',fontFamily:'roboto' }}>
+                                <Link to={`/attendance-sheet/${course_code}`}><span>Back to {course_code}</span></Link>
+                            </div>
                         </div>
                     ) : (
                         <h1>

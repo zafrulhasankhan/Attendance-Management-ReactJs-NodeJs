@@ -20,15 +20,16 @@ import Fillup_info from "./studentPart/Fillup_info";
 import NotFound from "../NotFound";
 import Topbar from './Topbar/Topbar';
 import { useAuth } from "../contexts/AuthContext"
+import PeopleList from "./People/PeopleList"
 function App() {
 
   return (
     <>
-      
+
       <Router>
-      <AuthProvider>
-        <Topbar  />
-      </AuthProvider>
+        <AuthProvider>
+          <Topbar />
+        </AuthProvider>
         <Container
           className="d-flex align-items-center justify-content-center"
           style={{ minHeight: "100vh", backgroundColor: '#F3F4F6' }}
@@ -39,11 +40,11 @@ function App() {
             <AuthProvider>
 
               <Switch>
-
+                <Route path="/login" component={Signup} />
+                <PrivateRoute exact path="/people/:course_code" component={PeopleList} />
                 <PrivateRoute exact path="/" component={JoinedCourses} />
                 <PrivateRoute path="/update-profile" component={UpdateProfile} />
                 <PrivateRoute path="/home/:course_code" component={Home} />
-                <Route path="/login" component={Signup} />
                 {/* <Route path="/fillup-info/:email" component={Fillup_info} /> */}
                 <PrivateRoute path="/forgot-password" component={ForgotPassword} />
                 <PrivateRoute path="/join-course" component={JoinCourse} />

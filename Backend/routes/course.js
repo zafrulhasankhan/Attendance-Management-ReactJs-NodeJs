@@ -16,9 +16,9 @@ router.post("/add", function (req, res) {
                 if (err) {
                     console.log(err)
                 } else {
-                    //console.log(result)
+                    
                     res.send(result);
-                    //console.log(result)
+                    
                 }
             })
 
@@ -57,13 +57,20 @@ router.post("/join", function (req, res) {
     const student_id = req.body.student_Id;
 
     con.query("select * from course_list where course_pin = ?", [pin], (err, result) => {
-        if (err) {
-            console.log(err)
-        } else {
+        
+        if (!result.length) {
+            res.send({ msg:"not found" });
+            return null;
+        }
+        var rows = result.length ? (JSON.parse(JSON.stringify(result[0]))):("");
+        if(rows.email === student_email){
+            res.send({ msg: "Are you crazy man , you are the teacher of this course" })
+        }else{
+            
 
             if (result.length) {
 
-                con.query("select student_id from `course_wise_student-list` where email = ? and course_code = ? ", [student_email, course_code], (err, result2) => {
+                con.query("select student_id from `course_wise_student-list` where email = ? and course_code = ? ", [student_email, rows.course_code], (err, result2) => {
 
                     // var rows = JSON.parse(JSON.stringify(result[0]));
                     if (!result2.length) {
@@ -123,7 +130,6 @@ router.get("/info/:code", function (req, res) {
 })
 
 router.get("/count/:code", function (req, res) {
-console.log(req.params.code+"dh");
     const code = req.params.code;
     con.query("select * from `course_wise_student-list` where course_code = ?", [code], (err, result) => {
 

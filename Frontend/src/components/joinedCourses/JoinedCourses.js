@@ -126,7 +126,7 @@ const JoinedCourses = () => {
               />
             </div>
             <div className="joined__bottom">
-              <PermContactCalendar />
+              <Link to={`/people/${data}`} style={{textDecoration:'inherit',color:'inherit'}}><PermContactCalendar /></Link>
               <FolderOpen />
               {/* <p>&ensp;Total students: {counter[i]}</p> */}
             </div>

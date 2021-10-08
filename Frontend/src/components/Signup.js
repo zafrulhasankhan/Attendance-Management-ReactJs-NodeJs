@@ -43,31 +43,19 @@ export default function Signup() {
 
   const handleOnclick = async (provider) => {
     const res = await socialMediaAuth(provider);
-    //  setData(res?.providerData[0]);
     console.log(res?.providerData[0].email);
     axios.post('/register', {
       name: res?.providerData[0]?.displayName,
       email: res?.providerData[0]?.email,
       profile_photo: res?.providerData[0]?.photoURL
     }).then((result) => {
-      console.log("result" + result);
+      console.log("result" + result.data.length);
       if (result.data.length) {
         history.push("/");
       }
       else {
         history.push("/signup")
       }
-
-      // axios.get(`/check-id/${res?.providerData[0].email}`)
-      //   .then((res) => {
-      //     if (res.data.length) {
-      //       history.push("/")
-      //     }
-      //     else {
-      //       history.push(`/fillup-info/${res?.providerData[0].email}`)
-      //     }
-      //   })
-
 
     }).catch((err) => console.log(err))
 
@@ -88,9 +76,9 @@ export default function Signup() {
         <Card className=" h-600 card text-center bg-white">
           <Card.Body>
             <h2 className="text-center mb-4">Login</h2>
-            <a className="button button--social-login button--google" onClick={() => handleOnclick(facebookProvider)}><FaGoogle className="icon fa fa-google" />Login with Google</a>
+            <a className="button button--social-login button--google" onClick={() => handleOnclick(googleProvider)}><FaGoogle className="icon fa fa-google" />Login with Google</a>
             <a className="button button--social-login button--github" onClick={() => handleOnclick(githubProvider)}><FaGithub className="icon fa fa-github" />Login with GitHub</a>
-            <a className="button button--social-login button--facebook" onClick={() => handleOnclick(googleProvider)}><FaFacebookF className="icon fa fa-facebook" />Login with Facebook</a>
+            <a className="button button--social-login button--facebook" onClick={() => handleOnclick(facebookProvider)}><FaFacebookF className="icon fa fa-facebook" />Login with Facebook</a>
 
           </Card.Body>
         </Card>

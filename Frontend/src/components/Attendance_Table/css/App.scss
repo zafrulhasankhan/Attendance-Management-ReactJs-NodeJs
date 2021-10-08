@@ -9,6 +9,7 @@ $ff-primary: 'Poppins', sans-serif;
 
 
 @mixin break {
+
   thead {
     display: none;
   }
@@ -16,6 +17,7 @@ $ff-primary: 'Poppins', sans-serif;
   tr {
     display: block;
     margin-bottom: 5px;
+    // background-color: white;
   }
 
   td {
@@ -24,8 +26,8 @@ $ff-primary: 'Poppins', sans-serif;
     padding-left: 130px;
     text-align: left;
     border-bottom: 0;
-  
-
+    // background-color: white;
+   
 
     &:last-child {
       border-bottom: 1px solid $border-color;
@@ -74,16 +76,17 @@ body {
 }
 
 .table-container {
-  max-width: 900px;
+  max-width: auto;
   width: 90%;
   margin: 0 auto 40px;
 
   &__title {
     background-color: #174ea6;
+    // background-color: dimgray;
     color: $light-color;
     text-align: center;
     padding: 0.1px;
-    border-radius: 5px;
+    border-radius: 10px;
 
     h2 {
       font-size: 24px;
