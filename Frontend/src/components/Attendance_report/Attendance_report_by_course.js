@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button,Alert } from 'react-bootstrap';
 import $ from 'jquery';
 import axios from '../../config/axios';
 import '../Attendance_Table/css/App.scss';
@@ -37,7 +37,7 @@ function Attendance_report_by_course({ match }) {
         SearchHandle();
 
     }, [])
-   
+
     let SearchHandle = () => {
 
         // check your courses exists or not 
@@ -76,26 +76,26 @@ function Attendance_report_by_course({ match }) {
 
                         var ID = Array.from(new Set(student_id));
                         setStudentID(ID);
-                        console.log("id"+ID.length);
+                        console.log("id" + ID.length);
                         ID.forEach(async (item, index) => {
-                           
+
                             try {
-                              const result2 = await axios.get(`/student-details/${item}/${course_code}`);
-                              const student_name = result2.data[0]?.student_name;
-                              const student_id = result2.data[0]?.student_id;
-                              const student_email = result2.data[0].email;
-                  
-                               console.log( result2);
-                              setStudentID(data => data.map(
-                                (el, i) => i === index
-                                  ? ({ ...el,student_id,student_name,student_email})
-                                  : el)
-                              )
+                                const result2 = await axios.get(`/student-details/${item}/${course_code}`);
+                                const student_name = result2.data[0]?.student_name;
+                                const student_id = result2.data[0]?.student_id;
+                                const student_email = result2.data[0].email;
+
+                                console.log(result2);
+                                setStudentID(data => data.map(
+                                    (el, i) => i === index
+                                        ? ({ ...el, student_id, student_name, student_email })
+                                        : el)
+                                )
                             } catch (error) {
-                              // log error, etc...
+                                // log error, etc...
                             }
-                          });
-                  
+                        });
+
                         setMsg("Found")
 
                     }).catch((err) => console.log(err))
@@ -109,13 +109,13 @@ function Attendance_report_by_course({ match }) {
 
     return (
         <div>
-        
+
             {msg ? (
                 <div>
                     {data.length ? (
 
 
-                        <div className="table-container" style={{ backgroundColor: 'white',fontFamily:'roboto' }}>
+                        <div className="table-container" style={{ backgroundColor: 'white', fontFamily: 'roboto' }}>
                             <div className="table-container__title">
                                 <h5>Attendance report -- {course_name}({course_code})</h5>
                             </div>
@@ -146,19 +146,27 @@ function Attendance_report_by_course({ match }) {
                                             </td>
                                             <td data-heading="Total Class"> {totalClass}</td>
                                             <td data-heading="Percentage"> {((present * 100) / totalClass).toFixed(2)} %</td>
-                                        
+
                                         </tr>
                                     ))}
                                 </tbody>
-                            </table><br/>
-                            <div style={{ textAlign: 'center', paddingBottom: '5px',fontFamily:'roboto' }}>
+                            </table><br />
+                            <div style={{ textAlign: 'center', paddingBottom: '5px', fontFamily: 'roboto' }}>
                                 <Link to={`/attendance-sheet/${course_code}`}><span>Back to {course_code}</span></Link>
                             </div>
                         </div>
                     ) : (
-                        <h1>
-                            Attendance report not yet found
-                        </h1>
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            fontSize: '17px'
+
+                        }}>
+                            <Alert className="alert col-md-6 text-center br-5" variant="dark">
+                                <h3>No Attendance reported on this Course</h3>
+                            </Alert>
+                        </div>
                     )}
                 </div>
             ) : ""}

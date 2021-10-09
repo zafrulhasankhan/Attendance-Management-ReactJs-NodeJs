@@ -12,6 +12,7 @@ function PeopleList({ match }) {
     const history = useHistory();
     const [msg, setMsg] = useState("");
     const [course_name, setcourse_name] = useState("");
+    const [Total_student, setTotalStudent] = useState("");
 
 
     var breakOn = 'medium'
@@ -59,6 +60,13 @@ function PeopleList({ match }) {
                 }
             });
 
+            //count student number
+             axios.get(`/course/count/${course_code}`)
+             .then((res_stu_count)=>{
+                 setTotalStudent(res_stu_count.data.length);
+             })
+           
+
             // teacher info retrieve
             axios.get(`course/info/${course_code}`)
             .then((res)=>{
@@ -104,7 +112,7 @@ function PeopleList({ match }) {
 
                 <div className="table-container" style={{ backgroundColor: 'white' }}>
                     <div className="table-container__title">
-                        <h5>People -- {course_name}({course_code})</h5>
+                        <h5>People -- {course_name} ({course_code})</h5>
                     </div>
                     <h5 style={{ padding: '12px',marginLeft:'5px',fontWeight:'bold' }}>Teacher</h5>
                     <table style={{ outline: 'none', border: 'none' }} className={tableClass}>
@@ -148,7 +156,7 @@ function PeopleList({ match }) {
                     <br />
                     {data.length ? (
                         <div>
-                            <h5 style={{ padding: '10px', marginLeft:'5px',fontWeight:'bold' }}>Student</h5>
+                            <h5 style={{ padding: '10px', marginLeft:'5px',fontWeight:'bold' }}>Student ({Total_student})</h5>
 
                             <table style={{ outline: 'none', border: 'none' }} className={tableClass}>
                                 <thead>
@@ -186,8 +194,8 @@ function PeopleList({ match }) {
                         </div>
                     ) : (
                         <div>
-                            <Alert className="md-4 w-100" variant="danger">
-                                No Student add to this course yet
+                            <Alert className="md-4 w-100" variant="dark">
+                                No Student have been added yet
                             </Alert>
                         </div>
                     )}

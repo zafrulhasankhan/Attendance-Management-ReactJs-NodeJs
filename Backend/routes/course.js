@@ -16,9 +16,9 @@ router.post("/add", function (req, res) {
                 if (err) {
                     console.log(err)
                 } else {
-                    
+
                     res.send(result);
-                    
+
                 }
             })
 
@@ -33,17 +33,41 @@ router.post("/add", function (req, res) {
 router.post("/update", function (req, res) {
 
     const course_code = (req.body.course_code).toUpperCase();
+    const prev_course_code = (req.body.prev_course_code).toUpperCase();
     const course_name = req.body.course_name;
+    const sql_course_check = "SELECT * FROM `course_wise_student-list` WHERE course_code = ?"
+    const sql_course_check_attend = "SELECT id FROM `attendance_sheet` WHERE course_code = ?"
     const sql_course_update = "update `course_list` set course_code = ? ,course_name=? WHERE course_code = ?";
-    con.query(sql_course_update, [course_code,course_name,course_code], (error, result) => {
-      console.log(result);
-        if(error){
-          res.send({msg:'Something wrong,Try Again.'})
-        }
-    //   }else{
-    //       res.send({msg:"Something wrong"})
-    //   }
-    })
+    const sql_course_update_cwl = "update `course_wise_student-list` set course_code = ? WHERE course_code = ?";
+    const sql_course_update_attend = "update `attendance_sheet` set course_code = ? WHERE course_code = ?";
+    con.query(sql_course_update, [course_code, course_name, prev_course_code], (error, result) => {
+       
+        if (result) {
+            con.query(sql_course_check, [prev_course_code], (error, result0) => {
+                if (result0.length) {
+                    con.query(sql_course_update_cwl, [course_code, prev_course_code], (error, result1) => {
+                        if (error) {
+                            res.send({ msg: 'Something wrong,Try Again.' })
+                        }
+                    })
+                }
+            })
+
+            con.query(sql_course_check_attend, [prev_course_code], (error, result2) => {
+                if (result2.length) {
+                    con.query(sql_course_update_attend, [course_code, prev_course_code], (error, result3) => {
+                        if (error) {
+                            res.send({ msg: 'Something wrong,Try Again.' })
+                        }
+                    })
+                }
+            })
+
+              res.send({successMsg:"Successfully updated"})
+              }else{
+                  res.send({errorMsg:"Something wrong"})
+              }
+        })
 })
 
 
@@ -57,7 +81,7 @@ router.get("/joinedCourses/:email", function (req, res) {
             if (result.length) {
                 res.send(result);
             } else {
-                res.send({ msg: "Any courses not yet logged in" })
+                res.send({ msg: "You have not yet associated to any courses" })
             }
 
         }
@@ -73,16 +97,16 @@ router.post("/join", function (req, res) {
     const student_id = req.body.student_Id;
 
     con.query("select * from course_list where course_pin = ?", [pin], (err, result) => {
-        
+
         if (!result.length) {
-            res.send({ msg:"not found" });
+            res.send({ msg: "Course not found" });
             return null;
         }
-        var rows = result.length ? (JSON.parse(JSON.stringify(result[0]))):("");
-        if(rows.email === student_email){
+        var rows = result.length ? (JSON.parse(JSON.stringify(result[0]))) : ("");
+        if (rows.email === student_email) {
             res.send({ msg: "Are you crazy man , you are the teacher of this course" })
-        }else{
-            
+        } else {
+
 
             if (result.length) {
 
@@ -116,7 +140,7 @@ router.post("/join", function (req, res) {
                         })
                     }
                     else {
-                        res.send({ msg: "Student ID already Exists" })
+                        res.send({ msg: "Already Exists" })
                     }
                 })
 

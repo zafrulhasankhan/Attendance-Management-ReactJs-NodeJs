@@ -30,7 +30,7 @@ function Topbar() {
                      <Nav.Link className="nav-link" ><Link style={{textDecoration:'inherit',color:'inherit'}} to="/">Home</Link></Nav.Link>
                         {currentUser ? (
                         <NavDropdown title="Join or create" caret={false} id="collasible-nav-dropdown">
-                            <NavDropdown.Item ><Link style={{textDecoration:'none',color:'black'}} to="/join-course">Join Course</Link></NavDropdown.Item>
+                            <NavDropdown.Item  ><Link style={{textDecoration:'none',color:'black'}} to="/join-course">Join Course</Link></NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item><Link style={{textDecoration:'none',color:'black'}} to="/add-course">Add Course</Link></NavDropdown.Item>
                         </NavDropdown>

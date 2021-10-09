@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Container, FloatingLabel, Form } from 'react-bootstrap';
+import { Button, Card, Container, Alert, Form } from 'react-bootstrap';
 import $ from 'jquery';
 import axios from '../../config/axios';
 import '../Attendance_Table/css/App.scss';
@@ -62,7 +62,7 @@ function Attendance_report_by_id({ match }) {
                         axios.get(`student-details/${searchValue}/${course_code}`).then((res) => {
                             setStudentData(res.data[0]);
                             if (!res.data.length) {
-                                setMsg("ID not Found in this course")
+                                setMsg("Student ID not Found in this course")
                             }
                             else {
                                 setMsg("")
@@ -94,7 +94,19 @@ function Attendance_report_by_id({ match }) {
     }
     return (
         <div>
-            <h1>{msg}</h1>
+            {msg ? (
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    fontSize: '17px'
+
+                }}>
+                    <Alert className="alert col-md-3 text-center br-5" variant="dark">
+                        {msg}
+                    </Alert>
+                </div>
+            ) : ""}
 
             <Container className=" text-center p-20" style={{
                 display: 'flex',
@@ -103,25 +115,25 @@ function Attendance_report_by_id({ match }) {
 
 
             }}>
-                <div className="table-container" style={{ backgroundColor: 'white',maxWidth:'350px' }}>
+                <div className="table-container" style={{ backgroundColor: 'white', maxWidth: '350px' }}>
                     <div className="table-container__title">
-                        <h6 style={{fontSize:'18px'}}>{course_name}({course_code})</h6>
+                        <h6 style={{ fontSize: '18px' }}>{course_name}({course_code})</h6>
                     </div>
-                    
-                <Card className="card bg-white" style={{ borderRadius: '10px' }}>
-                    <Card.Body style={{ textAlign: 'left' }}>
-                        <h5 style={{fontSize:'17px'}} className="text-center mb-2">&ensp;Attendance report by ID &ensp;</h5>
-                        <form id="attend_sheet_form" onSubmit={SearchHandle}><br />
-                            <Form.Group className="mb-3" controlId="formGroupEmail">
-                                <Form.Label style={{ fontWeight: 'bold' }}>Student ID:</Form.Label>
-                                <Form.Control type="text" required id="search" style={{ textTransform: 'uppercase' }} placeholder="Enter Student ID" /><br></br>
 
-                                <Button type="submit" id="submit_button" className="btn btn-primary">Submit</Button>
-                            </Form.Group>
-                        </form>
-                    </Card.Body>
-                    <Link to={`/attendance-sheet/${course_code}`} style={{ textAlign: 'center', marginTop: '-10px', marginBottom: '10px' }}><span>Back to {course_code}</span></Link>
-                </Card>
+                    <Card className="card bg-white" style={{ borderRadius: '10px' }}>
+                        <Card.Body style={{ textAlign: 'left' }}>
+                            <h5 style={{ fontSize: '17px' }} className="text-center mb-2">&ensp;Attendance report by ID &ensp;</h5>
+                            <form id="attend_sheet_form" onSubmit={SearchHandle}><br />
+                                <Form.Group className="mb-3" controlId="formGroupEmail">
+                                    <Form.Label style={{ fontWeight: 'bold' }}>Student ID:</Form.Label>
+                                    <Form.Control type="text" required id="search" style={{ textTransform: 'uppercase' }} placeholder="Enter Student ID" /><br></br>
+
+                                    <Button type="submit" id="submit_button" className="btn btn-primary">Submit</Button>
+                                </Form.Group>
+                            </form>
+                        </Card.Body>
+                        <Link to={`/attendance-sheet/${course_code}`} style={{ textAlign: 'center', marginTop: '-10px', marginBottom: '10px' }}><span>Back to {course_code}</span></Link>
+                    </Card>
                 </div>
                 <br />
             </Container>
@@ -130,11 +142,11 @@ function Attendance_report_by_id({ match }) {
             {(StudentData) ? (
                 <div className="table-container" style={{ backgroundColor: 'white' }}>
                     <div className="table-container__title">
-                        <h5 style={{fontSize:'18px'}}>{course_name}({course_code})</h5>
+                        <h5 style={{ fontSize: '18px' }}>{course_name}({course_code})</h5>
 
                     </div>
 
-                    <table style={{borderRadius:'10px'}} className={tableClass}>
+                    <table style={{ borderRadius: '10px' }} className={tableClass}>
                         <thead>
                             <tr>
                                 {headingColumns.map((col, index) => (

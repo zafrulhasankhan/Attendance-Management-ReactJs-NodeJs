@@ -10,6 +10,8 @@ import { Height } from '@material-ui/icons';
 const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_code, course_name }) => {
 
   const [classNo, setClassNo] = useState(0);
+  const [msg, setMsg] = useState("");
+
   const history = useHistory()
 
   let tableClass = 'table-container__table';
@@ -62,7 +64,7 @@ const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_co
       $("#attend_sheet_form").on("submit", function (event) {
         document.getElementById('date').valueAsDate = new Date();
         var date = $('#date').val();
-
+       
 
         var data = [];
         $(this).find(".inputContainer tr").each(function () {
@@ -82,8 +84,14 @@ const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_co
             date: date
           }
           ).then((res) => {
-            console.log(res);
-            history.push("/");
+            
+            console.log(res.data.msg);
+            if(res.data.msg){
+             const success_para = "done";
+             history.push(`/not-found/${course_code}/${success_para}`);
+            }
+            
+            
           }).catch((err) => {
             console.log(err);
           })
@@ -104,22 +112,22 @@ const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_co
   return (
     <div className="table-container" style={{ backgroundColor: 'white' }}>
       <div className="table-container__title">
-        <h5>{course_name}({title})</h5>
+        <h5>Attendance Sheet --- {course_name} ({title})</h5>
       </div>
 
       <br />
 
-
+      
       <Container>
         <Row>
           <Col>Today's class No. : <span style={{ fontWeight: 'bold' }}>{classNo + 1}</span></Col>
-          <Col style={{ textAlign: 'center',padding:'10px' }}>
+          <Col style={{ textAlign: 'right',padding:'10px' }}>
             <Dropdown>
               <Dropdown.Toggle  variant="default" style={{backgroundColor:'#FAEBD7'}} bsPrefix="p-0">
                 <span style={{padding:'17px',fontWeight:'bold'}}>Attendance report</span>
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item ><Link style={{textDecoration:'inherit',color:'inherit'}} to={`/attendance-report-by-id/${course_code}`}>Report by ID</Link></Dropdown.Item>
+                <Dropdown.Item  ><Link style={{textDecoration:'inherit',color:'inherit'}} to={`/attendance-report-by-id/${course_code}`}>Report by ID</Link></Dropdown.Item>
                 <Dropdown.Divider />
                 <Dropdown.Item > <Link style={{textDecoration:'inherit',color:'inherit'}} to={`/attendance-report-by-date/${course_code}`}>Report by date</Link></Dropdown.Item>
                 <Dropdown.Divider />
@@ -127,17 +135,12 @@ const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_co
               </Dropdown.Menu>
             </Dropdown>
           </Col>
-          <Col>
-            <Form.Group className="offset-md-4" controlId="exampleForm.ControlInput1">
-              {/* <Form.Label ><b>Enter Date:</b></Form.Label> */}
-              <Form.Control type="date" required id="date" />
-            </Form.Group>
-          </Col>
+          
         </Row>
+        <Form.Control hidden type="date" name="date" id="date" required />
       </Container>
-
+      
       <form id="attend_sheet_form" onSubmit={handleSubmit}><br />
-
         <table striped bordered hover className={tableClass} >
           <thead>
             <tr>

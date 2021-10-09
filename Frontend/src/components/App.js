@@ -17,11 +17,13 @@ import add_course from "./add_course/Add_course"
 import JoinCourse from "./joinCourse/JoinCourse"
 import Home from "./studentPart/Home"
 import Fillup_info from "./studentPart/Fillup_info";
-import NotFound from "../NotFound";
+import Success from "../Success";
 import Topbar from './Topbar/Topbar';
 import { useAuth } from "../contexts/AuthContext"
 import PeopleList from "./People/PeopleList"
 import UpdateCourse from "./UpdateCourse/UpdateCourse";
+import NotFound from "./NotFound"
+
 function App() {
 
   return (
@@ -44,6 +46,7 @@ function App() {
                 <Route path="/login" component={Signup} />
                 <PrivateRoute exact path="/update-course/:course_code" component={UpdateCourse} />
                 <PrivateRoute exact path="/people/:course_code" component={PeopleList} />
+                <PrivateRoute exact path="/not-found" component={NotFound} />
                 <PrivateRoute exact path="/" component={JoinedCourses} />
                 <PrivateRoute path="/update-profile" component={UpdateProfile} />
                 <PrivateRoute path="/home/:course_code" component={Home} />
@@ -57,7 +60,7 @@ function App() {
                 <PrivateRoute exact path="/attendance-report-by-course/:course_code" component={Attendance_report_by_course} />
                 <PrivateRoute exact path="/dash" component={Dashboard} />
                 <PrivateRoute exact path="/add-course" component={add_course} />
-                <Route exact path="/not-found" component={NotFound} />
+                <Route exact path="/not-found/:course_code/:msg" component={Success} />
 
               </Switch>
             </AuthProvider>

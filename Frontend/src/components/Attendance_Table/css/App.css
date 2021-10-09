@@ -22,16 +22,17 @@ body {
 }
 
 .table-container {
-  max-width: 900px;
+  max-width: auto;
   width: 90%;
   margin: 0 auto 40px;
 }
 
 .table-container__title {
-  background-color: #e10600;
+  background-color: #174ea6;
   color: #fff;
   text-align: center;
-  padding: 10px;
+  padding: 0.1px;
+  border-radius: 10px;
 }
 
 .table-container__title h2 {

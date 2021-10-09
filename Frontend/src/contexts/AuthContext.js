@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react"
 import { auth } from "../config/firebase"
-
+import $ from 'jquery';
 const AuthContext = React.createContext()
 
 export function useAuth() {
@@ -10,8 +10,9 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState()
   const [loading, setLoading] = useState(true)
+  const [timer_val,setTimer_val] = useState(8000);
 
-  function signup(email, password) {
+ function signup(email, password) {
     return auth.createUserWithEmailAndPassword(email, password)
   }
 
@@ -35,6 +36,14 @@ export function AuthProvider({ children }) {
     return currentUser.updatePassword(password)
   }
 
+  function alertTimer(){
+    window.setTimeout(function() {
+          $(".alert").fadeTo(500, 0).slideUp(500, function(){
+              $(this).remove(); 
+          });
+      }, timer_val);
+  }
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       setCurrentUser(user)
@@ -52,6 +61,8 @@ export function AuthProvider({ children }) {
     resetPassword,
     updateEmail,
     updatePassword,
+    alertTimer,timer_val,
+    setTimer_val
     
   }
 

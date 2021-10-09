@@ -64,7 +64,7 @@
     -webkit-justify-content: space-between;
     justify-content: space-between;
     height: 4.5rem;
-    padding: 1rem 1rem 0.75rem;
+    padding: 1rem .5rem 0.75rem;
     position: relative;
    
   }
@@ -73,6 +73,8 @@
     color: white;
     font-family: "Roboto";
     text-decoration: none;
+   
+    
   }
   .joined__title {
     font-weight: 400;

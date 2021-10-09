@@ -63,14 +63,14 @@ router.post("/submit", function (req, res) {
                     console.log(error)
                 }
                 else {
-                    res.send(result)
-
+                    res.send({msg:"SuccessFully attendance submitted"})
+                    
 
                 }
             })
         }
         else {
-            res.send("Already exists")
+            res.send({msg:"Already exists this class number attendance"})
         }
     })
 
@@ -103,7 +103,7 @@ router.get('/datewise-attendance-report/:course_code/:date', (req, res) => {
             if (result.length) {
                 res.send(result);
             }else{
-                res.send({msg:"Attendance Not found "})
+                res.send({msg:"No Attendance reported on this date"})
             }
             
         }

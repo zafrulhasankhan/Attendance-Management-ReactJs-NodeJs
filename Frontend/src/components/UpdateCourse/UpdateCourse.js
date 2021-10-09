@@ -21,7 +21,7 @@ export default function UpdateCourse({ match }) {
     useEffect(() => {
 
         axios.get(`/course/info/${course_code}`).then((result) => {
-            setCourseName(result.data[0].course_name);
+            setCourseName(result.data[0]?.course_name);
             console.log(result.data);
         })
 
@@ -35,17 +35,18 @@ export default function UpdateCourse({ match }) {
 
             course_name: course_name_ref.current.value,
             course_code: course_code_ref.current.value,
-        // }).then((res) => {
+            prev_course_code: course_code,
+        }).then((res) => {
+            console.log(res.data);
             
-            // history.push("/");
-            // if (!res.data.msg) {
-            //     history.push("/")
-            // }
-            // else {
-            //     setMsg(res.data.msg)
-            // }
+            if (res.data.successMsg) {
+                history.push("/")
+            }
+            else {
+                setMsg(res.data.errorMsg)
+            }
         })
-        history.push("/");
+        //history.push("/");
 
         //     // if (course_code_ref.current.value !== passwordConfirmRef.current.value) {
         //     //   return setError("Passwords do not match")

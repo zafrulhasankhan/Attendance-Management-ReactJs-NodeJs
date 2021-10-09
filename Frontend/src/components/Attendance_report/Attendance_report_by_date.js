@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Form, Container } from 'react-bootstrap';
+import { Button, Card, Form, Container,Alert } from 'react-bootstrap';
 import $ from 'jquery';
 import axios from '../../config/axios';
 import '../Attendance_Table/css/App.scss';
@@ -76,7 +76,19 @@ function Attendance_report_by_date({ match }) {
         <div>
             {attendanceData ? (
                 <div>
-                    <h3>{msg}</h3>
+                    {msg ? (
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            fontSize: '17px'
+
+                        }}>
+                            <Alert className="alert col-md-3 text-center br-5" variant="dark">
+                                {msg}
+                            </Alert>
+                        </div>
+                    ) : ""}
                     <Container className=" text-center p-20" style={{
                         display: 'flex',
                         justifyContent: 'center',
@@ -86,11 +98,11 @@ function Attendance_report_by_date({ match }) {
                     }}>
                         <div className="table-container" style={{ backgroundColor: 'white', maxWidth: '350px' }}>
                             <div className="table-container__title">
-                                <h5 style={{fontSize:'18px'}}>{course_name}({course_code})</h5>
+                                <h5 style={{ fontSize: '18px' }}>{course_name}({course_code})</h5>
                             </div>
                             <Card className="card bg-white" style={{ borderRadius: '10px' }}>
                                 <Card.Body style={{ borderRadius: '10px', textAlign: 'left' }}>
-                                    <h5 style={{fontSize:'17px'}} className="text-center mb-2">&ensp;Attendance report by Date&ensp;</h5>
+                                    <h5 style={{ fontSize: '17px' }} className="text-center mb-2">&ensp;Attendance report by Date&ensp;</h5>
                                     <form id="attend_sheet_form" onSubmit={SearchHandle}><br />
                                         <Form.Group className="mb-3" controlId="formGroupEmail">
                                             <Form.Label style={{ fontWeight: 'bold' }}>Enter Date:</Form.Label>
@@ -116,7 +128,7 @@ function Attendance_report_by_date({ match }) {
                     {attendanceData?.map((val1, index1) => (
                         <div className="table-container" style={{ backgroundColor: 'white' }}>
                             <div className="table-container__title">
-                                <h5 style={{fontSize:'18px'}}>Class Number : {index1 + 1}</h5>
+                                <h5 style={{ fontSize: '18px' }}>Class Number : {index1 + 1}</h5>
                             </div>
                             <table className={tableClass}>
                                 <thead>
