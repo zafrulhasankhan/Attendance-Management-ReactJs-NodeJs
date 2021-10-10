@@ -1,7 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
-import { Link, useHistory } from 'react-router-dom';
-import { useAuth } from "../../contexts/AuthContext";
+import {  useHistory } from 'react-router-dom';
 import axios from '../../config/axios';
 import { Button } from 'react-bootstrap';
 

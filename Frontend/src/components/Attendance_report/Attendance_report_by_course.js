@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button,Alert } from 'react-bootstrap';
-import $ from 'jquery';
+import {Alert } from 'react-bootstrap';
 import axios from '../../config/axios';
 import '../Attendance_Table/css/App.scss';
 import { useAuth } from "../../contexts/AuthContext";
@@ -132,10 +131,13 @@ function Attendance_report_by_course({ match }) {
                                     </tr>
                                 </thead>
                                 <tbody>
-
+                                
                                     {studentID.map((val, index) => (
+                                        <>
+                                        
+                                        {(val.student_id)?(
                                         <tr>
-
+       
                                             <td data-heading="Student ID">{val.student_id}</td>
                                             <td data-heading="Student Name">{val.student_name} </td>
                                             <td data-heading="Student Email"><span style={{ fontSize: '11.5px' }}>{val.student_email}</span> </td>
@@ -148,6 +150,9 @@ function Attendance_report_by_course({ match }) {
                                             <td data-heading="Percentage"> {((present * 100) / totalClass).toFixed(2)} %</td>
 
                                         </tr>
+                                        ):""}
+                                        </>
+                                        
                                     ))}
                                 </tbody>
                             </table><br />

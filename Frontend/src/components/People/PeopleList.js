@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Alert } from 'react-bootstrap';
-import $ from 'jquery';
 import axios from '../../config/axios';
 import '../Attendance_Table/css/App.scss';
 import { useAuth } from "../../contexts/AuthContext";
-import { Link, useHistory } from 'react-router-dom';
 
 function PeopleList({ match }) {
     const course_code = match.params.course_code;
     const { currentUser } = useAuth();
-    const history = useHistory();
-    const [msg, setMsg] = useState("");
     const [course_name, setcourse_name] = useState("");
     const [Total_student, setTotalStudent] = useState("");
 
@@ -25,9 +21,9 @@ function PeopleList({ match }) {
         tableClass += ' table-container__table--break-lg';
     }
     const headingColumns = ['Photo', 'Student ID', 'Name', 'Email']
+    const headingColumns_with_action = ['Photo', 'Student ID', 'Name', 'Email', 'Action']
     const headingColumns2 = ['Photo', 'Name', 'Email']
     const [data, setData] = useState([]);
-    const [studentsPhoto, setStudentsPhoto] = useState([]);
     const [techInfo, setTechInfo] = useState([]);
 
 
@@ -61,60 +57,68 @@ function PeopleList({ match }) {
             });
 
             //count student number
-             axios.get(`/course/count/${course_code}`)
-             .then((res_stu_count)=>{
-                 setTotalStudent(res_stu_count.data.length);
-             })
-           
+            axios.get(`/course/count/${course_code}`)
+                .then((res_stu_count) => {
+                    setTotalStudent(res_stu_count.data.length);
+                })
+
 
             // teacher info retrieve
             axios.get(`course/info/${course_code}`)
-            .then((res)=>{
+                .then((res) => {
 
-             console.log(res?.data[0]?.email);
-            axios.get(`user-info/${res?.data[0]?.email}`)
-                .then((tecdata) => {
-                    console.log(tecdata.data);
-                    setTechInfo(tecdata.data[0]);
+                    console.log(res?.data[0]?.email);
+                    axios.get(`user-info/${res?.data[0]?.email}`)
+                        .then((tecdata) => {
+                            console.log(tecdata.data);
+                            setTechInfo(tecdata.data[0]);
 
+                        })
                 })
-            })
             //close teacher retrieve
 
-            let student_photo = [];
-            let promises = [];
-            for (let i = 0; i < result.data.length; i++) {
-                promises.push(
+            // let student_photo = [];
+            // let promises = [];
+            // for (let i = 0; i < result.data.length; i++) {
+            //     promises.push(
 
-                    axios.get(`/user-info/${result.data[i].email}`)
-                        .then((res) => {
-                            student_photo.push(res?.data[0]?.profile_photo)
-                        })
+            //         axios.get(`/user-info/${result.data[i].email}`)
+            //             .then((res) => {
+            //                 student_photo.push(res?.data[0]?.profile_photo)
+            //             })
 
-                )
+            //     )
 
-            }
-            Promise.all(promises).then(() => {
-                setStudentsPhoto(student_photo);
-            })
+            // }
+            // Promise.all(promises).then(() => {
+            //     setStudentsPhoto(student_photo);
+            // })
         }).catch((err) => console.log(err))
 
+
+    }
+
+    async function removebyTeacher(email) {
+        axios.post(`/course/removebyTeacher/${course_code}/${email}`)
+            .then((result) => {
+                console.log(result.data);
+            })
+        SearchHandle();
+        SearchHandle();
 
     }
 
 
     return (
         <div>
-            {/* {msg ? ( */}
+
             <div>
-
-
 
                 <div className="table-container" style={{ backgroundColor: 'white' }}>
                     <div className="table-container__title">
                         <h5>People -- {course_name} ({course_code})</h5>
                     </div>
-                    <h5 style={{ padding: '12px',marginLeft:'5px',fontWeight:'bold' }}>Teacher</h5>
+                    <h5 style={{ padding: '12px', marginLeft: '5px', fontWeight: 'bold' }}>Teacher</h5>
                     <table style={{ outline: 'none', border: 'none' }} className={tableClass}>
                         <thead>
                             <tr>
@@ -133,17 +137,17 @@ function PeopleList({ match }) {
                                 <td style={{ outline: 'none' }} data-heading="Photo">
                                     {techInfo?.profile_photo ? (
                                         <img style={{ borderRadius: '150px', height: '40px', width: '40px' }}
-                                            src={techInfo?.profile_photo} />
+                                            src={techInfo?.profile_photo} alt="" />
                                     ) : (
                                         <img style={{ borderRadius: '150px', height: '40px', width: '40px' }}
-                                            src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/s75-c-fbw=1/photo.jpg" />
+                                            src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/s75-c-fbw=1/photo.jpg" alt="" />
 
                                     )}
 
                                 </td>
 
-                                <td data-heading="Student Name">{techInfo?.name} </td>
-                                <td data-heading="Student Email"><span style={{ fontSize: '11.5px' }}>{techInfo?.email}</span> </td>
+                                <td data-heading="Teacher Name">{techInfo?.name} </td>
+                                <td data-heading="Teacher Email"><span style={{ fontSize: '11.5px' }}>{techInfo?.email}</span> </td>
 
                             </tr>
 
@@ -156,15 +160,26 @@ function PeopleList({ match }) {
                     <br />
                     {data.length ? (
                         <div>
-                            <h5 style={{ padding: '10px', marginLeft:'5px',fontWeight:'bold' }}>Student ({Total_student})</h5>
+                            <h5 style={{ padding: '10px', marginLeft: '5px', fontWeight: 'bold' }}>Student ({Total_student})</h5>
 
                             <table style={{ outline: 'none', border: 'none' }} className={tableClass}>
                                 <thead>
                                     <tr>
-                                        {headingColumns.map((col, index) => (
-                                            <th data-heading={index} key={index}>{col}</th>
+                                        {(currentUser.email !== techInfo.email) ? (
+                                            <>
+                                                {headingColumns.map((col, index) => (
+                                                    <th data-heading={index} key={index}>{col}</th>
 
-                                        ))}
+                                                ))}
+                                            </>
+                                        ) : (
+                                            <>
+                                                {headingColumns_with_action.map((col, index) => (
+                                                    <th data-heading={index} key={index}>{col}</th>
+
+                                                ))}
+                                            </>
+                                        )}
 
                                     </tr>
                                 </thead>
@@ -176,10 +191,10 @@ function PeopleList({ match }) {
                                             <td style={{ outline: 'none' }} data-heading="Photo">
                                                 {val.photo ? (
                                                     <img style={{ borderRadius: '150px', height: '40px', width: '40px' }}
-                                                        src={val.photo} />
+                                                        src={val.photo} alt="" />
                                                 ) : (
                                                     <img style={{ borderRadius: '150px', height: '40px', width: '40px' }}
-                                                        src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/s75-c-fbw=1/photo.jpg" />
+                                                        src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/s75-c-fbw=1/photo.jpg" alt="" />
                                                 )}
                                             </td>
                                             <td style={{ outline: 'none' }} data-heading="Student ID">{val.student_id}</td>
@@ -187,6 +202,12 @@ function PeopleList({ match }) {
                                             <td data-heading="Student Email">
                                                 <span style={{ fontSize: '11.5px' }}>{val.email}</span>
                                             </td>
+                                            {(currentUser.email === techInfo.email) ? (
+                                                <td data-heading="Action">
+                                                    <Button onClick={() => removebyTeacher(val.email)} className="btn btn-danger" style={{ fontSize: '11.5px' }}>Remove</Button>
+                                                </td>
+                                            ) : ""}
+
                                         </tr>
                                     ))}
                                 </tbody>
@@ -200,9 +221,6 @@ function PeopleList({ match }) {
                         </div>
                     )}
                     <br />
-                    {/* <div style={{ textAlign: 'center', paddingBottom: '5px' }}>
-                        <Link to={`/attendance-sheet/${course_code}`}><span>Back to {course_code}</span></Link>
-                    </div> */}
                 </div>
 
 

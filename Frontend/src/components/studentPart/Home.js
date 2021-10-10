@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from "../../contexts/AuthContext";
 import axios from '../../config/axios';
-import { Form, Button, Card, Alert, Container } from "react-bootstrap"
+import {   Card,  Container } from "react-bootstrap"
 import '../social.css/style.css';
 function Home({ match }) {
     const { currentUser } = useAuth();
@@ -59,7 +59,7 @@ function Home({ match }) {
                         <h3 className="text-center mb-4">Attendance report</h3>
                             <Link to={`/attendance-report-by-id/${course_code}`}><button className="button button--social-login button--id" >Attendance report by id</button></Link>&ensp;
                             <Link to={`/attendance-report-by-date/${course_code}`}><button className="button button--social-login button--date">Attendance report by date</button></Link>&ensp;
-                            <Link to={`/attendance-report-by-course/${course_code}`}><button className="button button--social-login button--course">Attendance report by course</button></Link>&ensp;
+                            {/* <Link to={`/attendance-report-by-course/${course_code}`}><button className="button button--social-login button--course">Attendance report by course</button></Link>&ensp; */}
                             <br/><br/>
                         </Card.Body>
                     </Card>

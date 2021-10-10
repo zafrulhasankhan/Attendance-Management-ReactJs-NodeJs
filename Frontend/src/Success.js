@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {Alert} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 function Success({match}) {

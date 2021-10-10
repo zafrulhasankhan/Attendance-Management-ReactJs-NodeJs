@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react"
-import { Form, Button, Card, Alert,Container } from "react-bootstrap"
+import { Form, Button, Card, Alert, Container } from "react-bootstrap"
 import { useAuth } from "../../contexts/AuthContext"
-import { Link, useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import axios from '../../config/axios';
 
 
@@ -9,7 +9,7 @@ export default function Add_course() {
 
   const course_name_ref = useRef()
   const course_code_ref = useRef()
-  const { signup, currentUser } = useAuth()
+  const { currentUser } = useAuth()
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const history = useHistory()
@@ -51,7 +51,19 @@ export default function Add_course() {
 
   return (
     <>
-      <h3>{msg}</h3>
+      {msg ? (
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          fontSize: '17px'
+
+        }}>
+          <Alert className="alert col-md-3 text-center br-5" variant="dark">
+            {msg}
+          </Alert>
+        </div>
+      ) : ""}
       <Container className=" text-center p-20" style={{
         display: 'flex',
         justifyContent: 'center',
@@ -66,7 +78,7 @@ export default function Add_course() {
               <Form.Group id="course_name">
                 <Form.Label style={{ fontWeight: 'bold' }}>Course name</Form.Label>
                 <Form.Control type="text" ref={course_name_ref} placeholder="Enter Course Name" required />
-              </Form.Group><br/>
+              </Form.Group><br />
               <Form.Group id="password">
                 <Form.Label style={{ fontWeight: 'bold' }}>Course code </Form.Label>
                 <Form.Control style={{ textTransform: 'uppercase' }} type="text" ref={course_code_ref} placeholder="Enter Course Code" required />
@@ -77,7 +89,7 @@ export default function Add_course() {
             </Form.Group> */}
               <Form.Group id="button">
                 <Button disabled={loading} type="submit">
-                &ensp;Add&ensp;
+                  &ensp;Add&ensp;
                 </Button>
               </Form.Group>
             </Form>

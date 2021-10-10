@@ -24,7 +24,7 @@ router.post("/add", function (req, res) {
 
         }
         else {
-            res.send({ msg: `${course_name} (${course_code}) already exists` })
+            res.send({ msg: `"${course_name} (${course_code})" already exists` })
         }
     })
 
@@ -104,7 +104,7 @@ router.post("/join", function (req, res) {
         }
         var rows = result.length ? (JSON.parse(JSON.stringify(result[0]))) : ("");
         if (rows.email === student_email) {
-            res.send({ msg: "Are you crazy man , you are the teacher of this course" })
+            res.send({ msg: "You are the teacher of the course that you are trying to enter" })
         } else {
 
 
@@ -246,4 +246,20 @@ router.post("/remove/:code", function (req, res) {
     })
 });
 
+router.post("/removebyTeacher/:code/:email", function (req, res) {
+    const course_code = req.params.code;
+    const email = req.params.email;
+    const sql_course_check_CWL = "SELECT id FROM `course_wise_student-list` WHERE course_code = ? and email =?";
+    const sql_course_Delete_CWL = "delete FROM `course_wise_student-list` WHERE course_code = ? and email=?";
+
+    con.query(sql_course_check_CWL, [course_code,email], (error, result3) => {
+        if (result3) {
+            con.query(sql_course_Delete_CWL, [course_code,email], (error, result1) => {
+                if (error) {
+                    console.log(error);
+                }
+            })
+        }
+    })
+});
 module.exports = router;

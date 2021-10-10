@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 import { Form, Button, Card, Alert, Container } from "react-bootstrap"
-import { useAuth } from "../../contexts/AuthContext"
-import { Link, useHistory } from "react-router-dom"
+import {  useHistory } from "react-router-dom"
 import axios from '../../config/axios';
 
 
@@ -11,14 +10,15 @@ export default function UpdateCourse({ match }) {
     console.log(course_code);
     const course_name_ref = useRef()
     const course_code_ref = useRef()
-    const { signup, currentUser } = useAuth()
-    const { error, setError } = useState()
+    const course_pin_ref = useRef(null)
+    const { error } = useState()
     const [CourseName, setCourseName] = useState("")
     const [CoursePin, setCoursePin] = useState("")
-    const [loading, setLoading] = useState(false)
+    const [loading] = useState(false)
     const history = useHistory()
     const [msg, setMsg] = useState("");
     const [type, setType] = useState("");
+    const [copySuccess, setCopySuccess] = useState('Click me for Copy Pin');
 
     useEffect(() => {
 
@@ -49,16 +49,21 @@ export default function UpdateCourse({ match }) {
                 setMsg(res.data.errorMsg)
             }
         })
-        
+
     }
 
-    function onMouseOver(e){
-     setType("text")
+    function onMouseOver(e) {
+        setType("text")
     }
-    function onMouseOut(e){
+    function onMouseOut(e) {
         setType("password")
     }
 
+    //copy pin
+    function copyToClipboard(e) {
+        navigator.clipboard.writeText(CoursePin);
+        setCopySuccess('Copied!');
+    };
 
     return (
         <>
@@ -85,8 +90,11 @@ export default function UpdateCourse({ match }) {
                             </Form.Group><br />
                             <Form.Group id="password-confirm">
                                 <Form.Label style={{ fontWeight: 'bold' }}>Course Pin</Form.Label>
-                                <Form.Control style={{ fontSize: '18px',fontWeight: 'bold',fontFamily:'Monospace'}} onMouseOver={(e) => onMouseOver(e)}
-                                    onMouseOut={(e) => onMouseOut(e)} type={type} defaultValue={CoursePin} readOnly disabled required />
+                                <Form.Control style={{ fontSize: '18px', fontWeight: 'bold', fontFamily: 'Monospace' }} onMouseOver={(e) => onMouseOver(e)}
+                                    onMouseOut={(e) => onMouseOut(e)} type={type} defaultValue={CoursePin} ref={course_pin_ref} readOnly disabled  required 
+                                    
+                                    />
+                                    <Form.Label style={{padding:'5px',cursor:'pointer'}} onClick={copyToClipboard}>{copySuccess}</Form.Label>
                             </Form.Group><br />
                             <Form.Group id="button">
                                 <Button disabled={loading} type="submit">

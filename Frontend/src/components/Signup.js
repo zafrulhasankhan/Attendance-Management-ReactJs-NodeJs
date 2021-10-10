@@ -1,45 +1,37 @@
-import React, { useRef, useState } from "react"
-import { Form, Button, Card, Alert, Container } from "react-bootstrap"
-import { useAuth } from "../contexts/AuthContext"
-import { Link, useHistory } from "react-router-dom"
+import React from "react"
+import {  Card,  Container } from "react-bootstrap"
+import {  useHistory } from "react-router-dom"
 import { facebookProvider, githubProvider, googleProvider } from '../config/authMethods';
 import socialMediaAuth from '../service/auth';
 import axios from '../config/axios';
 import { FaFacebookF, FaGoogle, FaGithub } from 'react-icons/fa';
 import './social.css/style.css';
-import Topbar from "./Topbar/Topbar";
-import { Nav, NavDropdown, Navbar } from "react-bootstrap"
+
 
 
 export default function Signup() {
 
-  const emailRef = useRef()
-  const passwordRef = useRef()
-  const passwordConfirmRef = useRef()
-  const { signup, currentUser } = useAuth()
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
   const history = useHistory()
 
-  async function handleSubmit(e) {
-    e.preventDefault()
+  // async function handleSubmit(e) {
+  //   e.preventDefault()
 
-    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError("Passwords do not match")
-    }
+  //   if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+  //     return setError("Passwords do not match")
+  //   }
 
-    try {
-      console.log(emailRef.current.value);
-      setError("")
-      setLoading(true)
-      await signup(emailRef.current.value, passwordRef.current.value)
-      history.push("/joinedCourses")
-    } catch {
-      setError("Failed to create Account")
-    }
+  //   try {
+  //     console.log(emailRef.current.value);
+  //     setError("")
+  //     setLoading(true)
+  //     await signup(emailRef.current.value, passwordRef.current.value)
+  //     history.push("/joinedCourses")
+  //   } catch {
+  //     setError("Failed to create Account")
+  //   }
 
-    setLoading(false)
-  }
+  //   setLoading(false)
+  // }
 
   const handleOnclick = async (provider) => {
     const res = await socialMediaAuth(provider);

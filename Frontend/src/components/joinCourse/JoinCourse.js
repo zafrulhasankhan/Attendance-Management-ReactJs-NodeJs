@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from '../../config/axios';
 import { Button, Form, Card, Container,Alert } from 'react-bootstrap';
 import $ from 'jquery';
-import { Link, useHistory } from "react-router-dom";
+import {  useHistory } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import { useScrollTrigger } from '@material-ui/core';
+
 
 
 function JoinCourse() {
 
-    const { currentUser,alertTimer } = useAuth();
+    const { currentUser } = useAuth();
     const history = useHistory();
     const [msg, setMsg] = useState("");
   
@@ -21,6 +21,11 @@ function JoinCourse() {
 
             var pin = $('#search').val();
             var student_Id = $('#ID').val();
+            var re_student_Id = $('#re_ID').val();
+            if(student_Id !== re_student_Id){
+                setMsg("Student ID's does not match")
+                return ;
+            }
             axios.post(`/course/join`, {
                 pin: pin,
                 student_name: currentUser.displayName,
@@ -76,6 +81,8 @@ function JoinCourse() {
 
                                 <Form.Label for="ID" style={{ fontWeight: 'bold' }}>Student ID: </Form.Label>
                                 <Form.Control type="text" required id="ID" style={{ textTransform: 'uppercase' }} placeholder="Enter Student ID" /><br />
+                                <Form.Label for="ID" style={{ fontWeight: 'bold' }}>Confirm Student ID: </Form.Label>
+                                <Form.Control type="text" required id="re_ID" style={{ textTransform: 'uppercase' }} placeholder="Confirm Student ID" /><br />
                                 <Button type="submit" id="submit_button" className="btn btn-primary">&ensp;Join&ensp;</Button>
                             </Form.Group>
                         </form>

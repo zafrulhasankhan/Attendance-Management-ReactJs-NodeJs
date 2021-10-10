@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useHistory,Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import $ from "jquery";
-import { Button, Form, Row, Container, Col, Dropdown, DropdownButton, MenuItem, ButtonToolbar } from 'react-bootstrap';
+import { Button, Form, Row, Container, Col, Dropdown } from 'react-bootstrap';
 import axios from '../../config/axios';
-import DropdownItem from 'react-bootstrap/esm/DropdownItem';
-import { Height } from '@material-ui/icons';
+import './css/App.scss';
+
 
 const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_code, course_name }) => {
 
   const [classNo, setClassNo] = useState(0);
-  const [msg, setMsg] = useState("");
+
 
   const history = useHistory()
 
@@ -26,7 +26,8 @@ const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_co
 
   //attendance data make to array of objects
   useEffect(() => {
-    document.getElementById('submit_button').click();
+    // document.getElementById('submit_button').click();
+
     axios.post("/attend/check_classNum", {
       course_code: course_code
     }).then((res) => {
@@ -170,19 +171,19 @@ const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_co
                   <input type="text" hidden name="student_email" placeholder="student_email" value={data.email} />
                 </td>
                 <td data-heading="Present"  >
-                  <input type="radio" name={index} placeholder="present" value="present" required required />
+                  <input type="radio" className="form-check-input is-valid" name={index} placeholder="present" value="present"   required />
                 </td>
                 <td data-heading="Absent" >
-                  <input type="radio" name={index} placeholder="absent" value="absent" required required />
+                  <input type="radio" className="form-check-input in" name={index} placeholder="absent" value="absent"   required/>
                 </td>
               </tr>
-
 
             ))}
           </tbody>
         </table><br />
-        <div style={{ textAlign: 'center', paddingBottom: '5px' }}>
+        <div style={{ textAlign: 'center', paddingBottom: '3px' }}>
           <Button type="submit" id="submit_button">&ensp;Submit&ensp;</Button><br />
+          <span style={{padding:'10px',fontSize:'16px'}}>Double-Click the "Submit" button to submit. </span>
         </div>
       </form>
     </div>

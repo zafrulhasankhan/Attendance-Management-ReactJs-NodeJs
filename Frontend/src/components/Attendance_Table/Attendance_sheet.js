@@ -1,11 +1,10 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import Header from './Header';
 import Table from './Attendance_sheet_Table';
 import './css/App.scss';
 import axios from '../../config/axios';
-import { Link, useHistory } from 'react-router-dom';
+import {  useHistory } from 'react-router-dom';
 import { useAuth } from "../../contexts/AuthContext";
-import { Card, Container, Alert } from 'react-bootstrap';
+import {  Alert } from 'react-bootstrap';
 
 
 const Attendance_sheet = ({ match }) => {

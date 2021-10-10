@@ -1,21 +1,20 @@
 import { Avatar } from "@material-ui/core";
-import { FolderOpen, PermContactCalendar, RedoTwoTone } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import "./style.css";
 import axios from '../../config/axios';
-import { Form, Container, Card, Alert, Col, Dropdown, Button } from 'react-bootstrap';
+import {  Container,  Alert, Col, Dropdown } from 'react-bootstrap';
 import { FaEdit } from 'react-icons/fa';
 import { IoIosPeople, IoIosRemoveCircle } from 'react-icons/io'
 import { AiFillDelete } from 'react-icons/ai';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 
 const JoinedCourses = () => {
-  const { currentUser, alertTimer } = useAuth();
+  const { currentUser } = useAuth();
   const [msg, setMsg] = useState("");
   const [data, setData] = useState([]);
-  const history = useHistory();
+  
 
 
   useEffect(() => {
@@ -109,7 +108,7 @@ const JoinedCourses = () => {
                 <div className="joined__content">
                   <Container>
 
-                    <Col style={{ outline: '#174ea6', backgroundColor: '#174ea6', fontSize: '20px', textAlign: 'right', textDecoration: '#174ea6', marginLeft: '100px' }}>
+                    <Col style={{ outline: '#174ea6', fontSize: '20px', textAlign: 'right', textDecoration: '#174ea6', marginLeft: '100px' }}>
                       <Dropdown style={{ outlineColor: '#174ea6' }}>
                         <Dropdown.Toggle variant="default" bsPrefix="p-0" style={{ outlineColor: '#174ea6' }}>
                           <BsThreeDotsVertical style={{ fontSize: '20px', textAlign: 'right', color: 'white', marginTop: '-28px', marginRight: '-20px', outlineColor: '#174ea6' }} />
