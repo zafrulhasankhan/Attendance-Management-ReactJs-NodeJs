@@ -111,4 +111,11 @@
   .joined__bottom > * {
     margin-right: 20px;
   }
-  
+  .but{
+    background-color: #fff;
+    font-size: 30px;
+  }
+  .but:focus{
+    outline: red;
+    background-color: red;
+  }

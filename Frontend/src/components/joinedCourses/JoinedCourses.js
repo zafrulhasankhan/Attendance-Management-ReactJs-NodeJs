@@ -1,11 +1,11 @@
 import { Avatar } from "@material-ui/core";
 import { FolderOpen, PermContactCalendar, RedoTwoTone } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import "./style.css";
 import axios from '../../config/axios';
-import { Form, Container, Card, Alert, Col, Dropdown } from 'react-bootstrap';
+import { Form, Container, Card, Alert, Col, Dropdown, Button } from 'react-bootstrap';
 import { FaEdit } from 'react-icons/fa';
 import { IoIosPeople, IoIosRemoveCircle } from 'react-icons/io'
 import { AiFillDelete } from 'react-icons/ai';
@@ -15,10 +15,11 @@ const JoinedCourses = () => {
   const { currentUser, alertTimer } = useAuth();
   const [msg, setMsg] = useState("");
   const [data, setData] = useState([]);
+  const history = useHistory();
 
 
   useEffect(() => {
-    // alertTimer();
+
     CourseRetrieve();
 
   }, [])
@@ -57,6 +58,31 @@ const JoinedCourses = () => {
     })
   }
 
+  async function deleteCourse(course_code) {
+    axios.post(`/course/delete/${course_code}`)
+      .then((result) => {
+        console.log(result.data);
+        //if(result.data.length){
+        //history.push("/");
+        //}
+
+      })
+    CourseRetrieve();
+  }
+
+  async function removeCourse(course_code) {
+    axios.post(`/course/remove/${course_code}`)
+      .then((result) => {
+        console.log(result.data);
+        //if(result.data.length){
+        //history.push("/");
+        //}
+
+      })
+      console.log("hey delete hoise");
+      CourseRetrieve();
+      CourseRetrieve();
+  }
 
   return (
     <>
@@ -83,13 +109,20 @@ const JoinedCourses = () => {
                 <div className="joined__content">
                   <Container>
 
-                    <Col style={{ fontSize: '20px', textAlign: 'right', textDecoration: 'none', marginLeft: '100px' }}>
-                      <Dropdown>
-                        <Dropdown.Toggle variant="default" bsPrefix="p-0" style={{ outline: 'none' }}>
-                          <span ><BsThreeDotsVertical style={{ fontSize: '20px', textAlign: 'right', color: 'white', marginTop: '-15px', marginRight: '-20px', outline: 'none' }} /></span>
+                    <Col style={{ outline: '#174ea6', backgroundColor: '#174ea6', fontSize: '20px', textAlign: 'right', textDecoration: '#174ea6', marginLeft: '100px' }}>
+                      <Dropdown style={{ outlineColor: '#174ea6' }}>
+                        <Dropdown.Toggle variant="default" bsPrefix="p-0" style={{ outlineColor: '#174ea6' }}>
+                          <BsThreeDotsVertical style={{ fontSize: '20px', textAlign: 'right', color: 'white', marginTop: '-28px', marginRight: '-20px', outlineColor: '#174ea6' }} />
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                          <Dropdown.Item  ><Link style={{ textDecoration: 'inherit', color: 'inherit' }} to={`/attendance-report-by-id/${val.course_code}`}>Report by ID</Link></Dropdown.Item>
+                          <Dropdown.Item>
+                            {(currentUser.email === val.owner_email) ? (
+                              <span onClick={() => deleteCourse(val.course_code)}> <AiFillDelete style={{ fontSize: '20px' }} />| Delete course</span>
+                            ) : (
+                              <span onClick={() => removeCourse(val.course_code)}> <IoIosRemoveCircle style={{ fontSize: '20px' }} />| Uneroll course</span>
+
+                            )}
+                          </Dropdown.Item>
                           {/* <Dropdown.Divider /> */}
                           {/* <Dropdown.Item > <Link style={{ textDecoration: 'inherit', color: 'inherit' }} to={`/attendance-report-by-date/${course_code}`}>Report by date</Link></Dropdown.Item>*/}
 
@@ -97,7 +130,7 @@ const JoinedCourses = () => {
                       </Dropdown>
                     </Col>
 
-                    <Col style={{ marginTop: '-35px' }}>
+                    <Col style={{ marginTop: '-40px' }}>
 
                       {(currentUser.email === val.owner_email) ? (
                         <>
@@ -112,9 +145,11 @@ const JoinedCourses = () => {
                         </>
                       ) : (
                         <Link className="joined__title" to={`/home/${val.course_code}`}>
-                          <h5 style={{ fontSize: '18px' }}>{val.course_name} ({val.course_code})</h5>
-                          <h5 style={{ color: 'white', marginTop: '-12px', fontSize: '10px' }} className="joined__owner">{val.owner_email}
-                          </h5>
+                          <div>
+                            <h5 style={{ fontSize: '18px' }}>{val.course_name} ({val.course_code})</h5>
+                            <h5 style={{ color: 'white', marginTop: '-12px', fontSize: '10px' }} className="joined__owner">{val.owner_email}
+                            </h5>
+                          </div>
                         </Link>
                       )}
                     </Col>
@@ -145,7 +180,7 @@ const JoinedCourses = () => {
 
               {/* <Link to={`/people/${val.course_code}`} style={{ textDecoration: 'inherit', color: 'inherit' }}><BsThreeDotsVertical style={{ fontSize: '25px' }} /> </Link> */}
 
-
+              {/* <Button className="but" style={{outline:'none',border:'none', '&:focus':{outline:'none',backgroundColor:'red'} }}>hello outline</Button> */}
             </div>
 
           </li>

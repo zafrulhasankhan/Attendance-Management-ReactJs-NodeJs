@@ -14,22 +14,25 @@ export default function UpdateCourse({ match }) {
     const { signup, currentUser } = useAuth()
     const { error, setError } = useState()
     const [CourseName, setCourseName] = useState("")
+    const [CoursePin, setCoursePin] = useState("")
     const [loading, setLoading] = useState(false)
     const history = useHistory()
     const [msg, setMsg] = useState("");
+    const [type, setType] = useState("");
 
     useEffect(() => {
 
         axios.get(`/course/info/${course_code}`).then((result) => {
             setCourseName(result.data[0]?.course_name);
-            console.log(result.data);
+            setCoursePin(result.data[0]?.course_pin);
+
         })
 
     }, [])
 
     async function handleSubmit(e) {
         e.preventDefault()
-        
+
         console.log(course_name_ref.current.value)
         axios.post("/course/update", {
 
@@ -38,7 +41,7 @@ export default function UpdateCourse({ match }) {
             prev_course_code: course_code,
         }).then((res) => {
             console.log(res.data);
-            
+
             if (res.data.successMsg) {
                 history.push("/")
             }
@@ -46,38 +49,15 @@ export default function UpdateCourse({ match }) {
                 setMsg(res.data.errorMsg)
             }
         })
-        //history.push("/");
-
-        //     // if (course_code_ref.current.value !== passwordConfirmRef.current.value) {
-        //     //   return setError("Passwords do not match")
-        //     // }
-
-        // try {
-
-        //   setError("")
-        //   setLoading(true)
-        //   console.log(course_name_ref.current.value)
-        //   axios.post("/course/update", {
-
-        //     course_name: course_name_ref.current.value,
-        //     course_code: course_code_ref.current.value,
-        //   }).then((res) => {
-        //     console.log(res.status);
-        //     if (!res.data.msg) {
-        //       history.push("/")
-        //     }
-        //     else {
-        //       setMsg(res.data.msg)
-        //     }
-        //   })
-
-        // } catch {
-        // //   setError("Failed to create Account")
-        // }
-
-        // setLoading(false)
+        
     }
 
+    function onMouseOver(e){
+     setType("text")
+    }
+    function onMouseOut(e){
+        setType("password")
+    }
 
 
     return (
@@ -100,13 +80,14 @@ export default function UpdateCourse({ match }) {
                                 <Form.Control type="text" ref={course_name_ref} placeholder="Enter Course Name" defaultValue={CourseName} required />
                             </Form.Group><br />
                             <Form.Group id="password">
-                                <Form.Label style={{ fontWeight: 'bold' }}>Course code </Form.Label>
+                                <Form.Label hfjstn>Course code </Form.Label>
                                 <Form.Control style={{ textTransform: 'uppercase' }} type="text" ref={course_code_ref} defaultValue={course_code} placeholder="Enter Course Code" required />
                             </Form.Group><br />
-                            {/* <Form.Group id="password-confirm">
-              <Form.Label>Course photo</Form.Label>
-              <Form.Control type="password" ref={passwordConfirmRef} required />
-            </Form.Group> */}
+                            <Form.Group id="password-confirm">
+                                <Form.Label style={{ fontWeight: 'bold' }}>Course Pin</Form.Label>
+                                <Form.Control style={{ fontSize: '18px',fontWeight: 'bold',fontFamily:'Monospace'}} onMouseOver={(e) => onMouseOver(e)}
+                                    onMouseOut={(e) => onMouseOut(e)} type={type} defaultValue={CoursePin} readOnly disabled required />
+                            </Form.Group><br />
                             <Form.Group id="button">
                                 <Button disabled={loading} type="submit">
                                     &ensp;Update&ensp;

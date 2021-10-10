@@ -28,7 +28,7 @@ function JoinCourse() {
                 student_email: currentUser.email
             })
                 .then((res) => {
-                    console.log(res);
+                    
                     if (res.data === "yes") {
                         history.push("/")
                         setMsg("")

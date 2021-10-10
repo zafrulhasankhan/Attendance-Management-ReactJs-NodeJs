@@ -51,9 +51,16 @@ function Topbar() {
 
                     {currentUser ? (
                         <Nav style={{ marginRight: '15px' }}>
-
+                         {currentUser?.photoURL?(
                             <Nav.Link href="#pricing"> <img style={{ borderRadius: '150px', height: '40px', width: '40px' }}
                                 src={currentUser?.photoURL} /></Nav.Link>
+                         ):(
+                             <Nav.Link>
+                                
+                                 <img style={{ borderRadius: '150px', height: '40px', width: '40px' }}
+                                   src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/s75-c-fbw=1/photo.jpg" 
+                           /> </Nav.Link>
+                         )}
                             <Nav.Link href="#pricing" style={{ padding: '2px' }}>
                                 <span style={{ fontSize: "14px", padding: '0px' }}>{currentUser?.displayName}</span>
                                 <br /><span style={{ fontSize: "13px", padding: '0px' }}>{currentUser?.email}</span>

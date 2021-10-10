@@ -41,7 +41,7 @@ router.post("/update", function (req, res) {
     const sql_course_update_cwl = "update `course_wise_student-list` set course_code = ? WHERE course_code = ?";
     const sql_course_update_attend = "update `attendance_sheet` set course_code = ? WHERE course_code = ?";
     con.query(sql_course_update, [course_code, course_name, prev_course_code], (error, result) => {
-       
+
         if (result) {
             con.query(sql_course_check, [prev_course_code], (error, result0) => {
                 if (result0.length) {
@@ -63,11 +63,11 @@ router.post("/update", function (req, res) {
                 }
             })
 
-              res.send({successMsg:"Successfully updated"})
-              }else{
-                  res.send({errorMsg:"Something wrong"})
-              }
-        })
+            res.send({ successMsg: "Successfully updated" })
+        } else {
+            res.send({ errorMsg: "Something wrong" })
+        }
+    })
 })
 
 
@@ -127,7 +127,7 @@ router.post("/join", function (req, res) {
                                             console.log(err);
                                         }
                                         else {
-                                            console.log("data success inserted");
+                                            // console.log("data success inserted");
                                             res.send("yes")
                                         }
                                     })
@@ -178,5 +178,72 @@ router.get("/count/:code", function (req, res) {
 
 })
 
+//course detete
+
+router.post("/delete/:code", function (req, res) {
+    const course_code = req.params.code;
+
+    const sql_delete_CL = "delete FROM `course_list` WHERE course_code = ?"
+    const sql_delete_attend_sheet = "delete FROM `attendance_sheet` WHERE course_code = ?"
+    const sql_course_check_attend = "SELECT id FROM `attendance_sheet` WHERE course_code = ?"
+    const sql_course_check_CWL = "SELECT id FROM `course_wise_student-list` WHERE course_code = ?";
+    const sql_course_Delete_CWL = "delete FROM `course_wise_student-list` WHERE course_code = ?";
+
+    con.query(sql_delete_CL, [course_code], (err, result) => {
+
+        // if(result){
+        //     res.send("done")
+        // }
+    })
+    con.query(sql_course_check_attend, [course_code], (error, result1) => {
+        if (result1) {
+            con.query(sql_delete_attend_sheet, [course_code], (error, result2) => {
+                if (error) {
+                    console.log(error);
+                }
+                // else{
+                //     res.send("done")
+                // }
+
+            })
+        }
+    })
+
+    con.query(sql_course_check_CWL, [course_code], (error, result3) => {
+        if (result3) {
+            con.query(sql_course_Delete_CWL, [course_code], (error, result1) => {
+                if (error) {
+                    console.log(error);
+                }
+                //   else{
+                //       res.send("done")
+                //   }
+            })
+        }
+    })
+    //res.send("done")
+
+
+})
+
+
+router.post("/remove/:code", function (req, res) {
+    const course_code = req.params.code;
+    const sql_course_check_CWL = "SELECT id FROM `course_wise_student-list` WHERE course_code = ?";
+    const sql_course_Delete_CWL = "delete FROM `course_wise_student-list` WHERE course_code = ?";
+
+    con.query(sql_course_check_CWL, [course_code], (error, result3) => {
+        if (result3) {
+            con.query(sql_course_Delete_CWL, [course_code], (error, result1) => {
+                if (error) {
+                    console.log(error);
+                }
+                //   else{
+                //       res.send("done")
+                //   }
+            })
+        }
+    })
+});
 
 module.exports = router;
