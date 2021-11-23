@@ -6,11 +6,11 @@ app.use(cors());
 app.use(express.json());
 
 //Routes
-app.use("/",require("./routes/users"));
+app.use("/",require("./routes/users")); 
 app.use("/attend",require("./routes/attendance"));
 app.use("/course",require("./routes/course"));
 
 
 
-const port = process.env.port || 4001;
-app.listen(port,console.log(`Server is running on port ${port}`));
+const port = process.env.PORT || 4001;
+app.listen(port,console.log(`Server is running on port ${port}`)); 

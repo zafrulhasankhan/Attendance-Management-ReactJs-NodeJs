@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from "react"
-import { auth } from "../config/firebase"
+import React, { useContext, useState, useEffect } from "react";
+import { auth } from "../config/firebase";
 import $ from 'jquery';
 const AuthContext = React.createContext()
 

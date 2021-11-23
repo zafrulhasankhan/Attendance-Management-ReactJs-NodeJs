@@ -81,8 +81,8 @@
   }
   .joined__title:hover {
     text-decoration: underline;
-    color: white;
-    background-color: #174ea6;
+    /* color: white;
+    background-color: #174ea6; */
   }
   .joined__owner {
     color: white;

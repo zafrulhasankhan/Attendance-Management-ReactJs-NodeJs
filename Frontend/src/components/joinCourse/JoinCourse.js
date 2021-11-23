@@ -20,8 +20,9 @@ function JoinCourse() {
         $(document).ready(function () {
 
             var pin = $('#search').val();
-            var student_Id = $('#ID').val();
-            var re_student_Id = $('#re_ID').val();
+            var student_Id = $('#ID').val().toUpperCase();
+            var re_student_Id = $('#re_ID').val().toUpperCase();
+            console.log(student_Id,re_student_Id);
             if(student_Id !== re_student_Id){
                 setMsg("Student ID's does not match")
                 return ;

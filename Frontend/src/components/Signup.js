@@ -1,6 +1,6 @@
 import React from "react"
-import {  Card,  Container } from "react-bootstrap"
-import {  useHistory } from "react-router-dom"
+import { Card, Container } from "react-bootstrap"
+import { useHistory } from "react-router-dom"
 import { facebookProvider, githubProvider, googleProvider } from '../config/authMethods';
 import socialMediaAuth from '../service/auth';
 import axios from '../config/axios';
@@ -58,13 +58,14 @@ export default function Signup() {
 
   return (
     <>
-
+      <h4 style={{fontFamily:'cursive',textAlign:'center',position:'relative',top:'-70px'}}> Welcome to Attendance Management System </h4>
       <Container className="text-center p-20" style={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
 
       }}>
+
         <Card className=" h-600 card text-center bg-white">
           <Card.Body>
             <h2 className="text-center mb-4">Login</h2>

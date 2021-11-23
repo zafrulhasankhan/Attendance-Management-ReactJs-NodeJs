@@ -88,7 +88,7 @@ const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_co
             
             console.log(res.data.msg);
             if(res.data.msg){
-             const success_para = "done";
+             const success_para = "attend";
              history.push(`/not-found/${course_code}/${success_para}`);
             }
             
@@ -128,11 +128,18 @@ const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_co
                 <span style={{padding:'17px',fontWeight:'bold'}}>Attendance report</span>
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item  ><Link style={{textDecoration:'inherit',color:'inherit'}} to={`/attendance-report-by-id/${course_code}`}>Report by ID</Link></Dropdown.Item>
+                {/* <Dropdown.Item  ><Link style={{textDecoration:'inherit',color:'inherit'}} to={`/attendance-report-by-id/${course_code}`}>Report by ID</Link></Dropdown.Item>
                 <Dropdown.Divider />
                 <Dropdown.Item > <Link style={{textDecoration:'inherit',color:'inherit'}} to={`/attendance-report-by-date/${course_code}`}>Report by date</Link></Dropdown.Item>
                 <Dropdown.Divider />
-                <Dropdown.Item ><Link style={{textDecoration:'inherit',color:'inherit'}} to={`/attendance-report-by-course/${course_code}`}>Report by All </Link></Dropdown.Item>
+                <Dropdown.Item ><Link style={{textDecoration:'inherit',color:'inherit'}} to={`/attendance-report-by-course/${course_code}`}>Report by All </Link></Dropdown.Item> */}
+                
+                <Dropdown.Item as={Link} to={`/attendance-report-by-id/${course_code}`}>Report by ID</Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item as={Link} to={`/attendance-report-by-date/${course_code}`}> Report by date</Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item as={Link} to={`/attendance-report-by-course/${course_code}`}>Report by All</Dropdown.Item>
+             
               </Dropdown.Menu>
             </Dropdown>
           </Col>
@@ -142,7 +149,7 @@ const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_co
       </Container>
       
       <form id="attend_sheet_form" onSubmit={handleSubmit}><br />
-        <table striped bordered hover className={tableClass} >
+        <table style={{borderRadius:'20px'}} striped bordered hover className={tableClass} >
           <thead>
             <tr>
               {headingColumns.map((col, index) => (

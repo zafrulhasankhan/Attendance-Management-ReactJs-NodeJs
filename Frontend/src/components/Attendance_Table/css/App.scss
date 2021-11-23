@@ -79,18 +79,21 @@ body {
   max-width: auto;
   width: 90%;
   margin: 0 auto 40px;
+  
 
   &__title {
-    background-color: #174ea6;
-    // background-color: dimgray;
-    color: $light-color;
+    // background-color: #174ea6;
+    background-color:#c0c0c0;
+    color: #141619;
+    font-weight: bold;
+    font-family: cursive;
     text-align: center;
     padding: 0.1px;
-    border-radius: 10px;
+    border-radius: 5px;
 
-    h2 {
-      font-size: 24px;
-      font-weight: 300;
+    h5 {
+      font-size: 19px;
+      font-weight: 600;
     }
   }
 

@@ -117,10 +117,10 @@ function Attendance_report_by_id({ match }) {
             }}>
                 <div className="table-container" style={{ backgroundColor: 'white', maxWidth: '350px' }}>
                     <div className="table-container__title">
-                        <h6 style={{ fontSize: '18px' }}>{course_name}({course_code})</h6>
+                        <h5 style={{ fontSize: '18px' }}>{course_name}({course_code})</h5>
                     </div>
 
-                    <Card className="card bg-white" style={{ borderRadius: '10px' }}>
+                    <Card className="card bg-white" style={{ borderRadius: '5px' }}>
                         <Card.Body style={{ textAlign: 'left' }}>
                             <h5 style={{ fontSize: '17px' }} className="text-center mb-2">&ensp;Attendance report by ID &ensp;</h5>
                             <form id="attend_sheet_form" onSubmit={SearchHandle}><br />

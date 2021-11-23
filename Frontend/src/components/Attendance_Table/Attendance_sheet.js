@@ -2,9 +2,9 @@ import React, { Fragment, useEffect, useState } from 'react';
 import Table from './Attendance_sheet_Table';
 import './css/App.scss';
 import axios from '../../config/axios';
-import {  useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useAuth } from "../../contexts/AuthContext";
-import {  Alert } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 
 
 const Attendance_sheet = ({ match }) => {
@@ -13,7 +13,7 @@ const Attendance_sheet = ({ match }) => {
     const [data, setData] = useState([]);
     const [course_name, setcourse_name] = useState("");
     const course_code = match.params?.course_code;
-
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         axios.get(`/course/joinedCourses/${currentUser.email}`)
             .then((res) => {
@@ -46,6 +46,7 @@ const Attendance_sheet = ({ match }) => {
                     }).then((res) => {
                         console.log(res.data);
                         setData(res.data)
+                        setLoading(false)
                     }).catch((err) => {
                         console.log(err);
                     })
@@ -55,35 +56,40 @@ const Attendance_sheet = ({ match }) => {
     }, [])
 
     return (
+
         <Fragment style={{ backgroundColor: 'white' }}>
+            {!loading ? (<>
+                {data && data.length ? (
+                    <div>
+                        <br />
+                        <Table
+                            tableData={data}
+                            headingColumns={['Student ID', 'Name', 'Email', 'Present', 'Absent']}
+                            title={course_code}
+                            course_code={course_code}
+                            course_name={course_name}
+                        />
 
-            {data && data.length ? (
-                <div>
-                    <br />
-                    <Table
-                        tableData={data}
-                        headingColumns={['Student ID', 'Name', 'Email', 'Present', 'Absent']}
-                        title={course_code}
-                        course_code={course_code}
-                        course_name={course_name}
-                    />
+                    </div>
+                ) : (
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        fontSize: '17px'
 
-                </div>
-            ) : (
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    fontSize: '17px'
+                    }}>
+                        <Alert className="alert col-md-6 text-center br-5" variant="dark">
+                            <h2>No Student have been added yet </h2>
 
-                }}>
-                    <Alert className="alert col-md-6 text-center br-5" variant="dark">
-                        <h2>No Student have been added yet </h2>
-
-                    </Alert>
-                </div>
+                        </Alert>
+                    </div>
+                )}
+            </>) : (
+                <h4 style={{ fontFamily: 'cursive', textAlign: 'center', position: 'relative', top: '-70px' }}> Loading... </h4>
             )}
         </Fragment>
+
     );
 }
 

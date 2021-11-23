@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Alert } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 import axios from '../../config/axios';
 import '../Attendance_Table/css/App.scss';
 import { useAuth } from "../../contexts/AuthContext";
@@ -26,7 +26,7 @@ function Attendance_report_by_course({ match }) {
     const [data, setData] = useState([]);
     const [totalClass, setTotalClass] = useState(0);
     const [studentID, setStudentID] = useState([]);
-
+    const [loading, setLoading] = useState(true);
     var present = 0;
     useEffect(() => {
         axios.get(`/course/info/${course_code}`).then((result) => {
@@ -90,6 +90,7 @@ function Attendance_report_by_course({ match }) {
                                         ? ({ ...el, student_id, student_name, student_email })
                                         : el)
                                 )
+                                setLoading(false);
                             } catch (error) {
                                 // log error, etc...
                             }
@@ -108,73 +109,77 @@ function Attendance_report_by_course({ match }) {
 
     return (
         <div>
+            {!loading ? <>
+                {msg ? (
+                    <div>
+                        {data.length ? (
 
-            {msg ? (
-                <div>
-                    {data.length ? (
 
+                            <div className="table-container" style={{ backgroundColor: 'white', fontFamily: 'roboto' }}>
+                                <div className="table-container__title">
+                                    <h5>Attendance report -- {course_name}({course_code})</h5>
+                                </div>
 
-                        <div className="table-container" style={{ backgroundColor: 'white', fontFamily: 'roboto' }}>
-                            <div className="table-container__title">
-                                <h5>Attendance report -- {course_name}({course_code})</h5>
-                            </div>
-
-                            <br />
-                            <table className={tableClass}>
-                                <thead>
-                                    <tr>
-                                        {headingColumns.map((col, index) => (
-                                            <th data-heading={index} key={index}>{col}</th>
-
-                                        ))}
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                
-                                    {studentID.map((val, index) => (
-                                        <>
-                                        
-                                        {(val.student_id)?(
+                                <br />
+                                <table className={tableClass}>
+                                    <thead>
                                         <tr>
-       
-                                            <td data-heading="Student ID">{val.student_id}</td>
-                                            <td data-heading="Student Name">{val.student_name} </td>
-                                            <td data-heading="Student Email"><span style={{ fontSize: '11.5px' }}>{val.student_email}</span> </td>
-                                            <td data-heading="Presented Class ">
-                                                {present = data.reduce(
-                                                    (total, current) => total + (JSON.parse(current.attendance_data))
-                                                        .some((el) => el.student_id === val.student_id && el.present === "present"), 0)}
-                                            </td>
-                                            <td data-heading="Total Class"> {totalClass}</td>
-                                            <td data-heading="Percentage"> {((present * 100) / totalClass).toFixed(2)} %</td>
+                                            {headingColumns.map((col, index) => (
+                                                <th data-heading={index} key={index}>{col}</th>
+
+                                            ))}
 
                                         </tr>
-                                        ):""}
-                                        </>
-                                        
-                                    ))}
-                                </tbody>
-                            </table><br />
-                            <div style={{ textAlign: 'center', paddingBottom: '5px', fontFamily: 'roboto' }}>
-                                <Link to={`/attendance-sheet/${course_code}`}><span>Back to {course_code}</span></Link>
-                            </div>
-                        </div>
-                    ) : (
-                        <div style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            fontSize: '17px'
+                                    </thead>
+                                    <tbody>
 
-                        }}>
-                            <Alert className="alert col-md-6 text-center br-5" variant="dark">
-                                <h3>No Attendance reported on this Course</h3>
-                            </Alert>
-                        </div>
-                    )}
-                </div>
-            ) : ""}
+                                        {studentID.map((val, index) => (
+                                            <>
+
+                                                {(val.student_id) ? (
+                                                    <tr>
+
+                                                        <td data-heading="Student ID">{val.student_id}</td>
+                                                        <td data-heading="Student Name">{val.student_name} </td>
+                                                        <td data-heading="Student Email"><span style={{ fontSize: '11.5px' }}>{val.student_email}</span> </td>
+                                                        <td data-heading="Presented Class ">
+                                                            {present = data.reduce(
+                                                                (total, current) => total + (JSON.parse(current.attendance_data))
+                                                                    .some((el) => el.student_id === val.student_id && el.present === "present"), 0)}
+                                                        </td>
+                                                        <td data-heading="Total Class"> {totalClass}</td>
+                                                        <td data-heading="Percentage"> {((present * 100) / totalClass).toFixed(2)} %</td>
+
+                                                    </tr>
+                                                ) : ""}
+                                            </>
+
+                                        ))}
+                                    </tbody>
+                                </table><br />
+                                <div style={{ textAlign: 'center', paddingBottom: '5px', fontFamily: 'roboto' }}>
+                                    <Link to={`/attendance-sheet/${course_code}`}><span>Back to {course_code}</span></Link>
+                                </div>
+                            </div>
+                        ) : (
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                fontSize: '17px'
+
+                            }}>
+                                <Alert className="alert col-md-6 text-center br-5" variant="dark">
+                                    <h3>No Attendance reported on this Course</h3>
+                                </Alert>
+                            </div>
+                        )}
+                    </div>
+                ) : ""}
+
+            </> : (
+                <h4 style={{ fontFamily: 'cursive', textAlign: 'center', position: 'relative', top: '-70px' }}> Loading... </h4>
+            )}
         </div>
 
     );
