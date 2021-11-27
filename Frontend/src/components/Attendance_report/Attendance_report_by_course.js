@@ -178,7 +178,25 @@ function Attendance_report_by_course({ match }) {
                 ) : ""}
 
             </> : (
-                <h4 style={{ fontFamily: 'cursive', textAlign: 'center', position: 'relative', top: '-70px' }}> Loading... </h4>
+                <h4 style={{ fontFamily: 'cursive', textAlign: 'center', position: 'relative', top: '-70px' }}>
+                    {data.length ? (
+                        <span>Loading...</span>
+                    ) : (
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            fontSize: '17px'
+
+                        }}>
+                            <Alert className="alert col-md-6 text-center br-5" variant="dark">
+                                <h3>No Attendance reported on this Course</h3>
+                            </Alert>
+                        </div>
+                    )}
+
+
+                </h4>
             )}
         </div>
 

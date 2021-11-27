@@ -17,7 +17,7 @@ const JoinedCourses = () => {
   const [msg, setMsg] = useState("");
   const [data, setData] = useState([]);
   const history = useHistory();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
 
@@ -48,7 +48,7 @@ const JoinedCourses = () => {
                 ? ({ ...el, course_name, owner_email, Total_student, photo })
                 : el)
             )
-            setLoading(false);
+            setLoading(true);
           } catch (error) {
             // log error, etc...
           }
@@ -90,21 +90,9 @@ const JoinedCourses = () => {
 
   return (
     <>
-      {!loading ? (
+      {loading ? (
         <>
-          {msg ? (
-            <div style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              fontSize: '17px'
 
-            }}>
-              <Alert className="alert col-md-6 text-center" variant="dark">
-                {msg}
-              </Alert>
-            </div>
-          ) : ""}
           <ol className="joined">
             {data.map((val, index) => (
               <li key={index} className="joined__list">
@@ -198,7 +186,27 @@ const JoinedCourses = () => {
 
         </>
       ) : (
-        <h4 style={{ fontFamily: 'cursive', textAlign: 'center', position: 'relative', top: '-70px' }}> Loading... </h4>
+        <h4 style={{ fontFamily: 'cursive', textAlign: 'center', position: 'relative', top: '-70px' }}>
+          {data.length ? (
+            <span>Loading... </span>
+          ) : (
+            <>
+              {msg ? (
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontSize: '17px'
+
+                }}>
+                  <Alert className="alert col-md-6 text-center" variant="dark">
+                    {msg}
+                  </Alert>
+                </div>
+              ) : ""}
+            </>
+          )}
+        </h4>
       )}
     </>
   );
