@@ -1,5 +1,5 @@
-import React from "react"
-import { Card, Container } from "react-bootstrap"
+import React, { useState } from "react"
+import { Card, Container,Alert } from "react-bootstrap"
 import { useHistory } from "react-router-dom"
 import { facebookProvider, githubProvider, googleProvider } from '../config/authMethods';
 import socialMediaAuth from '../service/auth';
@@ -10,7 +10,7 @@ import './social.css/style.css';
 
 
 export default function Signup() {
-
+  const [msg, setmsg] = useState("");
   const history = useHistory()
 
   // async function handleSubmit(e) {
@@ -35,6 +35,13 @@ export default function Signup() {
 
   const handleOnclick = async (provider) => {
     const res = await socialMediaAuth(provider);
+    console.log(res.message);
+    if (res.message) {
+      setmsg(res.message);
+      
+    
+    }
+    else{
     console.log(res?.providerData[0].email);
     axios.post('/register', {
       name: res?.providerData[0]?.displayName,
@@ -51,14 +58,30 @@ export default function Signup() {
 
     }).catch((err) => console.log(err))
 
-
+  }
 
   }
 
 
   return (
     <>
-      <h4 style={{fontFamily:'cursive',textAlign:'center',position:'relative',top:'-70px'}}> Welcome to Attendance Management System </h4>
+
+      {msg ? (
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          fontSize: '17px'
+
+        }}>
+          <Alert className="alert col-md-6 text-center" variant="dark">
+            {msg}
+          </Alert>
+        </div>
+      ) : 
+
+      <h4 style={{ fontFamily: 'cursive', textAlign: 'center', position: 'relative', top: '-70px' }}> Welcome to Attendance Management System </h4>
+      }
       <Container className="text-center p-20" style={{
         display: 'flex',
         justifyContent: 'center',

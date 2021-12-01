@@ -10,6 +10,7 @@ function Attendance_report_by_course({ match }) {
     const { currentUser } = useAuth();
     const history = useHistory();
     const [msg, setMsg] = useState("");
+    const [msg1, setMsg1] = useState("");
     const [course_name, setcourse_name] = useState("");
 
 
@@ -57,10 +58,15 @@ function Attendance_report_by_course({ match }) {
 
                     axios.get(`attend/attendance-report/${course_code}`).then((response) => {
 
+
+                        if(response.data){
+                            setMsg1("No Attendance reported on this Course");
+                        }
+
                         setData(response.data);
                         setTotalClass(response.data.length);
                         const result = response.data;
-
+                        
 
                         let student_id = [];
                         for (let i = 0; i < result.length; i++) {
@@ -182,17 +188,21 @@ function Attendance_report_by_course({ match }) {
                     {data.length ? (
                         <span>Loading...</span>
                     ) : (
-                        <div style={{
+                        <>
+                        {msg1 ? (
+                          <div style={{
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
                             fontSize: '17px'
-
-                        }}>
-                            <Alert className="alert col-md-6 text-center br-5" variant="dark">
-                                <h3>No Attendance reported on this Course</h3>
+          
+                          }}>
+                            <Alert className="alert col-md-6 text-center" variant="dark">
+                              {msg1}
                             </Alert>
-                        </div>
+                          </div>
+                        ) : ""}
+                      </>
                     )}
 
 
