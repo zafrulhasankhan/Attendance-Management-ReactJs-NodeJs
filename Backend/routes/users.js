@@ -10,7 +10,7 @@ router.post("/register", function (req, res) {
     const profile_photo = req.body.profile_photo;
     const sql_exist = "select * from user where email = ?";
     const sql = "INSERT INTO `user`(`name`,`email`,`profile_photo`) VALUES (?,?,?)";
-
+    console.log(email);
     con.query(sql_exist, [email], (error, result) => {
         if (result.length) {
             res.send("yes insert")

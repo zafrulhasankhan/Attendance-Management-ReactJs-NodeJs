@@ -59,7 +59,7 @@ function Attendance_report_by_course({ match }) {
                     axios.get(`attend/attendance-report/${course_code}`).then((response) => {
 
 
-                        if(response.data){
+                        if(!response.data.length){
                             setMsg1("No Attendance reported on this Course");
                         }
 
@@ -121,7 +121,7 @@ function Attendance_report_by_course({ match }) {
                         {data.length ? (
 
 
-                            <div className="table-container" style={{ backgroundColor: 'white', fontFamily: 'roboto' }}>
+                            <div className="table-container" style={{ backgroundColor: 'white', fontFamily: 'roboto',position:'relative',top:'15px' }}>
                                 <div className="table-container__title">
                                     <h5>Attendance report -- {course_name}({course_code})</h5>
                                 </div>

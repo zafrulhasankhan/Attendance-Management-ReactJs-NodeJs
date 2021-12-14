@@ -152,12 +152,14 @@ const JoinedCourses = () => {
                     </div>
                   </div>
 
+
                   {val.photo ? (
 
                     <Avatar
                       className="joined__avatar"
                       src={val.photo}
                     />
+
                   ) : (
                     <Avatar
                       className="joined__avatar"

@@ -64,7 +64,7 @@ const Attendance_sheet = ({ match }) => {
                         <br />
                         <Table
                             tableData={data}
-                            headingColumns={['Student ID', 'Name', 'Email', 'Present', 'Absent']}
+                            headingColumns={['Student ID', 'Name', 'Email', 'Attendance Action']}
                             title={course_code}
                             course_code={course_code}
                             course_name={course_name}

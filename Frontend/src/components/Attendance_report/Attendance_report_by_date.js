@@ -71,7 +71,14 @@ function Attendance_report_by_date({ match }) {
             })
     }
 
-
+    const topstyle = {
+        maxWidth: '350px',
+        position:'relative',
+        top:'10px'
+    }
+const topBackstyle = {
+    backgroundColor: 'white', maxWidth: '350px'
+}
     return (
         <div>
 
@@ -97,7 +104,7 @@ function Attendance_report_by_date({ match }) {
 
 
                 }}>
-                    <div className="table-container" style={{ backgroundColor: 'white', maxWidth: '350px' }}>
+                    <div className="table-container" style={msg?topBackstyle:topstyle}>
                         <div className="table-container__title">
                             <h5 style={{ fontSize: '18px' }}>{course_name}({course_code})</h5>
                         </div>
@@ -147,7 +154,7 @@ function Attendance_report_by_date({ match }) {
                                                 <td data-heading="Student Name">{val2?.student_name} </td>
                                                 <td data-heading="Student Email"><span style={{ fontSize: '11.5px' }}>{val2?.student_email} </span> </td>
                                                 <td data-heading="Attendance Status ">
-                                                    {(val2?.present) ? val2.present : ""}
+                                                    {(val2?.present) ? val2.present : "absent"}
                                                     {(val2?.absent) ? val2.absent : ""}
                                                 </td>
 
