@@ -189,9 +189,10 @@ function PeopleList({ match }) {
                                         <tr key={val.student_name}>
                                             {console.log(data)}
                                             <td style={{ outline: 'none' }} data-heading="Photo">
-                                                {val.photo ? (
+                                               
+                                                {val.photo && val.photo ? (
                                                     <img style={{ borderRadius: '150px', height: '40px', width: '40px' }}
-                                                        src={val.photo} alt="" />
+                                                        src={val.photo}  />
                                                 ) : (
                                                     <img style={{ borderRadius: '150px', height: '40px', width: '40px' }}
                                                         src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/s75-c-fbw=1/photo.jpg" alt="" />

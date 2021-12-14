@@ -90,6 +90,7 @@ const JoinedCourses = () => {
 
   return (
     <>
+    
       {loading ? (
         <>
 
@@ -103,10 +104,11 @@ const JoinedCourses = () => {
                     <div className="joined__content">
                       <Container>
 
-                        <Col style={{ outline: '#174ea6', fontSize: '20px', textAlign: 'right', textDecoration: '#174ea6', marginLeft: '100px' }}>
-                          <Dropdown style={{ outlineColor: '#174ea6' }}>
-                            <Dropdown.Toggle variant="default" bsPrefix="p-0" style={{ outlineColor: '#174ea6' }}>
-                              <BsThreeDotsVertical style={{ fontSize: '20px', textAlign: 'right', color: 'white', marginTop: '-28px', marginRight: '-20px', outlineColor: '#174ea6' }} />
+                        <Col style={{  fontSize: '20px', textAlign: 'right', textDecoration: '#174ea6', marginLeft: '100px' }}>
+                          <Dropdown>
+                            <Dropdown.Toggle variant="default" bsPrefix="p-0"  className='mr-1' style={{ boxShadow: 'none' }}>
+                              <BsThreeDotsVertical style={{  fontSize: '20px', textAlign: 'right', color: 'white', marginTop: '-28px', marginRight: '-20px' }} />
+                            
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                               <Dropdown.Item>
