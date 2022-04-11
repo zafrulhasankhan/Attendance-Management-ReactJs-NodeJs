@@ -95,7 +95,7 @@ router.post("/join", function (req, res) {
     const student_email = req.body.student_email;
     const student_name = req.body.student_name;
     const student_id = req.body.student_Id;
-
+    console.log(student_email);
     con.query("select * from course_list where course_pin = ?", [pin], (err, result) => {
 
         if (!result.length) {
@@ -109,10 +109,11 @@ router.post("/join", function (req, res) {
 
 
             if (result.length) {
+                console.log(rows.course_code);
+                con.query("select student_id from `course_wise_student-list` where   course_code = ? and student_id=? ", [ rows.course_code,student_id], (err, result2) => {
 
-                con.query("select student_id from `course_wise_student-list` where email = ? and course_code = ? ", [student_email, rows.course_code], (err, result2) => {
-
-                    // var rows = JSON.parse(JSON.stringify(result[0]));
+                    //var rows = JSON.parse(JSON.stringify(result2[0]));
+                    console.log(result2.length);
                     if (!result2.length) {
 
 
@@ -252,9 +253,9 @@ router.post("/removebyTeacher/:code/:email", function (req, res) {
     const sql_course_check_CWL = "SELECT id FROM `course_wise_student-list` WHERE course_code = ? and email =?";
     const sql_course_Delete_CWL = "delete FROM `course_wise_student-list` WHERE course_code = ? and email=?";
 
-    con.query(sql_course_check_CWL, [course_code,email], (error, result3) => {
+    con.query(sql_course_check_CWL, [course_code, email], (error, result3) => {
         if (result3) {
-            con.query(sql_course_Delete_CWL, [course_code,email], (error, result1) => {
+            con.query(sql_course_Delete_CWL, [course_code, email], (error, result1) => {
                 if (error) {
                     console.log(error);
                 }

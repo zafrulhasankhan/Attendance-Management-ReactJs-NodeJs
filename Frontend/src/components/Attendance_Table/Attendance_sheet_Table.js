@@ -74,7 +74,7 @@ const Table = ({ tableData, headingColumns, title, breakOn = 'medium', course_co
         })
         var carDataString = JSON.stringify(data);
 
-        //get last class from db 
+        //get last class from db
         axios.post("/attend/check_classNum", {
           course_code: course_code
         }).then((res) => {
@@ -113,12 +113,12 @@ var ele = document.getElementById("check");
 // console.log(ele);
   // const checkValueChange = (elem) => {
   //  console.log(elem);
-   
+
   //   if (elem.defaultChecked == false) {
   //      setplaceValue("absent")
   //      setCheckValue("absent")
   //      console.log("eine");
-      
+
   //   }
   //   // if (elem.defaultChecked == false) {
   //   //   setplaceValue("absent")
@@ -163,7 +163,7 @@ var ele = document.getElementById("check");
                 <Dropdown.Divider />
                 <Dropdown.Item as={Link} to={`/attendance-report-by-date/${course_code}`}> Report by date</Dropdown.Item>
                 <Dropdown.Divider />
-                <Dropdown.Item as={Link} to={`/attendance-report-by-course/${course_code}`}>Report by All</Dropdown.Item>
+                <Dropdown.Item as={Link} to={`/attendance-report-by-course/${course_code}`}>Report for All</Dropdown.Item>
 
               </Dropdown.Menu>
             </Dropdown>

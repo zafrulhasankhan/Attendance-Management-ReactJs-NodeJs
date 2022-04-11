@@ -72,7 +72,7 @@ export default function Add_course() {
       }}>
         <Card className="card bg-white" style={{ borderRadius: '10px' }}>
           <Card.Body style={{ borderRadius: '10px', textAlign: 'left' }}>
-            <h4 className="text-center mb-4">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; Add Course&ensp;&ensp;&ensp; &ensp;&ensp;&ensp;&ensp;</h4>
+            <h4 className="text-center mb-4">&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; Create Course&ensp;&ensp;&ensp; &ensp;&ensp;&ensp;&ensp;</h4>
             {error && <Alert variant="danger">{error}</Alert>}
             <Form onSubmit={handleSubmit}>
               <Form.Group id="course_name">
